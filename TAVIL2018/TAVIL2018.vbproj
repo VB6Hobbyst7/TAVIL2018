@@ -427,7 +427,7 @@ xcopy "$(ProjectDir)$(ProjectName).ico" "%25programdata%25\Autodesk\ApplicationP
 
 xcopy "$(ProjectDir)$(ProjectName).ini" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
 
-xcopy "$(ProjectDir)..\TAVIL2018_DOCUMENTOS\LAYOUTDBS4.xlsx" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
+xcopy "$(ProjectDir)..\..\TAVIL2018_DOCUMENTOS\LAYOUTDBS4.xlsx" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
 
 xcopy "$(TargetDir)BLOQUES\*.*" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\BLOQUES\" /Y /E /R
 

@@ -3,11 +3,11 @@
 
 #define MyAppName "TAVIL2018"
 #define MyAppNameDir "TAVIL2018.bundle"
-#define MyAppVersion "2018.0.0.12"
+#define MyAppVersion "2018.0.0.13"
 #define MyAppPublisher "Copyright © Jose Alberto Torres (2aCAD Global Group  2018)"
 #define MyAppURL "http://www.2acad.es"
 #define MyWeb "2aCAD Global Group"
-#define MyOrigen "C:\DESARROLLO\CLIENTES\TAVIL\TAVIL2018\"
+#define MyOrigen "{srcexe}\..\..\"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -27,7 +27,7 @@ DefaultGroupName=2aCAD Global Group\TAVIL2018
 DisableProgramGroupPage=yes
 OutputDir="{srcexe}\..\SALIDA"
 OutputBaseFilename=TAVIL2018_v{#MyAppVersion}
-SetupIconFile=C:\DESARROLLO\CLIENTES\TAVIL\TAVIL2018\Resources\TAVIL_ico.ico
+SetupIconFile=..\Resources\TAVIL_ico.ico
 Compression=lzma
 SolidCompression=yes
 UninstallDisplayIcon={uninstallexe}
@@ -45,7 +45,7 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 [Files]
 ; *** APP principal y fichero configuracion
 Source: "{#MyOrigen}PackageContents.xml"; DestDir: "{app}"; DestName: "PackageContents.xml"; Flags: ignoreversion 
-Source: "{#MyOrigen}..\{#MyAppName}_DOCUMENTOS\LAYOUTDBS4.xlsx"; DestDir: "{app}"; Flags: ignoreversion  
+Source: "{#MyOrigen}..\..\{#MyAppName}_DOCUMENTOS\LAYOUTDBS4.xlsx"; DestDir: "{app}"; Flags: ignoreversion  
 Source: "{#MyOrigen}{#MyAppName}.ini"; DestDir: "{app}"; Flags: ignoreversion  
 Source: "{#MyOrigen}{#MyAppName}.ico"; DestDir: "{app}"; Flags: ignoreversion  
 Source: "{#MyOrigen}bin\*.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -88,3 +88,6 @@ Filename: "{sys}\icacls.exe"; Parameters: "{app}\*.* /inheritance:d /t"; Flags: 
 Filename: "{sys}\icacls.exe"; Parameters: "{app}\* /T /reset"; Flags: runmaximized; Description: "Habilitar herencia en todas sub y files"
 ;Filename: "{sys}\icacls.exe"; Parameters: "{app}\*.* /grant Usuarios:(OI)(CI)F /t"; Flags: runmaximized; Description: "Dar permisos a la carpeta entera"
 ;Filename: "{sys}\icacls.exe"; Parameters: "{app}\*.* /grant {username}:(OI)(CI)F /t"; Flags: runmaximized; Description: "Dar permisos a la carpeta entera"
+
+[ThirdParty]
+UseRelativePaths=True

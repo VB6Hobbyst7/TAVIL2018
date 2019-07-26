@@ -67,6 +67,13 @@ Namespace TAVIL2018
             oApp = CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication)
             cfg = New UtilesAlberto.Conf(System.Reflection.Assembly.GetExecutingAssembly)
             clsA = New AutoCAD2acad.A2acad.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+            '
+            'If Autodesk.AutoCAD.Runtime.ExtensionLoader.IsLoaded(autocad2acad) = True Then
+            '    'MsgBox("Cargado " & autocad2acad)
+            'Else
+            '    dll2acad = Autodesk.AutoCAD.Runtime.ExtensionLoader.Load(autocad2acad)
+            '    Call AppDomain.CurrentDomain.GetAssemblies()
+            'End If
 
             '''' Leer configuración
             Try

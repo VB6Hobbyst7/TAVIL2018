@@ -19,6 +19,9 @@ Module movVar
     ' ***** OBJETOS AUTOCAD ACTIVE X
     Public docAct As Document
 
+    ' ***** ASSEMBLIES
+    Public autocad2acad As String = IO.Path.Combine(IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly.Location), "AutoCAD2acad.dll")  ' Dll 2acad
+    Public dll2acad As Reflection.Assembly = Nothing
     '
     ' ***** CLASES
     Public clsA As a2.A2acad = Nothing
