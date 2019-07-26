@@ -46,8 +46,8 @@ Public Class frmAgrupa
         '
         gbAdministrar.Enabled = True
         btnGrupoBorrar.Enabled = True
-        txtNombreGrupo.Text = e.Node.Text
-        Me.Grupo_SeleccionarObjetos(e.Node.Text)
+        txtNombreGrupo.Text = tvGrupos.SelectedNode.Text
+        Me.Grupo_SeleccionarObjetos(tvGrupos.SelectedNode.Text)
     End Sub
 
     Private Sub btnGrupoAdd_Click(sender As Object, e As EventArgs) Handles btnGrupoAdd.Click
@@ -112,11 +112,11 @@ REPITE:
         oNode.Name = nuevoGrupo
         oNode.Tag = nuevoGrupo
         oNode.ToolTipText = oNode.Tag
-        tvGrupos.Nodes.Add(oNode)
+        Dim id As Integer = tvGrupos.Nodes.Add(oNode)
         oNode = Nothing
         tvGrupos.Sort()
         '
-        tvGrupos.SelectedNode = Nothing
+        tvGrupos.SelectedNode = tvGrupos.Nodes.Item(id)
         tvGrupos_AfterSelect(Nothing, Nothing)
     End Sub
 
@@ -189,12 +189,12 @@ REPITE:
                 End If
             End If
         Else
-            If tvGrupos.Nodes.ContainsKey(grupo) Then
-                tvGrupos.Nodes.Item(grupo).Remove()
-            End If
+            'If tvGrupos.Nodes.ContainsKey(grupo) Then
+            '    tvGrupos.Nodes.Item(grupo).Remove()
+            'End If
             lblInf.Text = "0 Elementos"
-            tvGrupos.SelectedNode = Nothing
-            tvGrupos_AfterSelect(Nothing, Nothing)
+            'tvGrupos.SelectedNode = Nothing
+            'tvGrupos_AfterSelect(Nothing, Nothing)
         End If
     End Sub
     '

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TAVIL2018", "TAVIL2018\TAVIL2018.vbproj", "{54DDBB45-3BAD-4A7D-AE33-90ADEA06EFA5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,8 +9,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TAVIL2018", "TAVIL2018\TAVI
 	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoCAD2acad", "AutoCAD2acad\AutoCAD2acad.vbproj", "{C45FEA81-2A3C-47A8-BAEA-35AE18DB94A2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53F6D9A0-9A2E-4641-9D3B-C7D383C3932C}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UtilesAlberto", "UtilesAlberto\UtilesAlberto.vbproj", "{7E7B7FD9-7145-4607-B2B8-BB292871B260}"
 EndProject
