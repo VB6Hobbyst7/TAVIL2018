@@ -9,7 +9,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic
 Imports ClosedXML
 Imports ClosedXML.Excel
-Module modClosedXMLTavil
+Public Module modClosedXMLTavil
     Public Sub LimpiaMemoria()
         GC.WaitForPendingFinalizers()
         GC.Collect()

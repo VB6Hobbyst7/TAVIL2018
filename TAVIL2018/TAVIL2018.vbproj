@@ -164,6 +164,7 @@
     <Compile Include="clsProxyML.vb" />
     <Compile Include="clsProxyMLCol.vb" />
     <Compile Include="modAutoCAD.vb" />
+    <Compile Include="modTavil.vb" />
     <Compile Include="PT.vb" />
     <Compile Include="frmAgrupa.Designer.vb">
       <DependentUpon>frmAgrupa.vb</DependentUpon>
@@ -398,6 +399,7 @@
   <ItemGroup>
     <None Include="Resources\copy32.png" />
     <None Include="Resources\copy32red.png" />
+    <None Include="Resources\Transportador_300x206.png" />
     <Content Include="TAVIL2018_INSTALADOR_INNO\TAVIL2018_INNO.iss" />
   </ItemGroup>
   <ItemGroup>

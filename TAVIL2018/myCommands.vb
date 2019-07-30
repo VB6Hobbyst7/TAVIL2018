@@ -120,8 +120,8 @@ Namespace TAVIL2018
             '
             CierraFormularios()
             '
-            MsgBox("En construcción. Pendiente de datos TAVIL...")
-            Exit Sub
+            'MsgBox("En construcción. Pendiente de datos TAVIL...")
+            'Exit Sub
             '
             If Autodesk.AutoCAD.Internal.AcAeUtilities.IsInBlockEditor Then
                 MsgBox("Utilidad UNIONES no permitida en Editor de Bloques...")

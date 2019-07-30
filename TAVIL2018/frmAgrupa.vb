@@ -184,8 +184,7 @@ REPITE:
                 lblInf.Text = arrSeleccion.Count & " Elementos"
                 clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
                 If cbZoom.Checked Then
-                    Autodesk.AutoCAD.Internal.Utils.ZoomObjects(False)
-                    oApp.ZoomScaled(0.6, AcZoomScaleType.acZoomScaledRelative)
+                    Zoom_Seleccion()
                 End If
             End If
         Else
@@ -196,11 +195,6 @@ REPITE:
             'tvGrupos.SelectedNode = Nothing
             'tvGrupos_AfterSelect(Nothing, Nothing)
         End If
-    End Sub
-    '
-    Public Sub Zoom_Seleccion()
-        Autodesk.AutoCAD.Internal.Utils.ZoomObjects(False)
-        oApp.ZoomScaled(0.6, AcZoomScaleType.acZoomScaledRelative)
     End Sub
 #End Region
 End Class

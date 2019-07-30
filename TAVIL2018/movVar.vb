@@ -64,6 +64,7 @@ Module movVar
     Public Const estilotexto As String = fijoCliente & "_TEXTO"
     Public Const estilotabla As String = fijoCliente & "_TABLA"
     Public Const cGRUPO As String = "GRUPO"
+    Public Const cUNION As String = "UNION"
     '
     ' ***** VARIABLES CONFIGURACION
     Public Log As Boolean = False

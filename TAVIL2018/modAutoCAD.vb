@@ -10,6 +10,6 @@ Imports Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
-Module modAutoCAD
+Public Module modAutoCAD
 
 End Module
