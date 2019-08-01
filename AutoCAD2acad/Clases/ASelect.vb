@@ -1061,6 +1061,8 @@ repetir:
             Return resultado
         End Function
         Public Function SeleccionaDameEntitiesONSCREEN(Optional solouna As Boolean = True) As ArrayList
+            ''
+            AutoCAD_PonFoCo()
             Dim resultado As New ArrayList
             'Dim cSeleccion As AcadSelectionSets
             Dim F1(1) As Short
@@ -1091,7 +1093,7 @@ repetir:
             Else
                 oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
             End If
-            ''
+
             Try
                 oSel.SelectOnScreen(vF1, vF2)
             Catch ex As System.Exception

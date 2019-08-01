@@ -64,9 +64,9 @@ Namespace TAVIL2018
             ' as well as some of the existing AutoCAD managed apps.
 
             ' Initialize your plug-in application hereTry
-            oApp = CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication)
+            CEv = New Tavil.AutoCADEventos(CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication))
             cfg = New UtilesAlberto.Conf(System.Reflection.Assembly.GetExecutingAssembly)
-            clsA = New AutoCAD2acad.A2acad.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+            clsA = New AutoCAD2acad.A2acad.A2acad(CEv.EvApp, cfg._appFullPath, regAPPCliente)
             '
             'If Autodesk.AutoCAD.Runtime.ExtensionLoader.IsLoaded(autocad2acad) = True Then
             '    'MsgBox("Cargado " & autocad2acad)
@@ -115,7 +115,7 @@ Namespace TAVIL2018
                 DocumentManager_DocumentActivated(Nothing, Nothing)
 
             End If
-            AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
+            AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Application_Idle
             If Log Then cfg.PonLog("Añadidos enventos", False)
 
             'If (docAct <> Nothing) Then

@@ -8,11 +8,10 @@ Imports AutoCAD2acad.A2acad
 Imports System.Linq
 Imports ua = UtilesAlberto.Utiles
 Imports a2 = AutoCAD2acad.A2acad
+Imports System.Runtime.InteropServices
 
 Module movVar
     ' ***** OBJETOS AUTOCAD
-    Public WithEvents oApp As Autodesk.AutoCAD.Interop.AcadApplication = Nothing
-    Public WithEvents oDoc As Autodesk.AutoCAD.Interop.AcadDocument = Nothing
     Public ed As Autodesk.AutoCAD.EditorInput.Editor
     Public oSel As Autodesk.AutoCAD.Interop.AcadSelectionSet
     Public oBlR As AcadBlockReference = Nothing     ' AcadBlockReference de la cinta que seleccionemos.
@@ -24,6 +23,7 @@ Module movVar
     Public dll2acad As Reflection.Assembly = Nothing
     '
     ' ***** CLASES
+    Public CEv As Tavil.AutoCADEventos
     Public clsA As a2.A2acad = Nothing
     Public clsD As clsLAYOUTDBS4 = Nothing
     Public cfg As UtilesAlberto.Conf
@@ -44,7 +44,7 @@ Module movVar
     Public frmBloE As frmBloquesEditar
     '
     ' ***** COLECCIONES
-    Public colIds As List(Of Long)
+    Public colIds As List(Of Long)      ' Coleccion de Ids borrados
     Public colHan As List(Of String)
     Public dicBloques As Dictionary(Of String, String) = Nothing          ' Key=nombre bloque (Sin extension), Value=Directorio Bloque
     Public lnBloquesPatas As List(Of String)     ' Nombres únicos de bloques de patas
@@ -223,184 +223,11 @@ Module movVar
         If frmBo IsNot Nothing Then frmBo.Close()
     End Sub
 
-    Private Sub oApp_AppActivate() Handles oApp.AppActivate
-
-    End Sub
 
 
-    Private Sub oApp_EndCommand(CommandName As String) Handles oApp.EndCommand
-        'If CommandName = "OPEN" And oApp.Documents.Count > 0 Then
-        'modTavil.AcadBlockReference_PonEventosModified()
-        'End If
-        If oApp.Documents.Count = 0 Then Exit Sub
-        'If oDoc IsNot Nothing AndAlso oDoc.Equals(oApp.ActiveDocument) = False Then oDoc = oApp.ActiveDocument
-        'If CommandName.ToUpper.Contains("COPY") Then
-        '    'oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        'End If
-    End Sub
 
-    Private Sub oApp_EndOpen(FileName As String) Handles oApp.EndOpen
-        'While oApp.GetAcadState.IsQuiescent = True
-        '    System.Windows.Forms.Application.DoEvents()
-        'End While
-        ' modTavil.AcadBlockReference_PonEventosModified()
-        'oDoc = oApp.ActiveDocument
-        ''
-        'AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
-        '
-    End Sub
 
-    Private Sub oDoc_BeginCommand(CommandName As String) Handles oDoc.BeginCommand
-        'If CommandName = "SAVE" Or CommandName = "QSAVE" Then
-        'If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(oApp, cfg._appFullPath, regAPPCliente)
-        'clsA.SeleccionaTodosObjetos("INSERT",, True)
-        'oApp.ActiveDocument.SendCommand("_UPDATEFIELD _ALL  ")
 
-        '
-        'Dim arrIdBloques As ArrayList     '' Arraylist con los IDs de los bloques que empiezan por 
-        'arrIdBloques = clsA.SeleccionaTodosObjetos("INSERT",, True)
-        '
-        ' Procesamos todos los bloques (arralist de Ids)
-        'Dim arrHighlight As New ArrayList
-        'For Each queId As Long In arrIdBloques
-        '    Dim oBl As AcadBlockReference = oApp.ActiveDocument.ObjectIdToObject(queId)
-        '    ''
-        '    Dim capa As String = oBl.Layer
-        '    Dim partes() As String = capa.Split("·"c)
-        '    Dim nivel As String = modAutoCAD.BloqueAtributoDame(queId, "NIVEL")
-        '    If partes.Length > 1 AndAlso (partes(1) = ultimoNivel Or nivel = ultimoNivel) Then
-        '        arrHighlight.Add(CType(oBl, AcadEntity))
-        '    End If
-        'Next
-        ''
-        'If arrHighlight IsNot Nothing AndAlso arrHighlight.Count > 0 Then
-        '    modAutoCAD.SeleccionCreaResalta(queEntidades:=arrHighlight, tiempo:=5000, conZoom:=True)
-        '    'Autodesk.AutoCAD.Internal.Utils.SelectObjects(ids:=Autodesk.AutoCAD.DatabaseServices.ObjectId)
-        '    'Autodesk.AutoCAD.Internal.Utils.ZoomObjects(False)
-        '    oApp.ZoomScaled(0.75, AcZoomScaleType.acZoomScaledRelative)
-        'End If
-        'End If
-    End Sub
-
-    Private Sub oDoc_ObjectModified(queObj As Object) Handles oDoc.ObjectModified
-        'If (app_procesointerno = False) Then
-        '    If TypeOf queObj Is Autodesk.AutoCAD.Interop.Common.AcadBlockReference Then
-        '        Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument
-        '            'modTavil.AcadBlockReference_Modified(CType(queObj, Autodesk.AutoCAD.Interop.Common.AcadBlockReference))
-        '            Try
-        '                Dim queTipo As String = clsA.XLeeDato(CType(queObj, AcadObject), "tipo")
-        '                'MsgBox(oBlr.EffectiveName & " Modificado")
-        '                If colIds Is Nothing Then colIds = New List(Of Long)
-        '                If colHan Is Nothing Then colHan = New List(Of String)
-        '                If colIds.Contains(CType(queObj, AcadBlockReference).ObjectID) = False And queTipo = "cinta" Then
-        '                    colIds.Add(CType(queObj, AcadBlockReference).ObjectID)
-        '                    'colHan.Add(CType(queObj, AcadBlockReference).Handle)
-        '                    ' Si vamos a modificar algo, poner app_procesointer = true (Para que no active eventos)
-        '                    app_procesointerno = True
-        '                    'clsA.SeleccionaPorHandle(oApp.ActiveDocument, queObj, "_UPDATEFIELD")
-        '                End If
-        '            Catch ex As Exception
-        '                Debug.Print(ex.ToString)
-        '            End Try
-        '        End Using
-        '    End If
-        '    ' Volver a false para activar los eventos.
-        '    app_procesointerno = False
-        '    'oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        'End If
-    End Sub
-    Public Sub Tavil_AppIdle(ByVal sender As Object, ByVal e As EventArgs)
-        RemoveHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
-        'If oApp Is Nothing Then Exit Sub
-        'Try
-        '    If oApp.ActiveDocument Is Nothing Then Exit Sub
-        'Catch ex As Exception
-        '    Exit Sub
-        'End Try
-        'If oApp.Documents.Count = 0 Then Exit Sub
-        'If docAct = Nothing Then Exit Sub
-
-        '' Actualizar campos al guardar, imprimir, eTransmit, etc... Todos.
-        'If oApp.ActiveDocument.GetVariable("FIELDEVAL") <> 31 Then oApp.ActiveDocument.SetVariable("FIELDEVAL", 31)
-        'If (app_procesointerno = False) Then
-        '    app_procesointerno = True
-        '    If colIds IsNot Nothing AndAlso colIds.Count > 0 Then
-        '        Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument
-        '            For Each oId As Long In colIds
-        '                Dim oBlR As AcadBlockReference = oApp.ActiveDocument.ObjectIdToObject(oId)
-        '                Dim oPars As Hashtable = clsA.BloqueDinamicoParametrosDameTodos(oBlR.ObjectID)
-        '                Dim largo As Double = Nothing
-        '                Dim ancho As Double = Nothing
-        '                For Each nPar As String In oPars.Keys
-        '                    If nPar = "DISTANCIA1" Or nPar = "DISTANCE1" Or nPar = "LENGTH" Then
-        '                        largo = CDbl(oPars(nPar))
-        '                    ElseIf nPar = "DISTANCIA2" Or nPar = "DISTANCE2" Or nPar = "WIDTH" Then
-        '                        ancho = CDbl(oPars(nPar))
-        '                    End If
-        '                Next
-        '                ' Poner el atributo "REFERENCE"
-        '                'Dim queRef As String = clsA.BloqueAtributoDame(oBlR.ObjectID, "REFERENCE")
-        '                'If queRef <> "" Then
-        '                '    Dim prefijo As String = queRef.Substring(0, 3)
-        '                '    clsA.BloqueAtributoEscribe(oBlR.ObjectID, "REFERENCE", prefijo & ancho.ToString & "_" & largo.ToString)
-        '                'End If
-
-        '                'Dim arrPatas As ArrayList = clsA.SeleccionaDameBloquesTODOStexto(regAPPA,, PatasCapa, "*" & oBlR.EffectiveName & "*")
-        '                'Dim arrPatas As ArrayList = clsA.SeleccionaDameBloquesTODOS(regAPPCliente,, PatasCapa)
-        '                'If arrPatas IsNot Nothing AndAlso arrPatas.Count > 0 Then
-        '                '    For Each oBlP As AcadBlockReference In arrPatas
-        '                '        Dim queCinta As String = clsA.XLeeDato(oBlP, "cinta")
-        '                '        If queCinta = oBlR.Handle.ToString Then
-        '                '            clsA.BloqueDinamico_ParametroEscribe(oBlP.ObjectID, "WIDTH", ancho) ' ancho.ToString)
-        '                '        End If
-        '                '    Next
-        '                '    'oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        '                'End If
-        '            Next
-        '            colIds.Clear()
-        '            colIds = Nothing
-        '        End Using
-        '    End If
-
-        '    If colHan IsNot Nothing AndAlso colHan.Count > 0 Then
-        '        For Each queHandle As String In colHan
-        '            Dim oBlr As AcadBlockReference = oApp.ActiveDocument.HandleToObject(queHandle)
-        '            Call clsA.SeleccionaDameBloqueUno(oBlr.Name, oBlr.Layer)
-        '            oApp.ActiveDocument.SendCommand("_UPDATEFIELD _all  ")
-        '            'clsA.SeleccionaPorHandle(oApp.ActiveDocument, oApp.ActiveDocument.HandleToObject(queHandle), "_UPDATEFIELD")
-        '        Next
-        '        colHan.Clear()
-        '        colHan = Nothing
-        '    End If
-
-        '    AutoEnumera_AppIdle(sender, e)
-        'app_procesointerno = False
-        'End If
-    End Sub
-
-    Public Sub Database_ObjectModified(ByVal sender As Object, ByVal e As ObjectEventArgs)
-        'AutoEnumera_DBObjectModified(sender, e)
-        ''oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        'AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
-    End Sub
-
-    Public Sub Database_ObjectAppended(ByVal sender As Object, ByVal e As ObjectEventArgs)
-        'Try
-        '    If TypeOf e.DBObject.AcadObject Is AcadBlockReference AndAlso CType(e.DBObject.AcadObject, AcadBlockReference).EffectiveName.ToUpper.StartsWith("PT") Then
-        '        Exit Sub
-        '    End If
-        'Catch ex As Exception
-        '    Exit Sub
-        'End Try
-        'AutoEnumera_DBObjectAppended(sender, e)
-        ''oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        'AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
-    End Sub
-
-    Public Sub Database_ObjectErased(ByVal sender As Object, ByVal e As ObjectErasedEventArgs)
-        'AutoEnumera_ObjectErased(sender, e)
-        'AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Tavil_AppIdle
-    End Sub
 
     Public Sub DocumentManager_DocumentActivated(sender As Object, e As DocumentCollectionEventArgs)
         'docAct = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
@@ -419,6 +246,14 @@ Module movVar
         '        ElementoProxyRecomendado = RecomiendaElementoLibre()
         '    End If
         'End If
+    End Sub
+
+    Private Sub oDoc_ObjectErased(<ComAliasName("AXDBLib.LONG_PTR")> ObjectId As Long) Handles oDoc.ObjectErased
+        MsgBox(ObjectId)
+    End Sub
+
+    Private Sub oDoc_BeginDocClose(ByRef Cancel As Boolean) Handles oDoc.BeginDocClose
+        oDoc = Nothing
     End Sub
 #End Region
 End Module

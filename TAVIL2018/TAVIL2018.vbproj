@@ -163,7 +163,12 @@
     <Compile Include="clsLAYOUTDBS4.vb" />
     <Compile Include="clsProxyML.vb" />
     <Compile Include="clsProxyMLCol.vb" />
-    <Compile Include="modAutoCAD.vb" />
+    <Compile Include="EVENTOS\EvApp.vb" />
+    <Compile Include="EVENTOS\EvAppS.vb" />
+    <Compile Include="EVENTOS\EvBase.vb" />
+    <Compile Include="EVENTOS\EvDb.vb" />
+    <Compile Include="EVENTOS\EvDoc.vb" />
+    <Compile Include="EVENTOS\EvModified.vb" />
     <Compile Include="modTavil.vb" />
     <Compile Include="PT.vb" />
     <Compile Include="frmAgrupa.Designer.vb">

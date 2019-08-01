@@ -149,6 +149,7 @@ Namespace A2acad
 
         Public Sub AutoCAD_PonFoCo()
             Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView()
+            Autodesk.AutoCAD.ApplicationServices.Application.MainWindow.Focus()
         End Sub
         Public Function DameArrPol(ByVal quePol As AcadLWPolyline) As Double()
             Dim pt() As Double = quePol.Coordinates

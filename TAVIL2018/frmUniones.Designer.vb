@@ -24,43 +24,31 @@ Partial Class frmUniones
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUniones))
         Me.btnCerrar = New System.Windows.Forms.Button()
-        Me.pb1 = New System.Windows.Forms.PictureBox()
         Me.tvUniones = New System.Windows.Forms.TreeView()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cbZoom = New System.Windows.Forms.CheckBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.lblInf = New System.Windows.Forms.Label()
-        Me.pb2 = New System.Windows.Forms.PictureBox()
+        Me.BtnInsertarUnion = New System.Windows.Forms.Button()
+        Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.BtnT1 = New System.Windows.Forms.Button()
+        Me.BtnT2 = New System.Windows.Forms.Button()
+        Me.LblT1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        CType(Me.pb1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pb2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.BtnCrearUnion = New System.Windows.Forms.Button()
+        Me.BtnEditarUnion = New System.Windows.Forms.Button()
+        Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnCerrar
         '
         Me.btnCerrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Location = New System.Drawing.Point(415, 465)
+        Me.btnCerrar.Location = New System.Drawing.Point(659, 465)
         Me.btnCerrar.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCerrar.Name = "btnCerrar"
         Me.btnCerrar.Size = New System.Drawing.Size(89, 28)
         Me.btnCerrar.TabIndex = 1
         Me.btnCerrar.Text = "Cerrar"
-        '
-        'pb1
-        '
-        Me.pb1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pb1.BackColor = System.Drawing.SystemColors.Control
-        Me.pb1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.pb1.Image = Global.TAVIL2018.My.Resources.Resources.Transportador_300x206
-        Me.pb1.InitialImage = Global.TAVIL2018.My.Resources.Resources.Transportador_300x206
-        Me.pb1.Location = New System.Drawing.Point(216, 29)
-        Me.pb1.Name = "pb1"
-        Me.pb1.Size = New System.Drawing.Size(150, 105)
-        Me.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pb1.TabIndex = 1
-        Me.pb1.TabStop = False
         '
         'tvUniones
         '
@@ -93,74 +81,105 @@ Partial Class frmUniones
         Me.cbZoom.Text = "Zoom Uniones"
         Me.cbZoom.UseVisualStyleBackColor = True
         '
-        'Label3
+        'BtnInsertarUnion
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(168, 423)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(89, 17)
-        Me.Label3.TabIndex = 14
-        Me.Label3.Text = "Información :"
+        Me.BtnInsertarUnion.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnInsertarUnion.Location = New System.Drawing.Point(13, 257)
+        Me.BtnInsertarUnion.Name = "BtnInsertarUnion"
+        Me.BtnInsertarUnion.Size = New System.Drawing.Size(132, 36)
+        Me.BtnInsertarUnion.TabIndex = 19
+        Me.BtnInsertarUnion.Text = "Insertar Unión"
+        Me.BtnInsertarUnion.UseVisualStyleBackColor = False
         '
-        'lblInf
+        'GUnion
         '
-        Me.lblInf.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblInf.Location = New System.Drawing.Point(168, 442)
-        Me.lblInf.Name = "lblInf"
-        Me.lblInf.Size = New System.Drawing.Size(240, 46)
-        Me.lblInf.TabIndex = 13
-        Me.lblInf.Text = "¿?"
+        Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GUnion.Controls.Add(Me.Label3)
+        Me.GUnion.Controls.Add(Me.Label2)
+        Me.GUnion.Controls.Add(Me.LblT1)
+        Me.GUnion.Controls.Add(Me.BtnT2)
+        Me.GUnion.Controls.Add(Me.BtnT1)
+        Me.GUnion.Controls.Add(Me.BtnInsertarUnion)
+        Me.GUnion.Location = New System.Drawing.Point(368, 29)
+        Me.GUnion.Name = "GUnion"
+        Me.GUnion.Size = New System.Drawing.Size(381, 357)
+        Me.GUnion.TabIndex = 20
+        Me.GUnion.TabStop = False
+        Me.GUnion.Text = "Crear / Editar Unión"
         '
-        'pb2
+        'BtnT1
         '
-        Me.pb2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pb2.BackColor = System.Drawing.SystemColors.Control
-        Me.pb2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.pb2.Image = Global.TAVIL2018.My.Resources.Resources.Transportador_300x206
-        Me.pb2.InitialImage = Global.TAVIL2018.My.Resources.Resources.Transportador_300x206
-        Me.pb2.Location = New System.Drawing.Point(216, 187)
-        Me.pb2.Name = "pb2"
-        Me.pb2.Size = New System.Drawing.Size(150, 105)
-        Me.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pb2.TabIndex = 15
-        Me.pb2.TabStop = False
+        Me.BtnT1.Location = New System.Drawing.Point(13, 29)
+        Me.BtnT1.Name = "BtnT1"
+        Me.BtnT1.Size = New System.Drawing.Size(132, 41)
+        Me.BtnT1.TabIndex = 20
+        Me.BtnT1.Text = "Transportador 1"
+        Me.BtnT1.UseVisualStyleBackColor = True
+        '
+        'BtnT2
+        '
+        Me.BtnT2.Location = New System.Drawing.Point(13, 140)
+        Me.BtnT2.Name = "BtnT2"
+        Me.BtnT2.Size = New System.Drawing.Size(132, 41)
+        Me.BtnT2.TabIndex = 21
+        Me.BtnT2.Text = "Transportador 2"
+        Me.BtnT2.UseVisualStyleBackColor = True
+        '
+        'LblT1
+        '
+        Me.LblT1.Location = New System.Drawing.Point(154, 29)
+        Me.LblT1.Name = "LblT1"
+        Me.LblT1.Size = New System.Drawing.Size(221, 80)
+        Me.LblT1.TabIndex = 22
+        Me.LblT1.Text = "Datos T1:"
         '
         'Label2
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(180, 9)
+        Me.Label2.Location = New System.Drawing.Point(154, 140)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(133, 17)
-        Me.Label2.TabIndex = 16
-        Me.Label2.Text = "1--> Seleccionar T1"
+        Me.Label2.Size = New System.Drawing.Size(221, 80)
+        Me.Label2.TabIndex = 23
+        Me.Label2.Text = "Datos T2:"
         '
-        'Label4
+        'Label3
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(180, 167)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(133, 17)
-        Me.Label4.TabIndex = 17
-        Me.Label4.Text = "2--> Seleccionar T2"
+        Me.Label3.Location = New System.Drawing.Point(154, 257)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(221, 80)
+        Me.Label3.TabIndex = 24
+        Me.Label3.Text = "Datos Unión:"
+        '
+        'BtnCrearUnion
+        '
+        Me.BtnCrearUnion.Location = New System.Drawing.Point(178, 29)
+        Me.BtnCrearUnion.Name = "BtnCrearUnion"
+        Me.BtnCrearUnion.Size = New System.Drawing.Size(171, 32)
+        Me.BtnCrearUnion.TabIndex = 21
+        Me.BtnCrearUnion.Text = "Crear Unión"
+        Me.BtnCrearUnion.UseVisualStyleBackColor = True
+        '
+        'BtnEditarUnion
+        '
+        Me.BtnEditarUnion.Location = New System.Drawing.Point(178, 85)
+        Me.BtnEditarUnion.Name = "BtnEditarUnion"
+        Me.BtnEditarUnion.Size = New System.Drawing.Size(171, 32)
+        Me.BtnEditarUnion.TabIndex = 22
+        Me.BtnEditarUnion.Text = "Editar Unión"
+        Me.BtnEditarUnion.UseVisualStyleBackColor = True
         '
         'frmUniones
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCerrar
-        Me.ClientSize = New System.Drawing.Size(517, 503)
+        Me.ClientSize = New System.Drawing.Size(761, 503)
+        Me.Controls.Add(Me.BtnEditarUnion)
+        Me.Controls.Add(Me.BtnCrearUnion)
+        Me.Controls.Add(Me.GUnion)
         Me.Controls.Add(Me.btnCerrar)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.pb2)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.lblInf)
         Me.Controls.Add(Me.cbZoom)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.tvUniones)
-        Me.Controls.Add(Me.pb1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -170,20 +189,22 @@ Partial Class frmUniones
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "frmUniones"
-        CType(Me.pb1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pb2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GUnion.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents btnCerrar As System.Windows.Forms.Button
-    Friend WithEvents pb1 As Windows.Forms.PictureBox
     Friend WithEvents tvUniones As Windows.Forms.TreeView
     Friend WithEvents Label1 As Windows.Forms.Label
     Friend WithEvents cbZoom As Windows.Forms.CheckBox
+    Friend WithEvents BtnInsertarUnion As Windows.Forms.Button
+    Friend WithEvents GUnion As Windows.Forms.GroupBox
+    Friend WithEvents BtnT2 As Windows.Forms.Button
+    Friend WithEvents BtnT1 As Windows.Forms.Button
     Friend WithEvents Label3 As Windows.Forms.Label
-    Friend WithEvents lblInf As Windows.Forms.Label
-    Friend WithEvents pb2 As Windows.Forms.PictureBox
     Friend WithEvents Label2 As Windows.Forms.Label
-    Friend WithEvents Label4 As Windows.Forms.Label
+    Friend WithEvents LblT1 As Windows.Forms.Label
+    Friend WithEvents BtnCrearUnion As Windows.Forms.Button
+    Friend WithEvents BtnEditarUnion As Windows.Forms.Button
 End Class

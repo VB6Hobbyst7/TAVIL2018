@@ -16,17 +16,15 @@ Public Class frmUniones
     Private Sub frmUniones_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "UNIONES - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
-        oTT = New ToolTip()
-        ' Set up the delays for the ToolTip.
-        oTT.AutoPopDelay = 5000
-        oTT.InitialDelay = 500
-        oTT.ReshowDelay = 500
-        ' Force the ToolTip text to be displayed whether or not the form is active.
-        oTT.ShowAlways = True
+        ' Estado inicila de GUniones (Con todos los controles de selección y edición)
+        GUnion.Enabled = False
+        ' Controles fondo rojo claro. Para avisar que hay que pulsarlos. Solo activo Pb1, por defecto
+        pb1.Enabled = True : pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        '
         PonToolTipControles()
-
-        pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-        pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        'CompruebaDatos()
         'app_procesointerno = True
         'app_procesointerno = True
         'gbAdministrar.Enabled = False
@@ -35,22 +33,8 @@ Public Class frmUniones
         'lblInf.Text = ""
         tvUniones_LlenaXDATA()
     End Sub
-    Public Sub PonToolTipControles()
-        Me.tvUniones.ShowNodeToolTips = True
-        oTT.SetToolTip(Me.tvUniones, "Listado de uniones")
-        oTT.SetToolTip(Me.cbZoom, "Zoom uniones")
-        oTT.SetToolTip(Me.pb1, "Seleccionar Transportador 1")
-        oTT.SetToolTip(Me.pb2, "Seleccionar Transportador 2")
-        oTT.SetToolTip(Me.lblInf, "Información selecciones")
-        oTT.SetToolTip(Me.btnCerrar, "Cerrar Uniones")
-    End Sub
     Private Sub frmUniones_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         frmUn = Nothing
-    End Sub
-
-    Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Me.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Close()
     End Sub
 
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
@@ -64,14 +48,18 @@ Public Class frmUniones
         Me.Uniones_SeleccionarObjetos(tvUniones.SelectedNode.Text)
     End Sub
     '
-    Private Sub Pb1_Click(sender As Object, e As EventArgs) Handles pb1.Click
-        pb1.BackColor = Control.DefaultBackColor : pb1.Refresh()
-        Control_Borde(pb1, False)
-        '
+    Private Sub BtnCrearUnion_Click(sender As Object, e As EventArgs) Handles BtnCrearUnion.Click
+
+    End Sub
+
+    Private Sub BtnEditarUnion_Click(sender As Object, e As EventArgs) Handles BtnEditarUnion.Click
+
+    End Sub
+
+    Private Sub BtnT1_Click(sender As Object, e As EventArgs) Handles BtnT1.Click
         Me.Visible = False
-        oApp.ActiveDocument.Activate()
+        clsA.ActivaApp()
         Dim arrEntities As ArrayList = Nothing
-REPITE:
         arrEntities = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=True)
         If arrEntities Is Nothing OrElse arrEntities.Count = 0 Then
             Exit Sub
@@ -81,15 +69,26 @@ REPITE:
             oT1 = arrEntities(0)
         End If
         '
-        PonDatos()
+        CompruebaDatos()
         Me.Visible = True
     End Sub
-    Private Sub Pb2_Click(sender As Object, e As EventArgs) Handles pb2.Click
+
+    Private Sub BtnT2_Click(sender As Object, e As EventArgs) Handles BtnT2.Click
+
+    End Sub
+
+    Private Sub BtnInsertarUnion_Click(sender As Object, e As EventArgs) Handles BtnInsertarUnion.Click
+
+    End Sub
+
+    Private Sub Pb1_Click(sender As Object, e As EventArgs)
+    End Sub
+    Private Sub Pb2_Click(sender As Object, e As EventArgs)
         pb2.BackColor = Control.DefaultBackColor : pb2.Refresh()
-        Control_Borde(pb2, False)
+        'Control_Borde(pb2, False)
         '
         Me.Visible = False
-        oApp.ActiveDocument.Activate()
+        'oApp.ActiveDocument.Activate()
         Dim arrEntities As ArrayList = Nothing
 REPITE:
         arrEntities = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=True)
@@ -101,7 +100,7 @@ REPITE:
             oT2 = arrEntities(0)
         End If
         '
-        PonDatos()
+        CompruebaDatos()
         Me.Visible = True
     End Sub
     '
@@ -129,19 +128,55 @@ REPITE:
     '    pbX = Nothing
     'End Sub
 #Region "FUNCIONES"
-    Private Sub PonDatos()
+    Public Sub PonToolTipControles()
+        oTT = New ToolTip()
+        oTT.AutoPopDelay = 5000 ' Tiempo que estará visible
+        oTT.InitialDelay = 500  ' Tiempo inicial para mostrarse
+        oTT.ReshowDelay = 100   ' Tiempo de espera entre controles
+        oTT.ShowAlways = True   ' Forzar a que se muestre el tooltip, aunque no este activo el Form.
+        '
+        Me.tvUniones.ShowNodeToolTips = True
+        oTT.SetToolTip(Me.tvUniones, "Listado de uniones")
+        oTT.SetToolTip(Me.cbZoom, "Zoom uniones")
+        '
+        oTT.SetToolTip(Me.BtnCrearUnion, "Crear nueva unión")
+        oTT.SetToolTip(Me.BtnEditarUnion, "Editar unión seleccionada")
+        '
+        oTT.SetToolTip(Me.BtnT1, "Seleccionar Transportador 1")
+        oTT.SetToolTip(Me.BtnT2, "Seleccionar Transportador 2")
+        oTT.SetToolTip(Me.BtnInsertarUnion, "Insertar Unión")
+        oTT.SetToolTip(Me.btnCerrar, "Cerrar Uniones")
+    End Sub
+
+    Private Sub CompruebaDatos()
+        ' Deshabilitar controles, por defecto.
+        'pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        'pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        'btnAgregarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        '
+        'pb1.Enabled = False
+        'pb2.Enabled = False ': Control_Borde(pb2)
+        'btnAgregarUnion.Enabled = False ': Control_Borde(btnAgregarUnion)
+        lblInf.Text = ""
+        'pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        '
+        ' Comprobar objetos.
         If oT1 IsNot Nothing Then
             lblInf.Text = "T1 = " & oT1.EffectiveName & vbCrLf
-            Control_Borde(pb1, True)
+            pb2.Enabled = True
         Else
-            lblInf.Text = "T1 = " & vbCrLf
+            lblInf.Text = "T1 =" & vbCrLf
+            lblInf.Text &= "T2 ="
+            pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+            BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+            Exit Sub
         End If
         '
         If oT2 IsNot Nothing Then
             lblInf.Text &= "T2 = " & oT2.EffectiveName & vbCrLf
-            Control_Borde(pb2, True)
+            BtnInsertarUnion.Enabled = True
         Else
-            lblInf.Text &= "T2 = "
+            lblInf.Text &= "T2 ="
         End If
     End Sub
     Public Sub tvUniones_LlenaXDATA()
@@ -201,22 +236,25 @@ REPITE:
 
     ' PictureBox (U otros controles). Poner el borde de color rojo  
     Private Sub Control_Borde(oC As Control, Optional restaurar As Boolean = False)
-        CType(oC, PictureBox).BorderStyle = BorderStyle.None
-        If restaurar Then
+        ' Restaurar botón.
+        If restaurar = True Then
             oC.Invalidate()
-        Else
-            'Rectangulo del control + Offset del rectangulo hacia fuera.  
-            Dim BorderBounds As Rectangle = oC.ClientRectangle
-            'BorderBounds.Inflate(-1, -1)
-
-            'Use ControlPaint to draw the border.  
-            'Change the Color.Red parameter to your own colour below.  
-            ControlPaint.DrawBorder(oC.CreateGraphics,
-                                    BorderBounds,
-                                    Color.Red,
-                                    ButtonBorderStyle.Outset)
+            Exit Sub
         End If
-    End Sub
+        ' Poner borde Rojo
+        If TypeOf oC Is PictureBox Then
+            CType(oC, PictureBox).BorderStyle = BorderStyle.None
+        End If
+        'Rectangulo del control + Offset del rectangulo hacia fuera.  
+        Dim BorderBounds As Rectangle = oC.ClientRectangle
+        'BorderBounds.Inflate(-1, -1)
 
+        'Use ControlPaint to draw the border.  
+        'Change the Color.Red parameter to your own colour below.  
+        ControlPaint.DrawBorder(oC.CreateGraphics,
+                                        BorderBounds,
+                                        Color.Red,
+                                        ButtonBorderStyle.Outset)
+    End Sub
 #End Region
 End Class
