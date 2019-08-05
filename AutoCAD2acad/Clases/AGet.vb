@@ -4,15 +4,16 @@ Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.Windows.FrameworkCompatibilityPreferences
 
-
+Imports Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.AutoCAD.Interop
 Imports Autodesk.AutoCAD.Interop.Common
 Imports Autodesk.AutoCAD.Runtime
-Imports Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
-Imports Autodesk.AutoCAD.Windows
+Imports AXApp = Autodesk.AutoCAD.ApplicationServices.Application
+Imports AXDoc = Autodesk.AutoCAD.ApplicationServices.Document
+Imports AXWin = Autodesk.AutoCAD.Windows
 
 Namespace A2acad
     Partial Public Class A2acad

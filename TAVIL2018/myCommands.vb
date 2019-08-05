@@ -7,6 +7,7 @@ Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
 Imports uau = UtilesAlberto.Utiles
+Imports a2 = AutoCAD2acad.A2acad
 
 ' This line is not mandatory, but improves loading performances
 <Assembly: CommandClass(GetType(TAVIL2018.MyCommands))>
@@ -33,7 +34,7 @@ Namespace TAVIL2018
         Public Sub TAVILCONFIGURAR() ' This method can have any name
             ' Put your command code here
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             If Autodesk.AutoCAD.Internal.AcAeUtilities.IsInBlockEditor Then
@@ -51,7 +52,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILAUTONUMERAR", "TAVILAUTONUMERAR", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILAUTONUMERAR() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             If Autodesk.AutoCAD.Internal.AcAeUtilities.IsInBlockEditor Then
@@ -71,7 +72,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILPATAS", "TAVILPATAS", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILPATAS() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then
+            If Eventos.AXDocM.Count = 0 Then
                 MsgBox("Abrir antes un fichero DWG...")
                 Exit Sub
             End If
@@ -116,7 +117,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILUNIONES", "TAVILUNIONES", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILUNIONES() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             '
@@ -139,7 +140,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILAGRUPAR", "TAVILAGRUPAR", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILAGRUPA() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             '
@@ -162,7 +163,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILLISTAPIEZAS", "TAVILLISTAPIEZAS", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILLISTAPIEZAS() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             '
@@ -184,7 +185,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "TAVILBLOQUES", "TAVILBLOQUES", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILBLOQUES() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             '
@@ -206,7 +207,7 @@ Namespace TAVIL2018
         <CommandMethod("TAVILUTILIDADES", "ATTEDITTAVIL", "ATTEDITTAVIL", CommandFlags.Modal)>  ' + CommandFlags.Session)>
         Public Sub ATTEDITTAVIL() ' This method can have any name
             ' Put your command code here
-            If oApp.Documents.Count = 0 Then Exit Sub
+            If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
             CierraFormularios()
             '
@@ -220,10 +221,10 @@ Namespace TAVIL2018
             ' Si es un bloque de TAVIL, abrir nuestro formulario.
             ' Si no es un bloque de TAVIL, ejecutar comando _eattedit
             Try
-                If oApp.ActiveDocument.ActiveSelectionSet Is Nothing Then Exit Sub
-                If oApp.ActiveDocument.ActiveSelectionSet.Count > 1 Then Exit Sub
-                If TypeOf oApp.ActiveDocument.ActiveSelectionSet.Item(0) IsNot Autodesk.AutoCAD.Interop.Common.AcadBlockReference Then Exit Sub
-                Dim oBl As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oApp.ActiveDocument.ActiveSelectionSet.Item(0)
+                If Eventos.COMDoc().ActiveSelectionSet Is Nothing Then Exit Sub
+                If Eventos.COMDoc().ActiveSelectionSet.Count > 1 Then Exit Sub
+                If TypeOf Eventos.COMDoc().ActiveSelectionSet.Item(0) IsNot Autodesk.AutoCAD.Interop.Common.AcadBlockReference Then Exit Sub
+                Dim oBl As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Eventos.COMDoc().ActiveSelectionSet.Item(0)
                 If dicBloques.ContainsKey(oBl.EffectiveName) Then
                     Dim fiImage As String = IO.Path.Combine(dicBloques(oBl.EffectiveName), oBl.EffectiveName & ".png")
                     frmBloE = New frmBloquesEditar
@@ -240,7 +241,7 @@ Namespace TAVIL2018
                 Else
                     Dim arrEnt As New ArrayList : arrEnt.Add(oBl)
                     clsA.SeleccionCreaResalta_SinTimer(arrEnt, False)
-                    oApp.ActiveDocument.SendCommand("_eattedit ")
+                    Eventos.COMDoc().SendCommand("_eattedit ")
                 End If
             Catch ex As System.Exception
                 '

@@ -8,11 +8,14 @@ Imports System.Windows.FrameworkCompatibilityPreferences
 Imports Autodesk.AutoCAD.Interop
 Imports Autodesk.AutoCAD.Interop.Common
 Imports Autodesk.AutoCAD.Runtime
-Imports Autodesk.AutoCAD.ApplicationServices
+Imports AXApp = Autodesk.AutoCAD.ApplicationServices.Application
+Imports AXDoc = Autodesk.AutoCAD.ApplicationServices.Document
+Imports AXWin = Autodesk.AutoCAD.Windows
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
-Imports Autodesk.AutoCAD.Windows
+Imports uau = UtilesAlberto.Utiles
+Imports a2 = AutoCAD2acad.A2acad
 '
 Public Class clsProxyML
     Public ELEMENTO As String = ""          ' Elemento
@@ -29,7 +32,7 @@ Public Class clsProxyML
     Public filtroclave As String = ""           ' Todas las propiedades concatenadas.
     '
     Public Sub New(oMlRefId As Long)
-        oMl = CType(oApp.ActiveDocument.ObjectIdToObject(oMlRefId), AcadMLeader)
+        oMl = CType(Eventos.COMDoc().ObjectIdToObject(oMlRefId), AcadMLeader)
         'AddHandler oMl.Modified, AddressOf oMl_Modified
         '
         ELEMENTO = clsA.MLeaderBlock_DameValorAtributo(oMl, "ELEMENTO")
@@ -224,8 +227,8 @@ Public Class clsProxyML
         oRow("TOTAL") = CalculaPeso()        ' TOTAL
         oTable.Rows.InsertAt(oRow, oTable.Rows.Count)
     End Sub
-    Private Sub oMl_Modified(pObject As AcadObject)
-        '    'clsP.PonDatosProxy(pObject.ObjectID)
-        '    MsgBox(pObject.ObjectID)
-    End Sub
+    'Private Sub oMl_Modified(pObject As AcadObject)
+    '    '    'clsP.PonDatosProxy(pObject.ObjectID)
+    '    '    MsgBox(pObject.ObjectID)
+    'End Sub
 End Class

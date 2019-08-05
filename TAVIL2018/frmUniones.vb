@@ -5,6 +5,7 @@ Imports Autodesk.AutoCAD.ApplicationServices
 Imports TAVIL2018.TAVIL2018
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports uau = UtilesAlberto.Utiles
 Imports a2 = AutoCAD2acad.A2acad
 
 Public Class frmUniones
@@ -15,12 +16,12 @@ Public Class frmUniones
 
     Private Sub frmUniones_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "UNIONES - v" & cfg._appversion
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ' Estado inicila de GUniones (Con todos los controles de selección y edición)
         GUnion.Enabled = False
         ' Controles fondo rojo claro. Para avisar que hay que pulsarlos. Solo activo Pb1, por defecto
-        pb1.Enabled = True : pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-        pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        'pb1.Enabled = True : pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        'pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
         BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
         '
         PonToolTipControles()
@@ -58,7 +59,7 @@ Public Class frmUniones
 
     Private Sub BtnT1_Click(sender As Object, e As EventArgs) Handles BtnT1.Click
         Me.Visible = False
-        clsA.ActivaApp()
+        clsA.ActivaAppAPI()
         Dim arrEntities As ArrayList = Nothing
         arrEntities = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=True)
         If arrEntities Is Nothing OrElse arrEntities.Count = 0 Then
@@ -84,11 +85,11 @@ Public Class frmUniones
     Private Sub Pb1_Click(sender As Object, e As EventArgs)
     End Sub
     Private Sub Pb2_Click(sender As Object, e As EventArgs)
-        pb2.BackColor = Control.DefaultBackColor : pb2.Refresh()
+        'pb2.BackColor = Control.DefaultBackColor : pb2.Refresh()
         'Control_Borde(pb2, False)
         '
         Me.Visible = False
-        'oApp.ActiveDocument.Activate()
+        'Ev.EvApp.ActiveDocument.Activate()
         Dim arrEntities As ArrayList = Nothing
 REPITE:
         arrEntities = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=True)
@@ -157,39 +158,38 @@ REPITE:
         'pb1.Enabled = False
         'pb2.Enabled = False ': Control_Borde(pb2)
         'btnAgregarUnion.Enabled = False ': Control_Borde(btnAgregarUnion)
-        lblInf.Text = ""
         'pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
         '
         ' Comprobar objetos.
-        If oT1 IsNot Nothing Then
-            lblInf.Text = "T1 = " & oT1.EffectiveName & vbCrLf
-            pb2.Enabled = True
-        Else
-            lblInf.Text = "T1 =" & vbCrLf
-            lblInf.Text &= "T2 ="
-            pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-            BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-            Exit Sub
-        End If
-        '
-        If oT2 IsNot Nothing Then
-            lblInf.Text &= "T2 = " & oT2.EffectiveName & vbCrLf
-            BtnInsertarUnion.Enabled = True
-        Else
-            lblInf.Text &= "T2 ="
-        End If
+        'If oT1 IsNot Nothing Then
+        '    lblInf.Text = "T1 = " & oT1.EffectiveName & vbCrLf
+        '    pb2.Enabled = True
+        'Else
+        '    lblInf.Text = "T1 =" & vbCrLf
+        '    lblInf.Text &= "T2 ="
+        '    pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        '    BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        '    Exit Sub
+        'End If
+        ''
+        'If oT2 IsNot Nothing Then
+        '    lblInf.Text &= "T2 = " & oT2.EffectiveName & vbCrLf
+        '    BtnInsertarUnion.Enabled = True
+        'Else
+        '    lblInf.Text &= "T2 ="
+        'End If
     End Sub
     Public Sub tvUniones_LlenaXDATA()
         ' Rellenar tvGrupos con los grupos que haya ([nombre grupo]) Sacado de XData elementos (regAPPCliente, XData = "GRUPO")
         tvUniones.Nodes.Clear()
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos(,, True)
         If arrTodos Is Nothing OrElse arrTodos.Count = 0 Then
             Exit Sub
         End If
         ' Filtrar lista de grupo. Sacar nombres únicos.
         For Each queId As Long In arrTodos
-            Dim acadObj As AcadObject = oApp.ActiveDocument.ObjectIdToObject(queId)
+            Dim acadObj As AcadObject = Eventos.COMDoc().ObjectIdToObject(queId)
             Dim union As String = clsA.XLeeDato(acadObj, cUNION)
             If union = "" Then Continue For
             '
@@ -215,20 +215,20 @@ REPITE:
         If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
             Dim arrSeleccion As New ArrayList
             For Each queId As Long In lGrupos
-                arrSeleccion.Add(oApp.ActiveDocument.ObjectIdToObject(queId))
+                arrSeleccion.Add(Eventos.COMDoc().ObjectIdToObject(queId))
             Next
             If arrSeleccion.Count > 0 Then
-                lblInf.Text = arrSeleccion.Count & " Elementos"
+                'lblInf.Text = arrSeleccion.Count & " Elementos"
                 clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
                 If cbZoom.Checked Then
-                    Zoom_Seleccion()
+                    'Zoom_Seleccion()
                 End If
             End If
         Else
             'If tvGrupos.Nodes.ContainsKey(grupo) Then
             '    tvGrupos.Nodes.Item(grupo).Remove()
             'End If
-            lblInf.Text = "0 Elementos"
+            'lblInf.Text = "0 Elementos"
             'tvGrupos.SelectedNode = Nothing
             'tvGrupos_AfterSelect(Nothing, Nothing)
         End If

@@ -6,6 +6,7 @@ Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
 Imports uau = UtilesAlberto.Utiles
+Imports a2 = AutoCAD2acad.A2acad
 
 
 ' This line is not mandatory, but improves loading performances
@@ -22,28 +23,6 @@ Namespace TAVIL2018
         Public Sub New()
             Me.Initialize()
         End Sub
-
-        'Public Shared docAct As Document
-        'Public Shared Event DBObjectErased As ObjectErasedEventHandler 'Cuando un objeto es eliminado de la base de datos.
-        'Public Shared Event DBObjectModified As ObjectEventHandler 'Cuando un objeto es modificado en la base de datos
-        'Public Shared Event DBObjectAppended As ObjectEventHandler 'Cuando un objeto es añadido a la base de datos
-        'Public Shared Event AppIdle As EventHandler 'Cuando Autocad no esta ejecutando nada.
-
-        '
-        'Private Sub Database_ObjectErased(ByVal sender As Object, ByVal e As ObjectErasedEventArgs)
-        '    RaiseEvent DBObjectErased(sender, e)
-        'End Sub
-        'Private Sub Database_ObjectModified(ByVal sender As Object, ByVal e As ObjectEventArgs)
-        '    RaiseEvent DBObjectModified(sender, e)
-        'End Sub
-        'Private Sub Database_ObjectAppended(ByVal sender As Object, ByVal e As ObjectEventArgs)
-        '    RaiseEvent DBObjectAppended(sender, e)
-        'End Sub
-
-        'Private Sub Application_Idle(ByVal sender As Object, ByVal e As EventArgs)
-        '    RaiseEvent AppIdle(sender, e)
-        'End Sub
-
 
         Public Sub Initialize() Implements IExtensionApplication.Initialize
             ' Add one time initialization here
@@ -64,9 +43,12 @@ Namespace TAVIL2018
             ' as well as some of the existing AutoCAD managed apps.
 
             ' Initialize your plug-in application hereTry
-            CEv = New Tavil.AutoCADEventos(CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication))
+            ' Inicializar los eventos que necesitemos.
+            Eventos.Eventos_Inicializa()
             cfg = New UtilesAlberto.Conf(System.Reflection.Assembly.GetExecutingAssembly)
-            clsA = New AutoCAD2acad.A2acad.A2acad(CEv.EvApp, cfg._appFullPath, regAPPCliente)
+            clsA = New AutoCAD2acad.A2acad.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
+
+            If Log Then cfg.PonLog("Añadidos enventos", True)
             '
             'If Autodesk.AutoCAD.Runtime.ExtensionLoader.IsLoaded(autocad2acad) = True Then
             '    'MsgBox("Cargado " & autocad2acad)
@@ -100,45 +82,16 @@ Namespace TAVIL2018
             End If
 
             Try
-                clsD = New clsLAYOUTDBS4
+                ' clsD = New clsLAYOUTDBS4
+                If Log Then cfg.PonLog("Llenada coleccion seleccionables (clsD)", False)
             Catch ex As System.Exception
                 MsgBox(ex.ToString)
             End Try
-            If Log Then cfg.PonLog("Llenada coleccion seleccionables (clsD)", False)
-            ' Poner los eventos del documento necesarios.
-            AddHandler Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.DocumentActivated, AddressOf DocumentManager_DocumentActivated
-            'AddHandler Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.DocumentCreated, AddressOf DocumentManager_DocumentActivated
-
-            'Cuando arranca el Autocad, por defecto aparece un dibujo cargado. Si no se hace lo siguiente, pierde la asignación de los eventos y si se ejecuta funciones del plugin da error.
-            If (Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.Count > 0) Then
-                Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.CurrentDocument
-                DocumentManager_DocumentActivated(Nothing, Nothing)
-
-            End If
-            AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf Application_Idle
-            If Log Then cfg.PonLog("Añadidos enventos", False)
-
-            'If (docAct <> Nothing) Then
-            '    AddHandler docAct.Database.ObjectModified, AddressOf Database_ObjectModified
-            '    AddHandler docAct.Database.ObjectErased, AddressOf Database_ObjectErased
-            '    AddHandler docAct.Database.ObjectAppended, AddressOf Database_ObjectAppended
-
-            'End If
         End Sub
 
-
-        'Private Sub DocumentManager_DocumentActivated(sender As Object, e As DocumentCollectionEventArgs)
-        '    docAct = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
-        '    If (docAct <> Nothing) Then
-        '        AddHandler docAct.Database.ObjectModified, AddressOf Database_ObjectModified
-        '        AddHandler docAct.Database.ObjectErased, AddressOf Database_ObjectErased
-        '        AddHandler docAct.Database.ObjectAppended, AddressOf Database_ObjectAppended
-        '    End If
-        'End Sub
-
         Public Sub Terminate() Implements IExtensionApplication.Terminate
+            Eventos.Eventos_Vacia()
             ' Do plug-in application clean up here
-            oApp = Nothing
             clsA = Nothing
             cfg = Nothing
             'Me.Finalize()

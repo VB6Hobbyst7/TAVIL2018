@@ -169,7 +169,7 @@
     <Compile Include="Clases\AViewZoom.vb" />
     <Compile Include="Clases\ABase.vb" />
     <Compile Include="Clases\ABlock.vb" />
-    <Compile Include="Clases\ANET.vb" />
+    <Compile Include="Clases\ABlockNET.vb" />
     <Compile Include="Clases\AClone.vb" />
     <Compile Include="Clases\ADocProperty.vb" />
     <Compile Include="Clases\AGet.vb" />

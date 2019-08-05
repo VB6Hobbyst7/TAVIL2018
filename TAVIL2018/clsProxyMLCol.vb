@@ -8,11 +8,12 @@ Imports System.Windows.FrameworkCompatibilityPreferences
 Imports Autodesk.AutoCAD.Interop
 Imports Autodesk.AutoCAD.Interop.Common
 Imports Autodesk.AutoCAD.Runtime
-Imports Autodesk.AutoCAD.ApplicationServices
+Imports AXApp = Autodesk.AutoCAD.ApplicationServices.Application
+Imports AXDoc = Autodesk.AutoCAD.ApplicationServices.Document
+Imports AXWin = Autodesk.AutoCAD.Windows
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.EditorInput
-Imports Autodesk.AutoCAD.Windows
 '
 Public Class clsProxyMLCol
     Public colP As Dictionary(Of String, clsProxyML)    ' Key=ELEMENTO (Atributo), Value=clsProxy

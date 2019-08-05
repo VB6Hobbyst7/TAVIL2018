@@ -543,6 +543,33 @@ Namespace A2acad
                 Return Nothing
             End Try
         End Function
+        Public Function Entity_Get(ByVal pObjectId As Long) As Entity
+            Dim oId As ObjectId = New ObjectId(New IntPtr(pObjectId))
+            Return Entity_Get(oId)
+        End Function
+        Public Function DBObject_Get(ByVal pObjectId As ObjectId) As DBObject
+            Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
+            Dim db As Database = doc.Database
+            Dim acDBObject As DBObject = Nothing
+            Dim acEntity As Entity = Nothing
+            Try
+                Using acTrans As Transaction = db.TransactionManager.StartOpenCloseTransaction()
+                    acDBObject = TryCast(acTrans.GetObject(pObjectId, OpenMode.ForRead), DBObject)
+                    'acEntity = TryCast(acTrans.GetObject(pObjectId, OpenMode.ForRead), Entity)
+                    acTrans.Commit()
+                End Using
+                '
+                VaciaMemoria()
+                Return acDBObject
+            Catch ex As Autodesk.AutoCAD.Runtime.Exception
+                'MessageBox.Show(ex.Message)
+                Return Nothing
+            End Try
+        End Function
+        Public Function DBObject_Get(ByVal pObjectId As Long) As DBObject
+            Dim oId As ObjectId = New ObjectId(New IntPtr(pObjectId))
+            Return DBObject_Get(oId)
+        End Function
 
         Public Function BlockReference_Get(ByVal pIdBlkRef As ObjectId) As BlockReference
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument

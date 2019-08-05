@@ -76,9 +76,9 @@ Public Class frmConfigura
     End Sub
 
     Private Sub btnReReadDB_Click(sender As Object, e As EventArgs) Handles btnReReadDB.Click
-        clsD = New clsLAYOUTDBS4
-        lblInf.Text = clsD.DATOS.Count + clsD.SELECCIONABLES.Count.ToString & " files read..."
-        dicBloques_LlenaConDirRaiz(BloquesDir)
+        'clsD = New clsLAYOUTDBS4
+        'lblInf.Text = clsD.DATOS.Count + clsD.SELECCIONABLES.Count.ToString & " files read..."
+        'dicBloques_LlenaConDirRaiz(BloquesDir)
     End Sub
     Private Sub btnBloqueRecursos_Click(sender As Object, e As EventArgs) Handles btnBloqueRecursos.Click
         Dim oFd As New OpenFileDialog

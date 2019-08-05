@@ -77,7 +77,7 @@ Module frmAutonumera_mod
 
                 End If
                 'ElseIf TypeOf e.DBObject Is BlockReference Then
-                '    modTavil.AcadBlockReference_Modified(oApp.ActiveDocument.HandleToObject(e.GetHashCode))
+                '    modTavil.AcadBlockReference_Modified(Ev.EvApp.ActiveDocument.HandleToObject(e.GetHashCode))
             End If
 
         End If

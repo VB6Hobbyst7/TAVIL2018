@@ -18,7 +18,7 @@ Public Class frmBloquesEditar
     Private Sub frmBloquesEditar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         app_procesointerno = True
         Me.Text = "BLOCK EDITOR - v" & cfg._appversion
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         Bloque_PonDatos()
     End Sub
 

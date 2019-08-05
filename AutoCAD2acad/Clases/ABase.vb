@@ -89,10 +89,10 @@ Namespace A2acad
                     'System.Windows.Forms.SendKeys.Send(Chr(27))
                     If oDoc Is Nothing Then
                         oDoc = oAppA.ActiveDocument
-                        oDoc.Activate()
+                        'oDoc.Activate()
                     ElseIf oDoc IsNot Nothing AndAlso oDoc.FullName <> oAppA.ActiveDocument.FullName Then
                         oDoc = oAppA.ActiveDocument
-                        oDoc.Activate()
+                        'oDoc.Activate()
                     ElseIf Not (oDoc Is Nothing) Then
                         'Call modTeclas.SendMessage(oDoc.HWND, teclas.VK_ESCAPE, 0, 0)
                         'Call modTeclas.SendMessage(oDoc.HWND, teclas.VK_ESCAPE, 0, 0)
@@ -370,27 +370,32 @@ Namespace A2acad
             End If
         End Sub
 
-        Public Sub ActivaAppViejo(Optional ByVal queApp As String = "", Optional ByVal MoverC As Boolean = True)
-            'LiberaApp()
-            If queApp = "" Then queApp = oAppA.Caption
-            Dim intP As IntPtr = clsAPI.FindWindow(Nothing, queApp)
-            If intP <> IntPtr.Zero Then
-                clsAPI.SetForegroundWindow(intP)
-                AppActivate(queApp)
-                If oAppA.WindowState <> Autodesk.AutoCAD.Interop.Common.AcWindowState.acNorm Then
-                    oAppA.WindowState = Autodesk.AutoCAD.Interop.Common.AcWindowState.acNorm
-                End If
-                If MoverC = True Then Cursor.Position = New Point(400, Screen.PrimaryScreen.WorkingArea.Height / 2)
-                'If (Me.oDoc Is Nothing) Then Me.oDoc = oAppA.ActiveDocument
-                'Me.oAppA.ActiveDocument.Activate()
-
-                'If oAppA.GetAcadState.IsQuiescent = True Then oAppA.ActiveDocument.SendCommand(Chr(27))
-                'Me.oDoc.Utility.Prompt(vbCrLf & "")
-                'Me.oAppA.ActiveDocument.ActivePViewport.GridOn = True
-                'Me.oDoc.SendCommand(Chr(27))
-                'Me.oAppA.ActiveDocument.ActivePViewport.GridOn = False
-            End If
+        Public Sub ActivaAppAPI()
+            clsAPI.SetForegroundWindow(Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.CurrentDocument.Window.Handle)
+            clsAPI.SetFocus(Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.CurrentDocument.Window.Handle.ToInt64)
         End Sub
+
+        'Public Sub ActivaAppViejo(Optional ByVal queApp As String = "", Optional ByVal MoverC As Boolean = True)
+        '    'LiberaApp()
+        '    If queApp = "" Then queApp = oAppA.Caption
+        '    Dim intP As IntPtr = clsAPI.FindWindow(Nothing, queApp)
+        '    If intP <> IntPtr.Zero Then
+        '        clsAPI.SetForegroundWindow(intP)
+        '        AppActivate(queApp)
+        '        If oAppA.WindowState <> Autodesk.AutoCAD.Interop.Common.AcWindowState.acNorm Then
+        '            oAppA.WindowState = Autodesk.AutoCAD.Interop.Common.AcWindowState.acNorm
+        '        End If
+        '        If MoverC = True Then Cursor.Position = New Point(400, Screen.PrimaryScreen.WorkingArea.Height / 2)
+        '        'If (Me.oDoc Is Nothing) Then Me.oDoc = oAppA.ActiveDocument
+        '        'Me.oAppA.ActiveDocument.Activate()
+
+        '        'If oAppA.GetAcadState.IsQuiescent = True Then oAppA.ActiveDocument.SendCommand(Chr(27))
+        '        'Me.oDoc.Utility.Prompt(vbCrLf & "")
+        '        'Me.oAppA.ActiveDocument.ActivePViewport.GridOn = True
+        '        'Me.oDoc.SendCommand(Chr(27))
+        '        'Me.oAppA.ActiveDocument.ActivePViewport.GridOn = False
+        '    End If
+        'End Sub
 
         '************************ PARA BLOQUES
 

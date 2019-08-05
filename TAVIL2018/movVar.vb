@@ -23,7 +23,6 @@ Module movVar
     Public dll2acad As Reflection.Assembly = Nothing
     '
     ' ***** CLASES
-    Public CEv As Tavil.AutoCADEventos
     Public clsA As a2.A2acad = Nothing
     Public clsD As clsLAYOUTDBS4 = Nothing
     Public cfg As UtilesAlberto.Conf
@@ -221,39 +220,6 @@ Module movVar
         If frmUn IsNot Nothing Then frmUn.Close()
         If frmAg IsNot Nothing Then frmAg.Close()
         If frmBo IsNot Nothing Then frmBo.Close()
-    End Sub
-
-
-
-
-
-
-
-    Public Sub DocumentManager_DocumentActivated(sender As Object, e As DocumentCollectionEventArgs)
-        'docAct = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
-        ''
-        'If (docAct <> Nothing) Then
-        '    oDoc = oApp.ActiveDocument
-        '    AddHandler docAct.Database.ObjectModified, AddressOf Database_ObjectModified
-        '    AddHandler docAct.Database.ObjectErased, AddressOf Database_ObjectErased
-        '    AddHandler docAct.Database.ObjectAppended, AddressOf Database_ObjectAppended
-        '    colP_ProxiesRellena()
-        '    arrayProxiesEliminados = clsA.PropiedadCustomDocumento_Lee("ElementosProxiesEliminados").Split("·")
-        '    If colP.Count > 0 Then
-        '        Dim oI As ObjectId = New ObjectId(colP.First().Value.First.oMl.ObjectID)
-        '        ElementoProxyRecomendado = RecomiendaElementoLibre(clsA.Entity_Get(oI))
-        '    Else
-        '        ElementoProxyRecomendado = RecomiendaElementoLibre()
-        '    End If
-        'End If
-    End Sub
-
-    Private Sub oDoc_ObjectErased(<ComAliasName("AXDBLib.LONG_PTR")> ObjectId As Long) Handles oDoc.ObjectErased
-        MsgBox(ObjectId)
-    End Sub
-
-    Private Sub oDoc_BeginDocClose(ByRef Cancel As Boolean) Handles oDoc.BeginDocClose
-        oDoc = Nothing
     End Sub
 #End Region
 End Module

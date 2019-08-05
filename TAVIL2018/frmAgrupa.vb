@@ -10,7 +10,7 @@ Public Class frmAgrupa
     Public conMensaje As Boolean = True
     Private Sub frmAgrupa_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "AGRUPAR ELEMENTOS LINEA - v" & cfg._appversion
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp(), cfg._appFullPath, regAPPCliente)
         app_procesointerno = True
         gbAdministrar.Enabled = False
         btnGrupoBorrar.Enabled = False
@@ -54,7 +54,8 @@ Public Class frmAgrupa
         Dim queGrupo As String = tvGrupos.SelectedNode.Text
         '
         Me.Visible = False
-        oApp.ActiveDocument.Activate()
+        'Ev.EvApp.ActiveDocument.Activate()
+        clsA.ActivaAppAPI()
         Dim arrEntities As ArrayList = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=False)
         If arrEntities IsNot Nothing AndAlso arrEntities.Count > 0 Then
             For Each oEnt As AcadEntity In arrEntities
@@ -69,7 +70,7 @@ Public Class frmAgrupa
 
     Private Sub btnGrupoQuitar_Click(sender As Object, e As EventArgs) Handles btnGrupoQuitar.Click
         Me.Visible = False
-        oApp.ActiveDocument.Activate()
+        Eventos.COMDoc().Activate()
         Dim grupoAhora As String = tvGrupos.SelectedNode.Tag
         Dim arrEntities As ArrayList = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=False)
         If arrEntities IsNot Nothing AndAlso arrEntities.Count > 0 Then
@@ -77,17 +78,17 @@ Public Class frmAgrupa
                 Dim queG As String = clsA.XLeeDato(oEnt, cGRUPO)
                 If queG = grupoAhora Then
                     clsA.XPonDato(oEnt, cGRUPO, "", True)
-                    If oApp.ActiveDocument.ActiveSelectionSet IsNot Nothing Then
+                    If Eventos.COMDoc.ActiveSelectionSet IsNot Nothing Then
                         Try
-                            oApp.ActiveDocument.ActiveSelectionSet.RemoveItems(oEnt)
+                            Eventos.COMDoc.ActiveSelectionSet.RemoveItems(oEnt)
                         Catch ex As Exception
 
                         End Try
                     End If
                 End If
             Next
-            'oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-            'If oApp.ActiveDocument.ActiveSelectionSet IsNot Nothing AndAlso oApp.ActiveDocument.ActiveSelectionSet.Count > 0 Then
+            'Ev.EvApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
+            'If Ev.EvApp.ActiveDocument.ActiveSelectionSet IsNot Nothing AndAlso Ev.EvApp.ActiveDocument.ActiveSelectionSet.Count > 0 Then
             '    btnGrupoZoom_Click(Nothing, Nothing)
             'End If
         End If
@@ -131,7 +132,7 @@ REPITE:
         Dim lGrupo As List(Of Long) = clsA.SeleccionaTodosObjetosXData("GRUPO", grupo)
         If lGrupo IsNot Nothing AndAlso lGrupo.Count > 0 Then
             For Each queId As Long In lGrupo
-                Dim oEnt As AcadEntity = oApp.ActiveDocument.ObjectIdToObject(queId)
+                Dim oEnt As AcadEntity = Eventos.COMDoc().ObjectIdToObject(queId)
                 clsA.XPonDato(oEnt, cGRUPO, "")
             Next
         End If
@@ -145,14 +146,14 @@ REPITE:
     Public Sub tvGrupos_LlenaXDATA()
         ' Rellenar tvGrupos con los grupos que haya ([nombre grupo]) Sacado de XData elementos (regAPPCliente, XData = "GRUPO")
         tvGrupos.Nodes.Clear()
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos(,, True)
         If arrTodos Is Nothing OrElse arrTodos.Count = 0 Then
             Exit Sub
         End If
         ' Filtrar lista de grupo. Sacar nombres únicos.
         For Each queId As Long In arrTodos
-            Dim acadObj As AcadObject = oApp.ActiveDocument.ObjectIdToObject(queId)
+            Dim acadObj As AcadObject = Eventos.COMDoc().ObjectIdToObject(queId)
             Dim grupo As String = clsA.XLeeDato(acadObj, cGRUPO)
             If grupo = "" Then Continue For
             '
@@ -178,13 +179,13 @@ REPITE:
         If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
             Dim arrSeleccion As New ArrayList
             For Each queId As Long In lGrupos
-                arrSeleccion.Add(oApp.ActiveDocument.ObjectIdToObject(queId))
+                arrSeleccion.Add(Eventos.COMDoc().ObjectIdToObject(queId))
             Next
             If arrSeleccion.Count > 0 Then
                 lblInf.Text = arrSeleccion.Count & " Elementos"
                 clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
                 If cbZoom.Checked Then
-                    Zoom_Seleccion()
+                    'Zoom_Seleccion()
                 End If
             End If
         Else

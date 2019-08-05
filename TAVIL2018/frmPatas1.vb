@@ -17,13 +17,13 @@ Public Class frmPatas1
     Private ultimaVista As AcadViewport = Nothing
     '
     Private Sub frmPatas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If clsA Is Nothing Then clsA = New a2.A2acad(oApp, cfg._appFullPath, regAPPCliente)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         If cPT Is Nothing Then cPT = New PT
         app_procesointerno = True
         oBlR = Nothing
         Me.Text = "PATAS - v" & cfg._appversion
         'btnActualizar_Click(Nothing, Nothing)
-        ultimaVista = oApp.ActiveDocument.ActiveViewport
+        ultimaVista = Eventos.COMDoc.ActiveViewport
         btnActualizar.Enabled = True
         btnSeleccionar.Enabled = False
         btnContar.Enabled = False
@@ -33,7 +33,7 @@ Public Class frmPatas1
     '
     Private Sub frmPatas_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         app_procesointerno = False
-        If ultimaVista IsNot Nothing Then oApp.ActiveDocument.ActiveViewport = ultimaVista
+        If ultimaVista IsNot Nothing Then Eventos.COMDoc().ActiveViewport = ultimaVista
         oBlR = Nothing
         frmPa = Nothing
         lnBloquesPatas = Nothing
@@ -220,7 +220,7 @@ Public Class frmPatas1
         btnSeleccionar.Enabled = False
         btnContar.Enabled = False
         gDatos.Enabled = False
-        oApp.ActiveDocument.ActiveSelectionSet.Clear()
+        Eventos.COMDoc().ActiveSelectionSet.Clear()
         '
         If tvPatas.SelectedNode Is Nothing Then
             btnSeleccionar.Enabled = (tvPatas.Nodes.Count > 0)
@@ -237,7 +237,7 @@ Public Class frmPatas1
         If e.Node.Tag = "" Then Exit Sub
         inicio = True
         'Dim oIntP As IntPtr = (CType(e.Node.Tag, AcadBlockReference).ObjectID)
-        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oApp.ActiveDocument.HandleToObject(e.Node.Tag.ToString)
+        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Eventos.COMDoc().HandleToObject(e.Node.Tag.ToString)
         If oBlo Is Nothing Then
             Exit Sub
         End If
@@ -337,7 +337,7 @@ Public Class frmPatas1
     '
     Private Sub tvPatas_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles tvPatas.MouseDoubleClick
         Dim oNode As TreeNode = CType(sender, TreeView).SelectedNode
-        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oApp.ActiveDocument.HandleToObject(oNode.Tag.ToString)
+        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Eventos.COMDoc().HandleToObject(oNode.Tag.ToString)
         Dim oIPrt As New IntPtr(oBlo.ObjectID)
         Dim oId As New ObjectId(oIPrt)
         Dim arrIds() As ObjectId = {oId}
@@ -364,7 +364,7 @@ Public Class frmPatas1
     End Sub
     Private Sub btnSAVE_Click(sender As Object, e As EventArgs) Handles btnGUARDAR.Click
         Dim oNode As TreeNode = tvPatas.SelectedNode
-        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oApp.ActiveDocument.HandleToObject(oNode.Tag)
+        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Eventos.COMDoc().HandleToObject(oNode.Tag)
         Dim dicNomVal As New Dictionary(Of String, String)
         ' WIDTH/RADIUS
         If cbWIDTH.Text <> "" Then
@@ -375,7 +375,7 @@ Public Class frmPatas1
                     dicNomVal.Add("RADIUS", cbWIDTH.Text)
                 End If
             ElseIf b.widthEsAtt = False AndAlso IsNumeric(cbWIDTH.Text) Then    ' Solo si es numérico
-                    clsA.BloqueDinamico_ParametroEscribe(oBlo.ObjectID, "WIDTH", CDbl(cbWIDTH.Text))
+                clsA.BloqueDinamico_ParametroEscribe(oBlo.ObjectID, "WIDTH", CDbl(cbWIDTH.Text))
             End If
         End If
         ' HEIGHT
@@ -402,8 +402,8 @@ Public Class frmPatas1
         End If
         ' Actualizar bloque para poner datos de tablas
         oBlo.Update()
-        oApp.ActiveDocument.Regen(AcRegenType.acActiveViewport)
-        oApp.ActiveDocument.ActiveSelectionSet.Clear()
+        Eventos.COMDoc.Regen(AcRegenType.acActiveViewport)
+        Eventos.COMDoc.ActiveSelectionSet.Clear()
         '
         btnGUARDAR.Enabled = False
         tvPatas.SelectedNode = Nothing
@@ -422,7 +422,7 @@ Public Class frmPatas1
     End Sub
     'Private Sub btnSAVE_Click(sender As Object, e As EventArgs) Handles btnGUARDAR.Click
     '    Dim oNode As TreeNode = tvPatas.SelectedNode
-    '    Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oApp.ActiveDocument.HandleToObject(oNode.Tag)
+    '    Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Ev.EvApp.ActiveDocument.HandleToObject(oNode.Tag)
     '    ' Actualizar los datos del bloque
     '    If cbWIDTH.Text <> "" Then
     '        If cbWIDTH.Tag = tipo.ATRIBUTO_WIDTH Then
@@ -772,7 +772,7 @@ Public Class frmPatas1
     '        'Dim fullBloquePNG As String = IO.Path.ChangeExtension(fullBloque, ".png")
     '        If IO.File.Exists(fullBloque) Then
     '            Try
-    '                If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(oApp, cfg._appFullPath, regAPPCliente)
+    '                If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(Ev.EvApp, cfg._appFullPath, regAPPCliente)
     '                'If IO.File.Exists(fullBloquePNG) Then
     '                'pbBloque.Image = Drawing.Image.FromFile(fullBloquePNG)
     '                'Else
@@ -801,7 +801,7 @@ Public Class frmPatas1
     '        Exit Sub
     '    End If
     '    '
-    '    If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(oApp, cfg._appFullPath, regAPPCliente)
+    '    If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(Ev.EvApp, cfg._appFullPath, regAPPCliente)
     '    Dim cuantas As Integer = IIf(IsNumeric(cbNPatas.Text), CInt(cbNPatas.Text), 0)
     '    PonPatasEnCinta(fullPata, cuantas)
     '    'Dim oBlPara As AcadBlockReference = clsA.BloqueInserta(fullPata, 1)
@@ -809,10 +809,10 @@ Public Class frmPatas1
     '    '
     '    ' Pata 1
     '    'Dim oPt1 As Object = oBlR.InsertionPoint
-    '    'Dim oBlPata1 As AcadBlockReference = oApp.ActiveDocument.ModelSpace.InsertBlock(oPt1, fullPata, 1, 1, 1, 0)
+    '    'Dim oBlPata1 As AcadBlockReference = Ev.EvApp.ActiveDocument.ModelSpace.InsertBlock(oPt1, fullPata, 1, 1, 1, 0)
     '    '' Pata 2
     '    'Dim oPt2 = New Double() {oPt1(0), oPt1(1) + 200, oPt1(2)}
-    '    'Dim oBlPata2 As AcadBlockReference = oApp.ActiveDocument.ModelSpace.InsertBlock(oPt2, fullPata, 1, 1, 1, 0)
+    '    'Dim oBlPata2 As AcadBlockReference = Ev.EvApp.ActiveDocument.ModelSpace.InsertBlock(oPt2, fullPata, 1, 1, 1, 0)
     '    ''
     '    'If oBlPata1 IsNot Nothing And oBlPata2 IsNot Nothing Then
     '    '    Me.OnLoad(Nothing)
@@ -853,7 +853,7 @@ Public Class frmPatas1
     '        '    IIf(oBlR.YEffectiveScaleFactor > 0, oBlR.InsertionPoint(1) + (ancho / 2), oBlR.InsertionPoint(1) - (ancho / 2)),
     '        '        oBlR.InsertionPoint(2)}
     '        Dim oPt() As Double = New Double() {cXIni, oBlR.InsertionPoint(1), oBlR.InsertionPoint(2)}
-    '        Dim oBlPata As AcadBlockReference = oApp.ActiveDocument.ModelSpace.InsertBlock(oPt, queFullPata, oBlR.XEffectiveScaleFactor, oBlR.YEffectiveScaleFactor, oBlR.ZEffectiveScaleFactor, Utilidades.GraRad(90))
+    '        Dim oBlPata As AcadBlockReference = Ev.EvApp.ActiveDocument.ModelSpace.InsertBlock(oPt, queFullPata, oBlR.XEffectiveScaleFactor, oBlR.YEffectiveScaleFactor, oBlR.ZEffectiveScaleFactor, Utilidades.GraRad(90))
     '        'Dim oblPata As AcadBlockReference = clsA.BloqueInserta(queFullPata, oBlR.XScaleFactor)
     '        oBlPata.Rotate(oBlR.InsertionPoint, oBlR.Rotation)
     '        clsA.XPonDato(oBlPata, "cinta", oBlR.Handle)
@@ -868,10 +868,10 @@ Public Class frmPatas1
 
     '    ' Pata 1
     '    'Dim oPt1 As Object = oBlR.InsertionPoint
-    '    'Dim oBlPata1 As AcadBlockReference = oApp.ActiveDocument.ModelSpace.InsertBlock(oPt1, queFullPata, oBlR.XEffectiveScaleFactor, oBlR.YEffectiveScaleFactor, oBlR.ZEffectiveScaleFactor, 0)
+    '    'Dim oBlPata1 As AcadBlockReference = Ev.EvApp.ActiveDocument.ModelSpace.InsertBlock(oPt1, queFullPata, oBlR.XEffectiveScaleFactor, oBlR.YEffectiveScaleFactor, oBlR.ZEffectiveScaleFactor, 0)
     '    '' Pata 2
     '    'Dim oPt2 = New Double() {oPt1(0) + largo, oPt1(1), oPt1(2)}
-    '    'Dim oBlPata2 As AcadBlockReference = oApp.ActiveDocument.ModelSpace.InsertBlock(oPt2, queFullPata, 1, 1, 1, 0)
+    '    'Dim oBlPata2 As AcadBlockReference = Ev.EvApp.ActiveDocument.ModelSpace.InsertBlock(oPt2, queFullPata, 1, 1, 1, 0)
     '    ''
     '    'If oBlPata1 IsNot Nothing Then
     '    '    clsA.BloqueDinamicoParametroEscribe(oBlPata1.ObjectID, "Visibilidad", ancho)
@@ -887,7 +887,7 @@ Public Class frmPatas1
     '    'If oBlPata1 IsNot Nothing And oBlPata2 IsNot Nothing Then
     '    '    oBlPata1.Rotate(oBlR.InsertionPoint, oBlR.Rotation)
     '    '    oBlPata2.Rotate(oBlR.InsertionPoint, oBlR.Rotation)
-    '    oApp.ActiveDocument.Regen(AcRegenType.acAllViewports)
+    '    Ev.EvApp.ActiveDocument.Regen(AcRegenType.acAllViewports)
     '    Me.OnLoad(Nothing)
     '    'End If
     'End Sub
