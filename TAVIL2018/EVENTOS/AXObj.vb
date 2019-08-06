@@ -125,7 +125,7 @@ Partial Public Class Eventos
 
     Public Shared Sub AXObj_ObjectClosed(sender As Object, e As ObjectClosedEventArgs)
         If sender Is Nothing Then Exit Sub
-        Debug.Print("Hola")
+        'Debug.Print("Hola")
     End Sub
 
     Public Shared Sub AXObj_OpenedForModify(sender As Object, e As EventArgs)

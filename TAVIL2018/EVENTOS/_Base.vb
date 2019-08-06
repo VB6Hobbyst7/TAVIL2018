@@ -23,11 +23,16 @@ Imports AXDoc = Autodesk.AutoCAD.ApplicationServices.Document
 Imports AXWin = Autodesk.AutoCAD.Windows
 Imports uau = UtilesAlberto.Utiles
 Imports a2 = AutoCAD2acad.A2acad
+
+
 '
+''' <summary>
+''' Inicializar los eventos que necesitemos (Poner esto al inicio de AddIn. Primera linea que se ejecuta)
+''' Eventos.Eventos_Inicializa()
+''' </summary>
 Partial Public Class Eventos
 
     ' ***** OBJETOS AUTOCAD
-    'Public Shared AXEventM As Autodesk.AutoCAD.ApplicationServices.DocumentCollection
     '
     ' ***** Los tipos de objetos que vamos a controlar con eventos
     Public Shared lTypesAXObj As String() = {"BlockReference", "Circle"}
