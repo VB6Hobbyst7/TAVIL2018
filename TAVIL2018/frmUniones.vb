@@ -232,7 +232,7 @@ Public Class frmUniones
     End Sub
 
     Public Sub Uniones_SeleccionarObjetos(IdUnion As Long)
-        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cUNION, IdUnion.ToString)
+        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cUNION, IdUnion.ToString, igual:=False)
         lGrupos.Add(IdUnion)
         If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
             Dim arrSeleccion As New ArrayList
