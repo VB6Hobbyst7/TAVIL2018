@@ -30,6 +30,13 @@ Namespace TAVIL2018
         ' context menu.
 
         ' Application Session Command with localized name
+        <CommandMethod("TAVILUTILIDADES", "TAVILACERCADE", "TAVILACERCADE", CommandFlags.Modal + CommandFlags.Session)>
+        Public Sub TAVILACERCADE() ' This method can have any name
+            ' Put your command code here
+            MsgBox(cfg._appnameversion)
+        End Sub
+
+        ' Application Session Command with localized name
         <CommandMethod("TAVILUTILIDADES", "TAVILCONFIGURAR", "TAVILCONFIGURAR", CommandFlags.Modal + CommandFlags.Session)>
         Public Sub TAVILCONFIGURAR() ' This method can have any name
             ' Put your command code here

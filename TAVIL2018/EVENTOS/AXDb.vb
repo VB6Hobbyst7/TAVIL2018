@@ -229,6 +229,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDB_InsertEnded(sender As Object, e As EventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         'AXDoc.Editor.WriteMessage("InsertEnded")
         Dim db As Database = AXDb()
         Using trans As Transaction = db.TransactionManager.StartTransaction
@@ -243,6 +244,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDB_ObjectAppended(sender As Object, e As ObjectEventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         'AXDoc.Editor.WriteMessage("ObjectAppended")
         'If e.DBObject Is Nothing OrElse
         '    e.DBObject.IsErased = True OrElse
@@ -261,6 +263,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDB_ObjectErased(sender As Object, e As ObjectErasedEventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         'AXDoc.Editor.WriteMessage("ObjectErased")
         If e.Erased = False Then   ' e.DBObject.IsDisposed = False Then
             Try
@@ -273,6 +276,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDB_ObjectModified(sender As Object, e As ObjectEventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         If e.DBObject Is Nothing OrElse
             e.DBObject.IsErased = True OrElse
             e.DBObject.IsUndoing = True OrElse

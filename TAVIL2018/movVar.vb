@@ -52,6 +52,7 @@ Module movVar
     Public lnHEIGHT As List(Of String)           ' Nombres únicos de HEIGHT de patas
     Public patasSIPlanta As String() = {"PLANTA", "TVIEW"}
     Public patasNoPlanta As String() = {"ALÇAT1", "ALÇAT2", "FVIEW", "SVIEW"}
+    Public HojasTransportadores As List(Of String)
     '
     ' ***** CONSTANTES
     Public Const regAPPCliente As String = "TAVIL2acad"
@@ -64,12 +65,12 @@ Module movVar
     Public Const estilotabla As String = fijoCliente & "_TABLA"
     Public Const cGRUPO As String = "GRUPO"
     Public Const cUNION As String = "UNION"
+    'Public Const BloqueUnion As String = cUNION
     '
     ' ***** VARIABLES CONFIGURACION
     Public Log As Boolean = False
     Public BloqueRecursos As String = ""    ' DWG con todos los recursos del desarrollo
     Public sizeImg As Integer = 100
-    Public LAYOUTDB As String = "LAYOUTDBS4.xlsx"                  ' fullPath del fichero LAYOUTDB.xlsx que hace de base de datos.
     Public BloquesDir As String = "BLOQUES"
     Public PatasDir As String = "PEUS"
     Public PatasCapa As String = "PEUS I ACCESOS"
@@ -77,6 +78,13 @@ Module movVar
     Public CintasDir As String = "CINTES"
     Public CintasCapa As String = "CINTES"
     Public CintasRef As String = "REF.CINTES"
+    Public LAYOUTDB As String = "LAYOUTDBS4.xlsx"                  ' fullPath del fichero LAYOUTDB.xlsx que hace de base de datos.
+    Public HojaPatas As String = "PT"
+    Public HojaUniones As String = "UNIONES"
+    Public HojaATR As String = "ATR"
+    Public HojaSeleccionables As String = "SELECCIONABLES"
+    Public HojaConceptos As String = "CONCEPTOS"
+    Public HojaIdiomas As String = "IDIOMAS"
     '
     '
     ' ***** VARIABLES APLICACION
@@ -103,7 +111,6 @@ Module movVar
         'Log=1
         'BloqueRecursos=BloqueRecursos.dwg
         'sizeImg=175
-        'LAYOUTDB=LAYOUTDB.xlsx
         'BloquesDir=BLOQUES
         'PatasDir=PATAS
         'PatasCapa=PEUS I ACCESOS
@@ -113,6 +120,14 @@ Module movVar
         'CintasRef=REF.CINTES
         'patasSiPlanta=PLANTA,TVIEW
         'patasNoPlanta = ALCAT1,ALÇAT2,FVIEW,SVIEW
+        'LAYOUTDB=LAYOUTDBS4.xlsx
+        'HojasTransportadores=TRD3-TRANSP.RODILLOS,TRD3-TRANSP.BAJADA_RODILLOS_G,TRD3-TRANSP.CURVA_RODILLOS,TCB3-TRANSP.CON_BANDA
+        'HojaPatas=PT
+        'HojaUniones=UNIONES
+        'HojaATR=ATR
+        'HojaSeleccionables=SELECCIONABLES
+        'HojaConceptos=CONCEPTOS
+        'HojaIdiomas=IDIOMAS
 
         Dim LogTemp As String = ua.IniGet(cfg._appini, "OPTIONS", "Log")
         Log = IIf(LogTemp = "1", True, False)
@@ -127,14 +142,6 @@ Module movVar
         Dim sizeImgTemp As String = ua.IniGet(cfg._appini, "OPTIONS", "sizeImg")
         sizeImg = IIf(IsNumeric(sizeImgTemp), CInt(sizeImgTemp), 100)
         mensaje(1) &= "sizeImg = " & sizeImg.ToString & vbCrLf
-        '
-        LAYOUTDB = ua.IniGet(cfg._appini, "OPTIONS", "LAYOUTDB")
-        If LAYOUTDB.StartsWith(".\") Then
-            LAYOUTDB = LAYOUTDB.Replace(".\", cfg._appfolder & "\")
-        ElseIf LAYOUTDB.Contains("\") = False And LAYOUTDB.Contains(":") = False Then
-            LAYOUTDB = IO.Path.Combine(cfg._appfolder, LAYOUTDB)
-        End If
-        mensaje(1) &= "LAYOUTDB = " & LAYOUTDB & vbCrLf
         '
         BloquesDir = ua.IniGet(cfg._appini, "OPTIONS", "BloquesDir")
         If BloquesDir.StartsWith(".\") Then
@@ -171,6 +178,47 @@ Module movVar
         If partes IsNot Nothing AndAlso partes.Count > 0 Then
             ReDim patasNoPlanta(partes.Count - 1) : partes.CopyTo(patasNoPlanta, 0)
         End If
+        '
+        ' LAYOUTDB=LAYOUTDBS4.xlsx
+        LAYOUTDB = ua.IniGet(cfg._appini, "OPTIONS", "LAYOUTDB")
+        If LAYOUTDB.StartsWith(".\") Then
+            LAYOUTDB = LAYOUTDB.Replace(".\", cfg._appfolder & "\")
+        ElseIf LAYOUTDB.Contains("\") = False And LAYOUTDB.Contains(":") = False Then
+            LAYOUTDB = IO.Path.Combine(cfg._appfolder, LAYOUTDB)
+        End If
+        mensaje(1) &= "LAYOUTDB = " & LAYOUTDB & vbCrLf
+        '
+        'HojasTransportadores= TRD3-TRANSP.RODILLOS,TRD3-TRANSP.BAJADA_RODILLOS_G,TRD3-TRANSP.CURVA_RODILLOS,TCB3-TRANSP.CON_BANDA
+        Dim partesHojasTransportadores As String() = ua.IniGet(cfg._appini, "OPTIONS", "HojasTransportadores").Split(","c)
+        If partesHojasTransportadores IsNot Nothing AndAlso partesHojasTransportadores.Count > 0 Then
+            HojasTransportadores = New List(Of String)
+            HojasTransportadores.AddRange(partesHojasTransportadores)
+            mensaje(1) &= "HojasTransportadores = " & String.Join(",", partesHojasTransportadores) & vbCrLf
+        End If
+        '
+        'HojaPatas = PT
+        HojaPatas = ua.IniGet(cfg._appini, "OPTIONS", "HojaPatas")
+        mensaje(1) &= "HojaPatas = " & HojaPatas & vbCrLf
+        '
+        'HojaUniones = UNIONES
+        HojaUniones = ua.IniGet(cfg._appini, "OPTIONS", "HojaUniones")
+        mensaje(1) &= "HojaUniones = " & HojaUniones & vbCrLf
+        '
+        'HojaATR = ATR
+        HojaATR = ua.IniGet(cfg._appini, "OPTIONS", "HojaATR")
+        mensaje(1) &= "HojaATR = " & HojaATR & vbCrLf
+        '
+        'HojaSeleccionables = SELECCIONABLES
+        HojaSeleccionables = ua.IniGet(cfg._appini, "OPTIONS", "HojaSeleccionables")
+        mensaje(1) &= "HojaSeleccionables = " & HojaSeleccionables & vbCrLf
+        '
+        'HojaConceptos = CONCEPTOS
+        HojaConceptos = ua.IniGet(cfg._appini, "OPTIONS", "HojaConceptos")
+        mensaje(1) &= "HojaConceptos = " & HojaConceptos & vbCrLf
+        '
+        'HojaIdiomas = IDIOMAS
+        HojaIdiomas = ua.IniGet(cfg._appini, "OPTIONS", "HojaIdiomas")
+        mensaje(1) &= "HojaIdiomas = " & HojaIdiomas & vbCrLf
         '
         ' Al fichero log la configuración leida.
         'If Log Then cfg.PonLog(mensaje(1), True)

@@ -43,12 +43,12 @@ Namespace TAVIL2018
             ' as well as some of the existing AutoCAD managed apps.
 
             ' Initialize your plug-in application hereTry
-            ' Inicializar los eventos que necesitemos.
+            ' ***** Inicializar los eventos que necesitemos. Y los objetos principales de AutoCAD
             Eventos.Eventos_Inicializa()
+            ' **************************
             cfg = New UtilesAlberto.Conf(System.Reflection.Assembly.GetExecutingAssembly)
             clsA = New AutoCAD2acad.A2acad.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
 
-            If Log Then cfg.PonLog("Añadidos enventos", True)
             '
             'If Autodesk.AutoCAD.Runtime.ExtensionLoader.IsLoaded(autocad2acad) = True Then
             '    'MsgBox("Cargado " & autocad2acad)
@@ -71,6 +71,7 @@ Namespace TAVIL2018
                 MsgBox("Activate--> INICargar --> " & ex.Message)
                 Exit Sub
             End Try
+            If Log Then cfg.PonLog("Añadidos enventos", True)
             ' 
             ' Rellenar las clasese con los datos de Excel
             'cPT = New PT
@@ -82,10 +83,10 @@ Namespace TAVIL2018
             End If
 
             Try
-                ' clsD = New clsLAYOUTDBS4
-                If Log Then cfg.PonLog("Llenada coleccion seleccionables (clsD)", False)
+                'clsD = New clsLAYOUTDBS4
+                'If Log Then cfg.PonLog("Llenada coleccion seleccionables (clsD)", False)
             Catch ex As System.Exception
-                MsgBox(ex.ToString)
+                Debug.Print(ex.ToString)
             End Try
         End Sub
 

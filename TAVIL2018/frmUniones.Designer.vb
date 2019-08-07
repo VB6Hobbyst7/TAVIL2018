@@ -29,13 +29,15 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
-        Me.BtnT1 = New System.Windows.Forms.Button()
-        Me.BtnT2 = New System.Windows.Forms.Button()
+        Me.LblInsertarUnion = New System.Windows.Forms.Label()
+        Me.LblT2 = New System.Windows.Forms.Label()
         Me.LblT1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.BtnT2 = New System.Windows.Forms.Button()
+        Me.BtnT1 = New System.Windows.Forms.Button()
         Me.BtnCrearUnion = New System.Windows.Forms.Button()
         Me.BtnEditarUnion = New System.Windows.Forms.Button()
+        Me.BtnBorrarUnion = New System.Windows.Forms.Button()
+        Me.BtnCancelar = New System.Windows.Forms.Button()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -94,8 +96,9 @@ Partial Class frmUniones
         'GUnion
         '
         Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GUnion.Controls.Add(Me.Label3)
-        Me.GUnion.Controls.Add(Me.Label2)
+        Me.GUnion.Controls.Add(Me.BtnCancelar)
+        Me.GUnion.Controls.Add(Me.LblInsertarUnion)
+        Me.GUnion.Controls.Add(Me.LblT2)
         Me.GUnion.Controls.Add(Me.LblT1)
         Me.GUnion.Controls.Add(Me.BtnT2)
         Me.GUnion.Controls.Add(Me.BtnT1)
@@ -107,14 +110,29 @@ Partial Class frmUniones
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
         '
-        'BtnT1
+        'LblInsertarUnion
         '
-        Me.BtnT1.Location = New System.Drawing.Point(13, 29)
-        Me.BtnT1.Name = "BtnT1"
-        Me.BtnT1.Size = New System.Drawing.Size(132, 41)
-        Me.BtnT1.TabIndex = 20
-        Me.BtnT1.Text = "Transportador 1"
-        Me.BtnT1.UseVisualStyleBackColor = True
+        Me.LblInsertarUnion.Location = New System.Drawing.Point(154, 257)
+        Me.LblInsertarUnion.Name = "LblInsertarUnion"
+        Me.LblInsertarUnion.Size = New System.Drawing.Size(221, 80)
+        Me.LblInsertarUnion.TabIndex = 24
+        Me.LblInsertarUnion.Text = "Datos Unión:"
+        '
+        'LblT2
+        '
+        Me.LblT2.Location = New System.Drawing.Point(154, 140)
+        Me.LblT2.Name = "LblT2"
+        Me.LblT2.Size = New System.Drawing.Size(221, 80)
+        Me.LblT2.TabIndex = 23
+        Me.LblT2.Text = "Datos T2:"
+        '
+        'LblT1
+        '
+        Me.LblT1.Location = New System.Drawing.Point(154, 29)
+        Me.LblT1.Name = "LblT1"
+        Me.LblT1.Size = New System.Drawing.Size(221, 80)
+        Me.LblT1.TabIndex = 22
+        Me.LblT1.Text = "Datos T1:"
         '
         'BtnT2
         '
@@ -125,29 +143,14 @@ Partial Class frmUniones
         Me.BtnT2.Text = "Transportador 2"
         Me.BtnT2.UseVisualStyleBackColor = True
         '
-        'LblT1
+        'BtnT1
         '
-        Me.LblT1.Location = New System.Drawing.Point(154, 29)
-        Me.LblT1.Name = "LblT1"
-        Me.LblT1.Size = New System.Drawing.Size(221, 80)
-        Me.LblT1.TabIndex = 22
-        Me.LblT1.Text = "Datos T1:"
-        '
-        'Label2
-        '
-        Me.Label2.Location = New System.Drawing.Point(154, 140)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(221, 80)
-        Me.Label2.TabIndex = 23
-        Me.Label2.Text = "Datos T2:"
-        '
-        'Label3
-        '
-        Me.Label3.Location = New System.Drawing.Point(154, 257)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(221, 80)
-        Me.Label3.TabIndex = 24
-        Me.Label3.Text = "Datos Unión:"
+        Me.BtnT1.Location = New System.Drawing.Point(13, 29)
+        Me.BtnT1.Name = "BtnT1"
+        Me.BtnT1.Size = New System.Drawing.Size(132, 41)
+        Me.BtnT1.TabIndex = 20
+        Me.BtnT1.Text = "Transportador 1"
+        Me.BtnT1.UseVisualStyleBackColor = True
         '
         'BtnCrearUnion
         '
@@ -160,12 +163,32 @@ Partial Class frmUniones
         '
         'BtnEditarUnion
         '
-        Me.BtnEditarUnion.Location = New System.Drawing.Point(178, 85)
+        Me.BtnEditarUnion.Location = New System.Drawing.Point(178, 86)
         Me.BtnEditarUnion.Name = "BtnEditarUnion"
         Me.BtnEditarUnion.Size = New System.Drawing.Size(171, 32)
         Me.BtnEditarUnion.TabIndex = 22
         Me.BtnEditarUnion.Text = "Editar Unión"
         Me.BtnEditarUnion.UseVisualStyleBackColor = True
+        '
+        'BtnBorrarUnion
+        '
+        Me.BtnBorrarUnion.Location = New System.Drawing.Point(178, 143)
+        Me.BtnBorrarUnion.Name = "BtnBorrarUnion"
+        Me.BtnBorrarUnion.Size = New System.Drawing.Size(171, 32)
+        Me.BtnBorrarUnion.TabIndex = 23
+        Me.BtnBorrarUnion.Text = "Borrar Unión"
+        Me.BtnBorrarUnion.UseVisualStyleBackColor = True
+        '
+        'BtnCancelar
+        '
+        Me.BtnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnCancelar.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnCancelar.Location = New System.Drawing.Point(8, 323)
+        Me.BtnCancelar.Name = "BtnCancelar"
+        Me.BtnCancelar.Size = New System.Drawing.Size(74, 27)
+        Me.BtnCancelar.TabIndex = 25
+        Me.BtnCancelar.Text = "Cancelar"
+        Me.BtnCancelar.UseVisualStyleBackColor = False
         '
         'frmUniones
         '
@@ -173,6 +196,7 @@ Partial Class frmUniones
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(761, 503)
+        Me.Controls.Add(Me.BtnBorrarUnion)
         Me.Controls.Add(Me.BtnEditarUnion)
         Me.Controls.Add(Me.BtnCrearUnion)
         Me.Controls.Add(Me.GUnion)
@@ -202,9 +226,11 @@ Partial Class frmUniones
     Friend WithEvents GUnion As Windows.Forms.GroupBox
     Friend WithEvents BtnT2 As Windows.Forms.Button
     Friend WithEvents BtnT1 As Windows.Forms.Button
-    Friend WithEvents Label3 As Windows.Forms.Label
-    Friend WithEvents Label2 As Windows.Forms.Label
+    Friend WithEvents LblInsertarUnion As Windows.Forms.Label
+    Friend WithEvents LblT2 As Windows.Forms.Label
     Friend WithEvents LblT1 As Windows.Forms.Label
     Friend WithEvents BtnCrearUnion As Windows.Forms.Button
     Friend WithEvents BtnEditarUnion As Windows.Forms.Button
+    Friend WithEvents BtnBorrarUnion As Windows.Forms.Button
+    Friend WithEvents BtnCancelar As Windows.Forms.Button
 End Class

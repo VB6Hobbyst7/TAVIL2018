@@ -17,22 +17,25 @@ Public Class frmUniones
     Private Sub frmUniones_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "UNIONES - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
-        ' Estado inicila de GUniones (Con todos los controles de selección y edición)
-        GUnion.Enabled = False
-        ' Controles fondo rojo claro. Para avisar que hay que pulsarlos. Solo activo Pb1, por defecto
-        'pb1.Enabled = True : pb1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-        'pb2.Enabled = False : pb2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-        BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
-        '
-        PonToolTipControles()
-        'CompruebaDatos()
-        'app_procesointerno = True
-        'app_procesointerno = True
-        'gbAdministrar.Enabled = False
-        'btnGrupoBorrar.Enabled = False
-        'txtNombreGrupo.Text = ""
-        'lblInf.Text = ""
+        ' Cargar recursos
+        clsA.ClonaTODODesdeDWG(BloqueRecursos)
+        PonEstadoControlesInicial()
         tvUniones_LlenaXDATA()
+        PonToolTipControles()
+    End Sub
+    Public Sub PonEstadoControlesInicial()
+        ' Estado inicila de GUniones (Con todos los controles de selección y edición)
+        tvUniones.SelectedNode = Nothing
+        GUnion.Enabled = False
+        BtnCrearUnion.Enabled = True
+        BtnEditarUnion.Enabled = False
+        BtnBorrarUnion.Enabled = False
+        BtnT1.Enabled = False : BtnT1.BackColor = Control.DefaultBackColor
+        LblT1.Text = "Datos T1: "
+        BtnT2.Enabled = False : BtnT2.BackColor = Control.DefaultBackColor
+        LblT2.Text = "Datos T2: "
+        BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Control.DefaultBackColor
+        LblInsertarUnion.Text = "Datos Unión: "
     End Sub
     Private Sub frmUniones_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         frmUn = Nothing
@@ -44,17 +47,56 @@ Public Class frmUniones
     End Sub
     '
     Private Sub tvUniones_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles tvUniones.AfterSelect
-        If tvUniones.SelectedNode Is Nothing Then Exit Sub
+        Eventos.COMDoc().ActiveSelectionSet.Clear()
+        If tvUniones.SelectedNode Is Nothing Then
+            PonEstadoControlesInicial()
+            Exit Sub
+        End If
         '
-        Me.Uniones_SeleccionarObjetos(tvUniones.SelectedNode.Text)
+        Me.Uniones_SeleccionarObjetos(tvUniones.SelectedNode.Tag)
     End Sub
     '
+    Private Sub tvUniones_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles tvUniones.MouseDoubleClick
+        Dim oNode As TreeNode = CType(sender, TreeView).SelectedNode
+        Dim oBlo As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = Eventos.COMDoc().ObjectIdToObject(oNode.Tag)
+        Dim oIPrt As New IntPtr(oBlo.ObjectID)
+        Dim oId As New ObjectId(oIPrt)
+        Dim arrIds() As ObjectId = {oId}
+        Autodesk.AutoCAD.Internal.Utils.SelectObjects(arrIds)
+        clsA.HazZoomObjeto(oBlo, 2)
+        oBlo = Nothing
+    End Sub
     Private Sub BtnCrearUnion_Click(sender As Object, e As EventArgs) Handles BtnCrearUnion.Click
-
+        GUnion.Enabled = True
+        BtnT1.Enabled = True : BtnT1.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        BtnT2.Enabled = False : BtnT2.BackColor = Drawing.Color.FromArgb(255, 192, 192)
+        BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Drawing.Color.FromArgb(255, 192, 192)
     End Sub
 
     Private Sub BtnEditarUnion_Click(sender As Object, e As EventArgs) Handles BtnEditarUnion.Click
-
+        GUnion.Enabled = True
+        BtnT1.Enabled = True : BtnT1.BackColor = Control.DefaultBackColor
+        BtnT2.Enabled = False : BtnT2.BackColor = Control.DefaultBackColor
+        BtnInsertarUnion.Enabled = False : BtnInsertarUnion.BackColor = Control.DefaultBackColor
+    End Sub
+    Private Sub BtnBorrarUnion_Click(sender As Object, e As EventArgs) Handles BtnBorrarUnion.Click
+        Dim oSet As Autodesk.AutoCAD.Interop.AcadSelectionSet = Eventos.COMDoc().ActiveSelectionSet
+        If oSet Is Nothing OrElse oSet.Count < 3 Then
+            MsgBox("Esta unión está incompleta, borrarla a mano desde AutoCAD.")
+            Exit Sub
+        End If
+        '
+        For x As Integer = 0 To oSet.Count - 1
+            Dim oBl As AcadBlockReference = CType(oSet.Item(x), AcadBlockReference)
+            If oBl.EffectiveName = "UNION" Then
+                oSet.Item(x).Delete()
+                oSet.Clear()
+                tvUniones.SelectedNode.Remove()
+                tvUniones.SelectedNode = Nothing
+                tvUniones_AfterSelect(Nothing, Nothing)
+                Exit For
+            End If
+        Next
     End Sub
 
     Private Sub BtnT1_Click(sender As Object, e As EventArgs) Handles BtnT1.Click
@@ -75,23 +117,9 @@ Public Class frmUniones
     End Sub
 
     Private Sub BtnT2_Click(sender As Object, e As EventArgs) Handles BtnT2.Click
-
-    End Sub
-
-    Private Sub BtnInsertarUnion_Click(sender As Object, e As EventArgs) Handles BtnInsertarUnion.Click
-
-    End Sub
-
-    Private Sub Pb1_Click(sender As Object, e As EventArgs)
-    End Sub
-    Private Sub Pb2_Click(sender As Object, e As EventArgs)
-        'pb2.BackColor = Control.DefaultBackColor : pb2.Refresh()
-        'Control_Borde(pb2, False)
-        '
         Me.Visible = False
-        'Ev.EvApp.ActiveDocument.Activate()
+        clsA.ActivaAppAPI()
         Dim arrEntities As ArrayList = Nothing
-REPITE:
         arrEntities = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=True)
         If arrEntities Is Nothing OrElse arrEntities.Count = 0 Then
             Exit Sub
@@ -104,30 +132,15 @@ REPITE:
         CompruebaDatos()
         Me.Visible = True
     End Sub
-    '
-    'Efecto Click en PictureBox. Click (Borde Rojo), otro click (Sin borde)  
-    'Private Sub pb1_Click(sender As Object, e As EventArgs) Handles pb1.Click, pb2.Click 'etc  
-    '    Dim pbX As PictureBox = DirectCast(sender, PictureBox)
-    '    'Get the rectangle of the control and inflate it to represent the border area  
-    '    Dim BorderBounds As Rectangle = pbX.ClientRectangle
-    '    BorderBounds.Inflate(-1, -1)
 
-    '    'Use ControlPaint to draw the border.  
-    '    'Change the Color.Red parameter to your own colour below.  
-    '    ControlPaint.DrawBorder(pbX.CreateGraphics,
-    '                            BorderBounds,
-    '                            Color.Red,
-    '                            ButtonBorderStyle.Solid)
+    Private Sub BtnInsertarUnion_Click(sender As Object, e As EventArgs) Handles BtnInsertarUnion.Click
 
-    '    If Not (HighlightedPictureBox Is Nothing) Then
-    '        'Remove the border of the last PictureBox  
-    '        HighlightedPictureBox.Invalidate()
-    '    End If
+    End Sub
 
-    '    'Rememeber the last highlighted PictureBox  
-    '    HighlightedPictureBox = CType(sender, PictureBox)
-    '    pbX = Nothing
-    'End Sub
+    Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
+        tvUniones.SelectedNode = Nothing
+        tvUniones_AfterSelect(Nothing, Nothing)
+    End Sub
 #Region "FUNCIONES"
     Public Sub PonToolTipControles()
         oTT = New ToolTip()
@@ -142,6 +155,7 @@ REPITE:
         '
         oTT.SetToolTip(Me.BtnCrearUnion, "Crear nueva unión")
         oTT.SetToolTip(Me.BtnEditarUnion, "Editar unión seleccionada")
+        oTT.SetToolTip(Me.BtnBorrarUnion, "Borrar unión seleccionada")
         '
         oTT.SetToolTip(Me.BtnT1, "Seleccionar Transportador 1")
         oTT.SetToolTip(Me.BtnT2, "Seleccionar Transportador 2")
@@ -182,27 +196,34 @@ REPITE:
     Public Sub tvUniones_LlenaXDATA()
         ' Rellenar tvGrupos con los grupos que haya ([nombre grupo]) Sacado de XData elementos (regAPPCliente, XData = "GRUPO")
         tvUniones.Nodes.Clear()
-        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
-        Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos(,, True)
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp(), cfg._appFullPath, regAPPCliente)
+        'Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos(,, True)
+        Dim arrTodos As List(Of Long) = clsA.SeleccionaDameBloquesPorNombre(cUNION)
         If arrTodos Is Nothing OrElse arrTodos.Count = 0 Then
             Exit Sub
         End If
         ' Filtrar lista de grupo. Sacar nombres únicos.
         For Each queId As Long In arrTodos
             Dim acadObj As AcadObject = Eventos.COMDoc().ObjectIdToObject(queId)
-            Dim union As String = clsA.XLeeDato(acadObj, cUNION)
-            If union = "" Then Continue For
+            If TypeOf acadObj Is AcadBlockReference = False Then Continue For
+            Dim oBl As AcadBlockReference = CType(acadObj, AcadBlockReference)
+            If oBl.EffectiveName <> cUNION Then Continue For
             '
-            If tvUniones.Nodes.ContainsKey(union) Then Continue For
+            'Dim union As String = clsA.XLeeDato(acadObj, cUNION)
+            'If union = "" Then Continue For
+            '
+            Dim nombre As String = cUNION & "·" & oBl.ObjectID
+            If tvUniones.Nodes.ContainsKey(nombre) Then Continue For
             '
             Dim oNode As New TreeNode
-            oNode.Text = union
-            oNode.Name = union
-            oNode.Tag = union
-            oNode.ToolTipText = oNode.Tag
+            oNode.Text = nombre
+            oNode.Name = nombre
+            oNode.Tag = oBl.ObjectID
+            oNode.ToolTipText = "Unión = " & nombre
             tvUniones.Nodes.Add(oNode)
             oNode = Nothing
             acadObj = Nothing
+            oBl = Nothing
         Next
         tvUniones.Sort()
         '
@@ -210,8 +231,9 @@ REPITE:
         tvUniones_AfterSelect(Nothing, Nothing)
     End Sub
 
-    Public Sub Uniones_SeleccionarObjetos(union As String)
-        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cUNION, union)
+    Public Sub Uniones_SeleccionarObjetos(IdUnion As Long)
+        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cUNION, IdUnion.ToString)
+        lGrupos.Add(IdUnion)
         If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
             Dim arrSeleccion As New ArrayList
             For Each queId As Long In lGrupos
@@ -219,18 +241,11 @@ REPITE:
             Next
             If arrSeleccion.Count > 0 Then
                 'lblInf.Text = arrSeleccion.Count & " Elementos"
-                clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
                 If cbZoom.Checked Then
-                    'Zoom_Seleccion()
+                    tvUniones_MouseDoubleClick(tvUniones, Nothing)
                 End If
             End If
         Else
-            'If tvGrupos.Nodes.ContainsKey(grupo) Then
-            '    tvGrupos.Nodes.Item(grupo).Remove()
-            'End If
-            'lblInf.Text = "0 Elementos"
-            'tvGrupos.SelectedNode = Nothing
-            'tvGrupos_AfterSelect(Nothing, Nothing)
         End If
     End Sub
 
@@ -258,3 +273,27 @@ REPITE:
     End Sub
 #End Region
 End Class
+'
+'Efecto Click en PictureBox. Click (Borde Rojo), otro click (Sin borde)  
+'Private Sub pb1_Click(sender As Object, e As EventArgs) Handles pb1.Click, pb2.Click 'etc  
+'    Dim pbX As PictureBox = DirectCast(sender, PictureBox)
+'    'Get the rectangle of the control and inflate it to represent the border area  
+'    Dim BorderBounds As Rectangle = pbX.ClientRectangle
+'    BorderBounds.Inflate(-1, -1)
+
+'    'Use ControlPaint to draw the border.  
+'    'Change the Color.Red parameter to your own colour below.  
+'    ControlPaint.DrawBorder(pbX.CreateGraphics,
+'                            BorderBounds,
+'                            Color.Red,
+'                            ButtonBorderStyle.Solid)
+
+'    If Not (HighlightedPictureBox Is Nothing) Then
+'        'Remove the border of the last PictureBox  
+'        HighlightedPictureBox.Invalidate()
+'    End If
+
+'    'Rememeber the last highlighted PictureBox  
+'    HighlightedPictureBox = CType(sender, PictureBox)
+'    pbX = Nothing
+'End Sub

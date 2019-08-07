@@ -28,77 +28,78 @@ Imports System.Runtime.InteropServices
 Partial Public Class Eventos
     Public Shared Sub Subscribe_COMDoc()
         If COMdoc Is Nothing Then Exit Sub
-        AddHandler COMDoc.Activate, AddressOf EvDoc_Activate
-        AddHandler COMDoc.BeginClose, AddressOf EvDoc_BeginClose
-        AddHandler COMDoc.BeginDocClose, AddressOf EvDoc_BeginDocClose
-        AddHandler COMDoc.BeginCommand, AddressOf EvDoc_BeginCommand
-        AddHandler COMDoc.BeginDoubleClick, AddressOf EvDoc_BeginDoubleClick
-        AddHandler COMDoc.BeginCommand, AddressOf EvDoc_BeginCommand
-        AddHandler COMDoc.BeginLisp, AddressOf EvDoc_BeginLisp
-        AddHandler COMDoc.BeginPlot, AddressOf EvDoc_BeginPlot
-        AddHandler COMDoc.BeginRightClick, AddressOf EvDoc_BeginRightClick
-        AddHandler COMDoc.BeginSave, AddressOf EvDoc_BeginSave
-        AddHandler COMDoc.BeginShortcutMenuCommand, AddressOf EvDoc_BeginShortcutMenuCommand
-        AddHandler COMDoc.BeginShortcutMenuDefault, AddressOf EvDoc_BeginShortcutMenuDefault
-        AddHandler COMDoc.BeginShortcutMenuEdit, AddressOf EvDoc_BeginShortcutMenuEdit
-        AddHandler COMDoc.BeginShortcutMenuGrip, AddressOf EvDoc_BeginShortcutMenuGrip
-        AddHandler COMDoc.BeginShortcutMenuOsnap, AddressOf EvDoc_BeginShortcutMenuOsnap
-        AddHandler COMDoc.Deactivate, AddressOf EvDoc_Deactivate
-        AddHandler COMDoc.EndCommand, AddressOf EvDoc_EndCommand
-        AddHandler COMDoc.EndLisp, AddressOf EvDoc_EndLisp
-        AddHandler COMDoc.EndPlot, AddressOf EvDoc_EndPlot
-        AddHandler COMDoc.EndSave, AddressOf EvDoc_EndSave
-        AddHandler COMDoc.EndShortcutMenu, AddressOf EvDoc_EndShortcutMenu
-        AddHandler COMDoc.LayoutSwitched, AddressOf EvDoc_LayoutSwitched
-        AddHandler COMDoc.LispCancelled, AddressOf EvDoc_LispCancelled
-        AddHandler COMDoc.ObjectAdded, AddressOf EvDoc_ObjectAdded
-        AddHandler COMDoc.ObjectErased, AddressOf EvDoc_ObjectErased
-        AddHandler COMDoc.ObjectModified, AddressOf EvDoc_ObjectModified
-        AddHandler COMDoc.SelectionChanged, AddressOf EvDoc_SelectionChanged
-        AddHandler COMDoc.WindowChanged, AddressOf EvDoc_WindowChanged
-        AddHandler COMDoc.WindowMovedOrResized, AddressOf EvDoc_WindowMovedOrResized
+        AddHandler COMDoc.Activate, AddressOf COMDoc_Activate
+        AddHandler COMDoc.BeginClose, AddressOf COMDoc_BeginClose
+        AddHandler COMDoc.BeginDocClose, AddressOf COMDoc_BeginDocClose
+        AddHandler COMDoc.BeginCommand, AddressOf COMDoc_BeginCommand
+        AddHandler COMDoc.BeginDoubleClick, AddressOf COMDoc_BeginDoubleClick
+        AddHandler COMDoc.BeginCommand, AddressOf COMDoc_BeginCommand
+        AddHandler COMDoc.BeginLisp, AddressOf COMDoc_BeginLisp
+        AddHandler COMDoc.BeginPlot, AddressOf COMDoc_BeginPlot
+        AddHandler COMDoc.BeginRightClick, AddressOf COMDoc_BeginRightClick
+        AddHandler COMDoc.BeginSave, AddressOf COMDoc_BeginSave
+        AddHandler COMDoc.BeginShortcutMenuCommand, AddressOf COMDoc_BeginShortcutMenuCommand
+        AddHandler COMDoc.BeginShortcutMenuDefault, AddressOf COMDoc_BeginShortcutMenuDefault
+        AddHandler COMDoc.BeginShortcutMenuEdit, AddressOf COMDoc_BeginShortcutMenuEdit
+        AddHandler COMDoc.BeginShortcutMenuGrip, AddressOf COMDoc_BeginShortcutMenuGrip
+        AddHandler COMDoc.BeginShortcutMenuOsnap, AddressOf COMDoc_BeginShortcutMenuOsnap
+        AddHandler COMDoc.Deactivate, AddressOf COMDoc_Deactivate
+        AddHandler COMDoc.EndCommand, AddressOf COMDoc_EndCommand
+        AddHandler COMDoc.EndLisp, AddressOf COMDoc_EndLisp
+        AddHandler COMDoc.EndPlot, AddressOf COMDoc_EndPlot
+        AddHandler COMDoc.EndSave, AddressOf COMDoc_EndSave
+        AddHandler COMDoc.EndShortcutMenu, AddressOf COMDoc_EndShortcutMenu
+        AddHandler COMDoc.LayoutSwitched, AddressOf COMDoc_LayoutSwitched
+        AddHandler COMDoc.LispCancelled, AddressOf COMDoc_LispCancelled
+        AddHandler COMDoc.ObjectAdded, AddressOf COMDoc_ObjectAdded
+        AddHandler COMDoc.ObjectErased, AddressOf COMDoc_ObjectErased
+        AddHandler COMDoc.ObjectModified, AddressOf COMDoc_ObjectModified
+        AddHandler COMDoc.SelectionChanged, AddressOf COMDoc_SelectionChanged
+        AddHandler COMDoc.WindowChanged, AddressOf COMDoc_WindowChanged
+        AddHandler COMDoc.WindowMovedOrResized, AddressOf COMDoc_WindowMovedOrResized
     End Sub
 
     Public Shared Sub Unsubscribe_COMDoc()
         If COMDoc() Is Nothing Then Exit Sub
-        RemoveHandler COMDoc.Activate, AddressOf EvDoc_Activate
-        RemoveHandler COMDoc.BeginClose, AddressOf EvDoc_BeginClose
-        RemoveHandler COMDoc.BeginDocClose, AddressOf EvDoc_BeginDocClose
-        RemoveHandler COMDoc.BeginCommand, AddressOf EvDoc_BeginCommand
-        RemoveHandler COMDoc.BeginDoubleClick, AddressOf EvDoc_BeginDoubleClick
-        RemoveHandler COMDoc.BeginCommand, AddressOf EvDoc_BeginCommand
-        RemoveHandler COMDoc.BeginLisp, AddressOf EvDoc_BeginLisp
-        RemoveHandler COMDoc.BeginPlot, AddressOf EvDoc_BeginPlot
-        RemoveHandler COMDoc.BeginRightClick, AddressOf EvDoc_BeginRightClick
-        RemoveHandler COMDoc.BeginSave, AddressOf EvDoc_BeginSave
-        RemoveHandler COMDoc.BeginShortcutMenuCommand, AddressOf EvDoc_BeginShortcutMenuCommand
-        RemoveHandler COMDoc.BeginShortcutMenuDefault, AddressOf EvDoc_BeginShortcutMenuDefault
-        RemoveHandler COMDoc.BeginShortcutMenuEdit, AddressOf EvDoc_BeginShortcutMenuEdit
-        RemoveHandler COMDoc.BeginShortcutMenuGrip, AddressOf EvDoc_BeginShortcutMenuGrip
-        RemoveHandler COMDoc.BeginShortcutMenuOsnap, AddressOf EvDoc_BeginShortcutMenuOsnap
-        RemoveHandler COMDoc.Deactivate, AddressOf EvDoc_Deactivate
-        RemoveHandler COMDoc.EndCommand, AddressOf EvDoc_EndCommand
-        RemoveHandler COMDoc.EndLisp, AddressOf EvDoc_EndLisp
-        RemoveHandler COMDoc.EndPlot, AddressOf EvDoc_EndPlot
-        RemoveHandler COMDoc.EndSave, AddressOf EvDoc_EndSave
-        RemoveHandler COMDoc.EndShortcutMenu, AddressOf EvDoc_EndShortcutMenu
-        RemoveHandler COMDoc.LayoutSwitched, AddressOf EvDoc_LayoutSwitched
-        RemoveHandler COMDoc.LispCancelled, AddressOf EvDoc_LispCancelled
-        RemoveHandler COMDoc.ObjectAdded, AddressOf EvDoc_ObjectAdded
-        RemoveHandler COMDoc.ObjectErased, AddressOf EvDoc_ObjectErased
-        RemoveHandler COMDoc.ObjectModified, AddressOf EvDoc_ObjectModified
-        RemoveHandler COMDoc.SelectionChanged, AddressOf EvDoc_SelectionChanged
-        RemoveHandler COMDoc.WindowChanged, AddressOf EvDoc_WindowChanged
-        RemoveHandler COMDoc.WindowMovedOrResized, AddressOf EvDoc_WindowMovedOrResized
+        RemoveHandler COMDoc.Activate, AddressOf COMDoc_Activate
+        RemoveHandler COMDoc.BeginClose, AddressOf COMDoc_BeginClose
+        RemoveHandler COMDoc.BeginDocClose, AddressOf COMDoc_BeginDocClose
+        RemoveHandler COMDoc.BeginCommand, AddressOf COMDoc_BeginCommand
+        RemoveHandler COMDoc.BeginDoubleClick, AddressOf COMDoc_BeginDoubleClick
+        RemoveHandler COMDoc.BeginCommand, AddressOf COMDoc_BeginCommand
+        RemoveHandler COMDoc.BeginLisp, AddressOf COMDoc_BeginLisp
+        RemoveHandler COMDoc.BeginPlot, AddressOf COMDoc_BeginPlot
+        RemoveHandler COMDoc.BeginRightClick, AddressOf COMDoc_BeginRightClick
+        RemoveHandler COMDoc.BeginSave, AddressOf COMDoc_BeginSave
+        RemoveHandler COMDoc.BeginShortcutMenuCommand, AddressOf COMDoc_BeginShortcutMenuCommand
+        RemoveHandler COMDoc.BeginShortcutMenuDefault, AddressOf COMDoc_BeginShortcutMenuDefault
+        RemoveHandler COMDoc.BeginShortcutMenuEdit, AddressOf COMDoc_BeginShortcutMenuEdit
+        RemoveHandler COMDoc.BeginShortcutMenuGrip, AddressOf COMDoc_BeginShortcutMenuGrip
+        RemoveHandler COMDoc.BeginShortcutMenuOsnap, AddressOf COMDoc_BeginShortcutMenuOsnap
+        RemoveHandler COMDoc.Deactivate, AddressOf COMDoc_Deactivate
+        RemoveHandler COMDoc.EndCommand, AddressOf COMDoc_EndCommand
+        RemoveHandler COMDoc.EndLisp, AddressOf COMDoc_EndLisp
+        RemoveHandler COMDoc.EndPlot, AddressOf COMDoc_EndPlot
+        RemoveHandler COMDoc.EndSave, AddressOf COMDoc_EndSave
+        RemoveHandler COMDoc.EndShortcutMenu, AddressOf COMDoc_EndShortcutMenu
+        RemoveHandler COMDoc.LayoutSwitched, AddressOf COMDoc_LayoutSwitched
+        RemoveHandler COMDoc.LispCancelled, AddressOf COMDoc_LispCancelled
+        RemoveHandler COMDoc.ObjectAdded, AddressOf COMDoc_ObjectAdded
+        RemoveHandler COMDoc.ObjectErased, AddressOf COMDoc_ObjectErased
+        RemoveHandler COMDoc.ObjectModified, AddressOf COMDoc_ObjectModified
+        RemoveHandler COMDoc.SelectionChanged, AddressOf COMDoc_SelectionChanged
+        RemoveHandler COMDoc.WindowChanged, AddressOf COMDoc_WindowChanged
+        RemoveHandler COMDoc.WindowMovedOrResized, AddressOf COMDoc_WindowMovedOrResized
     End Sub
-    Public Shared Sub EvDoc_Activate()
+    Public Shared Sub COMDoc_Activate()
 
     End Sub
-    Public Shared Sub EvDoc_BeginClose()
+    Public Shared Sub COMDoc_BeginClose()
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginCommand(CommandName As String)
+    Public Shared Sub COMDoc_BeginCommand(CommandName As String)
+        If coneventos = False Then Exit Sub
         'If CommandName = "SAVE" Or CommandName = "QSAVE" Then
         'If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(Ev.EvApp, cfg._appFullPath, regAPPCliente)
         'clsA.SeleccionaTodosObjetos("INSERT",, True)
@@ -130,86 +131,87 @@ Partial Public Class Eventos
         'End If
     End Sub
 
-    Public Shared Sub EvDoc_BeginDocClose(ByRef Cancel As Boolean)
+    Public Shared Sub COMDoc_BeginDocClose(ByRef Cancel As Boolean)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginDoubleClick(PickPoint As Object)
+    Public Shared Sub COMDoc_BeginDoubleClick(PickPoint As Object)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginLisp(FirstLine As String)
+    Public Shared Sub COMDoc_BeginLisp(FirstLine As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginPlot(DrawingName As String)
+    Public Shared Sub COMDoc_BeginPlot(DrawingName As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginRightClick(PickPoint As Object)
+    Public Shared Sub COMDoc_BeginRightClick(PickPoint As Object)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginSave(FileName As String)
+    Public Shared Sub COMDoc_BeginSave(FileName As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginShortcutMenuCommand(ByRef ShortcutMenu As AcadPopupMenu, Command As String)
+    Public Shared Sub COMDoc_BeginShortcutMenuCommand(ByRef ShortcutMenu As AcadPopupMenu, Command As String)
+        AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
+    End Sub
+
+    Public Shared Sub COMDoc_BeginShortcutMenuDefault(ByRef ShortcutMenu As AcadPopupMenu)
+        AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
+    End Sub
+
+    Public Shared Sub COMDoc_BeginShortcutMenuEdit(ByRef ShortcutMenu As AcadPopupMenu, ByRef SelectionSet As AcadSelectionSet)
+        'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
+    End Sub
+
+    Public Shared Sub COMDoc_BeginShortcutMenuGrip(ByRef ShortcutMenu As AcadPopupMenu)
+        'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
+    End Sub
+
+    Public Shared Sub COMDoc_BeginShortcutMenuOsnap(ByRef ShortcutMenu As AcadPopupMenu)
+        'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
+    End Sub
+
+    Public Shared Sub COMDoc_Deactivate()
 
     End Sub
 
-    Public Shared Sub EvDoc_BeginShortcutMenuDefault(ByRef ShortcutMenu As AcadPopupMenu)
-
-    End Sub
-
-    Public Shared Sub EvDoc_BeginShortcutMenuEdit(ByRef ShortcutMenu As AcadPopupMenu, ByRef SelectionSet As AcadSelectionSet)
-
-    End Sub
-
-    Public Shared Sub EvDoc_BeginShortcutMenuGrip(ByRef ShortcutMenu As AcadPopupMenu)
-
-    End Sub
-
-    Public Shared Sub EvDoc_BeginShortcutMenuOsnap(ByRef ShortcutMenu As AcadPopupMenu)
-
-    End Sub
-
-    Public Shared Sub EvDoc_Deactivate()
-
-    End Sub
-
-    Public Shared Sub EvDoc_EndCommand(CommandName As String)
+    Public Shared Sub COMDoc_EndCommand(CommandName As String)
+        If coneventos = False Then Exit Sub
         'If CommandName = "INSERT" Then
 
         '    'finComando = True
         'End If
     End Sub
 
-    Public Shared Sub EvDoc_EndLisp()
+    Public Shared Sub COMDoc_EndLisp()
 
     End Sub
 
-    Public Shared Sub EvDoc_EndPlot(DrawingName As String)
+    Public Shared Sub COMDoc_EndPlot(DrawingName As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_EndSave(FileName As String)
+    Public Shared Sub COMDoc_EndSave(FileName As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_EndShortcutMenu(ByRef ShortcutMenu As AcadPopupMenu)
+    Public Shared Sub COMDoc_EndShortcutMenu(ByRef ShortcutMenu As AcadPopupMenu)
+        AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=False)
+    End Sub
+
+    Public Shared Sub COMDoc_LayoutSwitched(LayoutName As String)
 
     End Sub
 
-    Public Shared Sub EvDoc_LayoutSwitched(LayoutName As String)
+    Public Shared Sub COMDoc_LispCancelled()
 
     End Sub
 
-    Public Shared Sub EvDoc_LispCancelled()
-
-    End Sub
-
-    Public Shared Sub EvDoc_ObjectAdded([Object] As Object)
+    Public Shared Sub COMDoc_ObjectAdded([Object] As Object)
         'If clsA Is Nothing Then clsA = New AutoCAD2acad.A2acad.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ''Debug.Print([Object].EntityName)
         'Dim acadO As AcadObject = EvCOMApp.ActiveDocument.ObjectIdToObject([Object].ObjectId)
@@ -224,7 +226,7 @@ Partial Public Class Eventos
         'End If
     End Sub
 
-    Public Shared Sub EvDoc_ObjectErased(<ComAliasName("AXDBLib.LONG_PTR")> ObjectId As Long)
+    Public Shared Sub COMDoc_ObjectErased(<ComAliasName("AXDBLib.LONG_PTR")> ObjectId As Long)
         'Try
         '    Unsubscribe_EvAXObj(clsA.DBObject_Get(ObjectId))
         '    Dim colIds As New ObjectIdCollection
@@ -235,7 +237,7 @@ Partial Public Class Eventos
         'End Try
     End Sub
 
-    Public Shared Sub EvDoc_ObjectModified(queObj As Object)
+    Public Shared Sub COMDoc_ObjectModified(queObj As Object)
         'If TypeOf queObj Is Autodesk.AutoCAD.Interop.Common.AcadBlockReference Then
         '    '        Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument
         '    '            'modTavil.AcadBlockReference_Modified(CType(queObj, Autodesk.AutoCAD.Interop.Common.AcadBlockReference))
@@ -264,15 +266,15 @@ Partial Public Class Eventos
         'End If
     End Sub
 
-    Public Shared Sub EvDoc_SelectionChanged()
+    Public Shared Sub COMDoc_SelectionChanged()
 
     End Sub
 
-    Public Shared Sub EvDoc_WindowChanged(WindowState As AcWindowState)
+    Public Shared Sub COMDoc_WindowChanged(WindowState As AcWindowState)
 
     End Sub
 
-    Public Shared Sub EvDoc_WindowMovedOrResized(<ComAliasName("AXDBLib.LONG_PTR")> HWNDFrame As Long, bMoved As Boolean)
+    Public Shared Sub COMDoc_WindowMovedOrResized(<ComAliasName("AXDBLib.LONG_PTR")> HWNDFrame As Long, bMoved As Boolean)
 
     End Sub
 End Class

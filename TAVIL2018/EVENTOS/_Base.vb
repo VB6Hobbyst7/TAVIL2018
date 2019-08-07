@@ -42,6 +42,8 @@ Partial Public Class Eventos
     ' ***** Variables
     Public Shared ultimoObjectId As ObjectId = Nothing
     Public Shared ultimoAXDoc As String = ""
+    ' ***** FLAG
+    Public Const coneventos As Boolean = False
     '
     Public Shared Sub Eventos_Inicializa()
         lIds = New List(Of ObjectId)
@@ -103,4 +105,29 @@ Partial Public Class Eventos
     Public Shared Function COMDb() As Autodesk.AutoCAD.Interop.Common.AcadDatabase
         Return COMDoc.Database
     End Function
+    '
+    Public Shared Sub AcadPopupMenuItem_PonerQuitar(ByRef ShortcutMenu As AcadPopupMenu, comando As String, queLabel As String, poner As Boolean)
+        ' Poner el AcadPopupMenuItem (Tiene que existir el comando TAVILACERCADE)
+        Dim acercadeMacro As String = Chr(27) + Chr(27) + Chr(95) + IIf(comando.EndsWith(" "), comando, comando & " ")  ' "TAVILACERCADE "
+        'Dim queLabel As String = "Tavil. Acerca de..."
+        Try
+            Dim encontrado As Boolean = False
+            For x As Integer = 0 To ShortcutMenu.Count - 1
+                Dim oItem As AcadPopupMenuItem = ShortcutMenu.Item(x)
+                If oItem.Label = queLabel Then
+                    encontrado = True
+                    If poner = False Then
+                        oItem.Delete()
+                        Exit Sub
+                    End If
+                    Exit For
+                End If
+            Next
+            If encontrado = False Then
+                Dim newItem As AcadPopupMenuItem = ShortcutMenu.AddMenuItem(ShortcutMenu.Count, queLabel, acercadeMacro)
+            End If
+        Catch ex As System.Exception
+
+        End Try
+    End Sub
 End Class

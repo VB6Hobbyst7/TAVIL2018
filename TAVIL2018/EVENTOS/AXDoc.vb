@@ -94,6 +94,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDoc_CommandEnded(sender As Object, e As CommandEventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         ' Si no hay elementos añadidos o modificados, salir (lIds.Count = 0)
         If lIds.Count = 0 Then Exit Sub
         '
@@ -110,7 +111,6 @@ Partial Public Class Eventos
         Next
         lIds.Clear()
         ultimoObjectId = Nothing
-        '
         '*********************************************
     End Sub
 
@@ -119,6 +119,7 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDoc_CommandWillStart(sender As Object, e As CommandEventArgs)
+        If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         lIds = New List(Of ObjectId)
     End Sub
 

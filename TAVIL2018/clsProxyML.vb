@@ -19,7 +19,6 @@ Imports a2 = AutoCAD2acad.A2acad
 '
 Public Class clsProxyML
     Public ELEMENTO As String = ""          ' Elemento
-
     Public DESCRIPCION As String = ""      ' Descripción
     'Public CTDAD As Double = 1             ' Ctdad
     Public MATERIAL As String = ""         ' Material
