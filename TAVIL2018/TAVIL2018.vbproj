@@ -163,6 +163,7 @@
     <Compile Include="clsLAYOUTDBS4.vb" />
     <Compile Include="clsProxyML.vb" />
     <Compile Include="clsProxyMLCol.vb" />
+    <Compile Include="clsUniones.vb" />
     <Compile Include="EVENTOS\AXBlockTR.vb" />
     <Compile Include="EVENTOS\AXEditor.vb" />
     <Compile Include="EVENTOS\AXEventM.vb" />
@@ -176,7 +177,7 @@
     <Compile Include="EVENTOS\COMObj.vb" />
     <Compile Include="EVENTOS\AXObj.vb" />
     <Compile Include="modTavil.vb" />
-    <Compile Include="PT.vb" />
+    <Compile Include="clsPT.vb" />
     <Compile Include="frmAgrupa.Designer.vb">
       <DependentUpon>frmAgrupa.vb</DependentUpon>
     </Compile>
@@ -411,6 +412,11 @@
     <None Include="Resources\copy32.png" />
     <None Include="Resources\copy32red.png" />
     <None Include="Resources\Transportador_300x206.png" />
+    <Content Include="DLLs\AutoCAD2acad.dll" />
+    <Content Include="DLLs\Linq2Acad.dll" />
+    <Content Include="DLLs\Linq2Acad.pdb" />
+    <Resource Include="DLLs\Linq2Acad.xml" />
+    <Content Include="DLLs\UtilesAlberto.dll" />
     <Content Include="TAVIL2018_INSTALADOR_INNO\TAVIL2018_INNO.iss" />
   </ItemGroup>
   <ItemGroup>

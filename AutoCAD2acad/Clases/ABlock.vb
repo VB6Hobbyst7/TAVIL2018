@@ -58,7 +58,7 @@ Namespace A2acad
                 Dim oBlr As AcadBlockReference
                 '********************************************************
                 'oDoc.SendCommand(Chr(27))
-                If pt Is Nothing Then pt = Me.oDoc.Utility.GetPoint(, "Punto Inserción Bloque")
+                If pt Is Nothing Then pt = oAppA.ActiveDocument.Utility.GetPoint(, "Punto Inserción Bloque")
                 If pt Is Nothing Then Exit Sub
                 Try
                     oBlr = oDoc.ModelSpace.InsertBlock(pt, nombre, sX, sY, sZ, rotacion)

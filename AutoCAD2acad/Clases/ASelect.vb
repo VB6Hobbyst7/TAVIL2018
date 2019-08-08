@@ -15,6 +15,53 @@ Imports Autodesk.AutoCAD.EditorInput
 Namespace A2acad
     Partial Public Class A2acad
         Public WithEvents oTresalte As System.Timers.Timer
+        Public Sub SelectionSet_Delete(Optional queSet As String = "")
+            ' Borra el SelectionSet (No los objetos que tuviera)
+            If queSet = "" Then queSet = regAPPA
+            Try
+                oSel = oAppA.ActiveDocument.SelectionSets.Item(queSet)
+                For x As Integer = 0 To oSel.Count
+                    oSel.Item(x).Highlight(False)
+                Next
+                oSel = Nothing
+                oAppA.ActiveDocument.SelectionSets.Item(queSet).Delete()
+            Catch ex As System.Exception
+                ' No existe
+            End Try
+        End Sub
+        Public Sub Selection_Quitar()
+            ' No usamos objecto. Por si los usaramos
+            Dim F1(1) As Short
+            Dim F2(1) As Object
+            Dim vF1 As Object = Nothing
+            Dim vF2 As Object = Nothing
+
+            '' Las 2 maneras valen igual. AcDbBlckReference es mejor (Solo coge bloques) INSERT coge sombreados también.
+            F1(0) = 100 : F2(0) = "*"
+            F1(1) = 0 : F2(1) = "*"
+            vF1 = F1
+            vF2 = F2
+            ''
+            If oAppA Is Nothing Then _
+    oAppA = CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication)
+            ''
+            ''
+            Try
+                oSel = oAppA.ActiveDocument.SelectionSets.Add(regAPPA)
+            Catch ex As System.Exception
+                oSel = oAppA.ActiveDocument.SelectionSets.Item(regAPPA)
+            End Try
+            ''
+            oSel.Clear()
+            ''
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   '' Solo una selección. Se quita lo que hubiera
+            '
+            Dim point() As Double = {10000, 10000, 100000}
+            oSel.SelectAtPoint(point)
+            '
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
+        End Sub
+
         Public Sub SeleccionCreaResalta_SinTimer(queEntidades As ArrayList, Optional conZoom As Boolean = True)
             ''
             Try
@@ -195,6 +242,7 @@ Namespace A2acad
         End Sub
 
         Public Sub Selecciona_AcadObject(objEnt As AcadObject)
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   ' Quitar la seleccion que hubiera.
             Dim queHandle As String = objEnt.Handle
             Dim obj As AcadObject = oAppA.ActiveDocument.HandleToObject(queHandle)
             ' Volver a seleccionar el objecto. Dara error si se ha borrado
@@ -206,6 +254,42 @@ Namespace A2acad
             Catch ex As Exception
                 '
             End Try
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   ' Quitar la seleccion que hubiera.
+        End Sub
+        Public Sub Selecciona_AcadID(IdEnt As Long)
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   ' Quitar la seleccion que hubiera.
+            Try
+                Dim oIPrt As New IntPtr(IdEnt)
+                Dim oId As New ObjectId(oIPrt)
+                Dim arrIds() As ObjectId = {oId}
+                Autodesk.AutoCAD.Internal.Utils.SelectObjects(arrIds)
+            Catch ex As Exception
+                '
+            End Try
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
+        End Sub
+        Public Sub Selecciona_AcadID(IdEnt As Long())
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   ' Quitar la seleccion que hubiera.
+            Dim colIds As New List(Of ObjectId)
+            For Each LongId As Long In IdEnt
+                Dim oId As New ObjectId(New IntPtr(LongId))
+                colIds.Add(oId)
+            Next
+            Try
+                Autodesk.AutoCAD.Internal.Utils.SelectObjects(colIds.ToArray)
+            Catch ex As Exception
+                '
+            End Try
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
+        End Sub
+        Public Sub Selecciona_AcadID(IdEnt As ObjectId())
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   ' Quitar la seleccion que hubiera.
+            Try
+                Autodesk.AutoCAD.Internal.Utils.SelectObjects(IdEnt)
+            Catch ex As Exception
+                '
+            End Try
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
         End Sub
 
 
@@ -1057,6 +1141,59 @@ repetir:
                 oSel = Nothing
             End If
             ''
+            Return resultado
+        End Function
+
+        Public Function Selecciona_TodoEnPunto(quePunto As Double, Optional acTipo As String = "*", Optional Tipo As String = "*") As List(Of Long)
+            Dim resultado As New List(Of Long)
+            'Dim cSeleccion As AcadSelectionSets
+            Dim F1(1) As Short
+            Dim F2(1) As Object
+            Dim vF1 As Object = Nothing
+            Dim vF2 As Object = Nothing
+
+            '' Las 2 maneras valen igual. AcDbBlckReference es mejor (Solo coge bloques) INSERT coge sombreados también.
+            F1(0) = 100 : F2(0) = acTipo
+            F1(1) = 0 : F2(1) = Tipo
+            vF1 = F1
+            vF2 = F2
+            ''
+            If oAppA Is Nothing Then _
+    oAppA = CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication)
+            ''
+            ''
+            Try
+                oSel = oAppA.ActiveDocument.SelectionSets.Add(regAPPA)
+            Catch ex As System.Exception
+                oSel = oAppA.ActiveDocument.SelectionSets.Item(regAPPA)
+            End Try
+            ''
+            oSel.Clear()
+            ''
+            oAppA.ActiveDocument.SetVariable("pickadd", 0)   '' Solo una selección. Se quita lo que hubiera
+            ''
+            Try
+                'Dim point() As Double = {10000, 10000, 100000}
+                oSel.SelectAtPoint(quePunto, vF1, vF2)
+            Catch ex As System.Exception
+                'Debug.Print(ex.Message)
+            End Try
+            'MsgBox(oSel.Count)
+            If oSel.Count > 0 Then
+                For Each oEnt As AcadEntity In oSel
+                    If TypeOf oEnt Is AcadBlockReference Then
+                        resultado.Add(oEnt.ObjectID)
+                    End If
+                Next
+                '
+                oSel.Clear()
+                oSel.Delete()
+                oSel = Nothing
+            Else
+                resultado = Nothing
+            End If
+            ''
+            oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
             Return resultado
         End Function
         Public Function SeleccionaDameBloquesONSCREEN() As ArrayList

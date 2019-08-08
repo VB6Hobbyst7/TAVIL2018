@@ -225,6 +225,9 @@
     <None Include="Resources\imgparabloquessinimage.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist "C:\DESARROLLO\CLIENTES\TAVIL\TAVIL2018\TAVIL2018\DLLs" xcopy $(TargetPath) "C:\DESARROLLO\CLIENTES\TAVIL\TAVIL2018\TAVIL2018\DLLs\" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

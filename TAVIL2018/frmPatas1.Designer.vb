@@ -116,6 +116,7 @@ Partial Class frmPatas1
         Me.tvPatas.HotTracking = True
         Me.tvPatas.Location = New System.Drawing.Point(12, 42)
         Me.tvPatas.Name = "tvPatas"
+        Me.tvPatas.ShowNodeToolTips = True
         Me.tvPatas.Size = New System.Drawing.Size(189, 498)
         Me.tvPatas.TabIndex = 14
         '

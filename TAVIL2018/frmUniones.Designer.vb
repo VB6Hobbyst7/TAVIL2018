@@ -29,6 +29,7 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.BtnCancelar = New System.Windows.Forms.Button()
         Me.LblInsertarUnion = New System.Windows.Forms.Label()
         Me.LblT2 = New System.Windows.Forms.Label()
         Me.LblT1 = New System.Windows.Forms.Label()
@@ -37,7 +38,8 @@ Partial Class frmUniones
         Me.BtnCrearUnion = New System.Windows.Forms.Button()
         Me.BtnEditarUnion = New System.Windows.Forms.Button()
         Me.BtnBorrarUnion = New System.Windows.Forms.Button()
-        Me.BtnCancelar = New System.Windows.Forms.Button()
+        Me.BtnSeleccionar = New System.Windows.Forms.Button()
+        Me.cbCapa = New System.Windows.Forms.CheckBox()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -56,6 +58,9 @@ Partial Class frmUniones
         '
         Me.tvUniones.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.tvUniones.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.tvUniones.HideSelection = False
+        Me.tvUniones.HotTracking = True
         Me.tvUniones.Location = New System.Drawing.Point(12, 29)
         Me.tvUniones.Name = "tvUniones"
         Me.tvUniones.Size = New System.Drawing.Size(145, 432)
@@ -88,9 +93,9 @@ Partial Class frmUniones
         Me.BtnInsertarUnion.BackColor = System.Drawing.SystemColors.Control
         Me.BtnInsertarUnion.Location = New System.Drawing.Point(13, 257)
         Me.BtnInsertarUnion.Name = "BtnInsertarUnion"
-        Me.BtnInsertarUnion.Size = New System.Drawing.Size(132, 36)
+        Me.BtnInsertarUnion.Size = New System.Drawing.Size(132, 45)
         Me.BtnInsertarUnion.TabIndex = 19
-        Me.BtnInsertarUnion.Text = "Insertar Unión"
+        Me.BtnInsertarUnion.Text = "Insertar/Mover Unión"
         Me.BtnInsertarUnion.UseVisualStyleBackColor = False
         '
         'GUnion
@@ -109,6 +114,17 @@ Partial Class frmUniones
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
+        '
+        'BtnCancelar
+        '
+        Me.BtnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnCancelar.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnCancelar.Location = New System.Drawing.Point(8, 323)
+        Me.BtnCancelar.Name = "BtnCancelar"
+        Me.BtnCancelar.Size = New System.Drawing.Size(74, 27)
+        Me.BtnCancelar.TabIndex = 25
+        Me.BtnCancelar.Text = "Cancelar"
+        Me.BtnCancelar.UseVisualStyleBackColor = False
         '
         'LblInsertarUnion
         '
@@ -179,16 +195,25 @@ Partial Class frmUniones
         Me.BtnBorrarUnion.Text = "Borrar Unión"
         Me.BtnBorrarUnion.UseVisualStyleBackColor = True
         '
-        'BtnCancelar
+        'BtnSeleccionar
         '
-        Me.BtnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCancelar.BackColor = System.Drawing.SystemColors.Control
-        Me.BtnCancelar.Location = New System.Drawing.Point(8, 323)
-        Me.BtnCancelar.Name = "BtnCancelar"
-        Me.BtnCancelar.Size = New System.Drawing.Size(74, 27)
-        Me.BtnCancelar.TabIndex = 25
-        Me.BtnCancelar.Text = "Cancelar"
-        Me.BtnCancelar.UseVisualStyleBackColor = False
+        Me.BtnSeleccionar.Enabled = False
+        Me.BtnSeleccionar.Location = New System.Drawing.Point(178, 200)
+        Me.BtnSeleccionar.Name = "BtnSeleccionar"
+        Me.BtnSeleccionar.Size = New System.Drawing.Size(171, 32)
+        Me.BtnSeleccionar.TabIndex = 24
+        Me.BtnSeleccionar.Text = "Seleccionar en Dibujo"
+        Me.BtnSeleccionar.UseVisualStyleBackColor = True
+        '
+        'cbCapa
+        '
+        Me.cbCapa.AutoSize = True
+        Me.cbCapa.Location = New System.Drawing.Point(178, 261)
+        Me.cbCapa.Name = "cbCapa"
+        Me.cbCapa.Size = New System.Drawing.Size(156, 21)
+        Me.cbCapa.TabIndex = 25
+        Me.cbCapa.Text = "Capa UNION Visible"
+        Me.cbCapa.UseVisualStyleBackColor = True
         '
         'frmUniones
         '
@@ -196,6 +221,8 @@ Partial Class frmUniones
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(761, 503)
+        Me.Controls.Add(Me.cbCapa)
+        Me.Controls.Add(Me.BtnSeleccionar)
         Me.Controls.Add(Me.BtnBorrarUnion)
         Me.Controls.Add(Me.BtnEditarUnion)
         Me.Controls.Add(Me.BtnCrearUnion)
@@ -233,4 +260,6 @@ Partial Class frmUniones
     Friend WithEvents BtnEditarUnion As Windows.Forms.Button
     Friend WithEvents BtnBorrarUnion As Windows.Forms.Button
     Friend WithEvents BtnCancelar As Windows.Forms.Button
+    Friend WithEvents BtnSeleccionar As Windows.Forms.Button
+    Friend WithEvents cbCapa As Windows.Forms.CheckBox
 End Class

@@ -15,6 +15,9 @@ Module movVar
     Public ed As Autodesk.AutoCAD.EditorInput.Editor
     Public oSel As Autodesk.AutoCAD.Interop.AcadSelectionSet
     Public oBlR As AcadBlockReference = Nothing     ' AcadBlockReference de la cinta que seleccionemos.
+    Public btnOn As Drawing.Color = Control.DefaultBackColor
+    Public btnOff As Drawing.Color = Drawing.Color.FromArgb(255, 192, 192)
+
     ' ***** OBJETOS AUTOCAD ACTIVE X
     Public docAct As Document
 
@@ -29,7 +32,8 @@ Module movVar
     'Public cXML As ClosedXML2acad.ClosedXML2acad
     Public pataD As clsBloquePataDatos     ' Datos de un bloque de pata (Parametros y Atributos)
     ' ***** CLASES con los datos de cada Hoja Excel
-    Public cPT As PT     ' Hoja PT de LAYOUTDBS4.xlsx
+    Public cPT As clsPT     ' Hoja PT de LAYOUTDBS4.xlsx
+    Public cU As clsUniones ' Hoja UNIONES de LAYOUTDBS4.xlsx
 
     '
     ' ***** FORMULARIO

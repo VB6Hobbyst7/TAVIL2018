@@ -18,7 +18,7 @@ Public Class frmPatas1
     '
     Private Sub frmPatas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
-        If cPT Is Nothing Then cPT = New PT
+        If cPT Is Nothing Then cPT = New clsPT
         app_procesointerno = True
         oBlR = Nothing
         Me.Text = "PATAS - v" & cfg._appversion
@@ -52,7 +52,7 @@ Public Class frmPatas1
     End Sub
     Private Sub btnActualizar_Click(sender As Object, e As EventArgs) Handles btnActualizar.Click
         Cursor.Current = Cursors.WaitCursor
-        btnActualizar.BackColor = Control.DefaultBackColor
+        btnActualizar.BackColor = btnOn
         tvPatas.Nodes.Clear()
         pb1.Value = 0
         ultimoHandle = ""
@@ -156,9 +156,9 @@ Public Class frmPatas1
             '
             ' Comprobar valores en Excel, si CODE no contiene XX y si estan vacíos
             If b._CODE.ToUpper.Contains("XX") = False AndAlso b._DIRECTRIZ.ToUpper.Contains("XX") = False AndAlso b._DIRECTRIZ1.ToUpper.Contains("XX") = False Then
-                If b._WIDTH = "" Then b._WIDTH = cPT.Filas_DameValorConCODE(b._CODE, nombreColumna.WIDTH)
-                If b._RADIUS = "" Then b._RADIUS = cPT.Filas_DameValorConCODE(b._CODE, nombreColumna.RADIUS)
-                If b._HEIGHT = "" Then b._HEIGHT = cPT.Filas_DameValorConCODE(b._CODE, nombreColumna.HEIGHT)
+                If b._WIDTH = "" Then b._WIDTH = cPT.Filas_DameValorConCODE(b._CODE, nombreColumnaPT.WIDTH)
+                If b._RADIUS = "" Then b._RADIUS = cPT.Filas_DameValorConCODE(b._CODE, nombreColumnaPT.RADIUS)
+                If b._HEIGHT = "" Then b._HEIGHT = cPT.Filas_DameValorConCODE(b._CODE, nombreColumnaPT.HEIGHT)
             End If
             b.Pon_ITEM_NUMBER()
             ' Ver si existe en la colección colData (aumentar cantidad) o añadirlo si no existía
@@ -209,7 +209,7 @@ Public Class frmPatas1
         btnSeleccionar.Enabled = False
         btnContar.Enabled = False
         gDatos.Enabled = False
-        btnActualizar.BackColor = Drawing.Color.Red
+        btnActualizar.BackColor = btnOff    ' Drawing.Color.Red
     End Sub
 
     Private Sub tvPatas_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles tvPatas.AfterSelect

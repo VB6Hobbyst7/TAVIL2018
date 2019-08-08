@@ -1,8 +1,8 @@
 ﻿Imports System.Linq
 Imports ce = ClosedXML.Excel
 
-Public Class PT
-    Const nHoja As String = "PT"
+Public Class clsPT
+    Public nHoja As String = HojaPatas
     'Public _Campos As String() = {
     '"CODE", "BLOCK", "LENGTH", "WIDTH", "RADIUS", "HEIGHT", "HAND", "MOTOR_POSITION", "MOTOR_OFFSET", "OTOR_TYPE",
     '"FLAT_BELT", "O_RING_BELT", "DESCRIPTION", "ESPECIFICATION", "INFEED_HEIGHT", "OUTFEED_HEIGHT", "ITEM_NUMBER", "O_RING_PROTECTION",
@@ -108,40 +108,40 @@ Public Class PT
         End If
     End Function
 
-    Public Function Filas_DameValorConCODE(nCODE As String, nombreCol As nombreColumna) As String
+    Public Function Filas_DameValorConCODE(nCODE As String, nombreCol As nombreColumnaPT) As String
         Dim valor As IEnumerable(Of String) = Nothing
         Select Case nombreCol
-            Case nombreColumna.BLOCK
+            Case nombreColumnaPT.BLOCK
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.BLOCK
-            Case nombreColumna.LENGTH
+            Case nombreColumnaPT.LENGTH
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.LENGTH
-            Case nombreColumna.WIDTH
+            Case nombreColumnaPT.WIDTH
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.WIDTH
-            Case nombreColumna.RADIUS
+            Case nombreColumnaPT.RADIUS
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.RADIUS
                         Distinct
-            Case nombreColumna.HEIGHT
+            Case nombreColumnaPT.HEIGHT
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.HEIGHT
-            Case nombreColumna.DESCRIPTION
+            Case nombreColumnaPT.DESCRIPTION
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.DESCRIPTION
-            Case nombreColumna.ITEM_NUMBER
+            Case nombreColumnaPT.ITEM_NUMBER
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.ITEM_NUMBER
                         Distinct
-            Case nombreColumna.CONVEYOR_HEIGHT_1
+            Case nombreColumnaPT.CONVEYOR_HEIGHT_1
                 valor = From fi In filas
                         Where fi.CODE = nCODE
                         Select fi.CONVEYOR_HEIGHT_1
@@ -181,44 +181,44 @@ Public Class PT
         End If
     End Function
 
-    Public Function Filas_DameColumnaUnicos(nombreCol As nombreColumna) As List(Of String)
+    Public Function Filas_DameColumnaUnicos(nombreCol As nombreColumnaPT) As List(Of String)
         Dim nombres As IEnumerable(Of String) = Nothing
         Select Case nombreCol
-            Case nombreColumna.BLOCK
+            Case nombreColumnaPT.BLOCK
                 nombres = From fi In filas
                           Select fi.BLOCK
                           Distinct
-            Case nombreColumna.LENGTH
+            Case nombreColumnaPT.LENGTH
                 nombres = From fi In filas
                           Where fi.LENGTH <> "" And fi.LENGTH <> "-"
                           Select fi.LENGTH
                           Distinct
-            Case nombreColumna.WIDTH
+            Case nombreColumnaPT.WIDTH
                 nombres = From fi In filas
                           Where fi.WIDTH <> "" And fi.WIDTH <> "-"
                           Select fi.WIDTH
                           Distinct
-            Case nombreColumna.RADIUS
+            Case nombreColumnaPT.RADIUS
                 nombres = From fi In filas
                           Where fi.RADIUS <> "" And fi.RADIUS <> "-"
                           Select fi.RADIUS
                           Distinct
-            Case nombreColumna.HEIGHT
+            Case nombreColumnaPT.HEIGHT
                 nombres = From fi In filas
                           Where fi.HEIGHT <> "" And fi.HEIGHT <> "-"
                           Select fi.HEIGHT
                           Distinct
-            Case nombreColumna.DESCRIPTION
+            Case nombreColumnaPT.DESCRIPTION
                 nombres = From fi In filas
                           Where fi.DESCRIPTION <> "" And fi.DESCRIPTION <> "-"
                           Select fi.DESCRIPTION
                           Distinct
-            Case nombreColumna.ITEM_NUMBER
+            Case nombreColumnaPT.ITEM_NUMBER
                 nombres = From fi In filas
                           Where fi.ITEM_NUMBER <> "" And fi.ITEM_NUMBER <> "-"
                           Select fi.ITEM_NUMBER
                           Distinct
-            Case nombreColumna.CONVEYOR_HEIGHT_1
+            Case nombreColumnaPT.CONVEYOR_HEIGHT_1
                 nombres = From fi In filas
                           Where fi.CONVEYOR_HEIGHT_1 <> "" And fi.CONVEYOR_HEIGHT_1 <> "-"
                           Select fi.CONVEYOR_HEIGHT_1
@@ -313,7 +313,7 @@ Public Class PTItem
     End Sub
 End Class
 
-Public Enum nombreColumna
+Public Enum nombreColumnaPT
     BLOCK
     LENGTH
     WIDTH

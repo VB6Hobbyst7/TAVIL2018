@@ -95,20 +95,20 @@ Namespace TAVIL2018
             End If
             '
             ' Rellenar las clases con los datos de Excel
-            cPT = New PT
+            cPT = New clsPT
             If Log Then cfg.PonLog("Llenada clase datos patas (cPT)", False)
 
             CierraFormularios()
             '
-            lnBloquesPatas = cPT.Filas_DameColumnaUnicos(nombreColumna.BLOCK)
+            lnBloquesPatas = cPT.Filas_DameColumnaUnicos(nombreColumnaPT.BLOCK)
             If lnBloquesPatas Is Nothing OrElse lnBloquesPatas.Count = 0 Then
                 MsgBox("No hay bloques de patas TAVIL que procesar... (PT*)")
                 Exit Sub
             End If
             ' Llenar listados de nombres únicos RADIUS, WIDTH y HEIGTH
-            lnWIDTH = cPT.Filas_DameColumnaUnicos(nombreColumna.WIDTH)
-            lnRADIUS = cPT.Filas_DameColumnaUnicos(nombreColumna.RADIUS)
-            lnHEIGHT = cPT.Filas_DameColumnaUnicos(nombreColumna.HEIGHT)
+            lnWIDTH = cPT.Filas_DameColumnaUnicos(nombreColumnaPT.WIDTH)
+            lnRADIUS = cPT.Filas_DameColumnaUnicos(nombreColumnaPT.RADIUS)
+            lnHEIGHT = cPT.Filas_DameColumnaUnicos(nombreColumnaPT.HEIGHT)
             'MsgBox("En construcción. Pendiente de datos TAVIL...")
             'Exit Sub
             '
@@ -126,15 +126,20 @@ Namespace TAVIL2018
             ' Put your command code here
             If Eventos.AXDocM.Count = 0 Then Exit Sub
             '
-            CierraFormularios()
-            '
-            'MsgBox("En construcción. Pendiente de datos TAVIL...")
-            'Exit Sub
-            '
             If Autodesk.AutoCAD.Internal.AcAeUtilities.IsInBlockEditor Then
                 MsgBox("Utilidad UNIONES no permitida en Editor de Bloques...")
                 Exit Sub
             End If
+            '
+            '
+            ' Rellenar las clases con los datos de Excel
+            cU = New clsUniones
+            If Log Then cfg.PonLog("Llenada clase datos UNIONES (cU)", False)
+            '
+            CierraFormularios()
+            '
+            'MsgBox("En construcción. Pendiente de datos TAVIL...")
+            'Exit Sub
 
             frmUn = New frmUniones
             frmUn.Visible = True
