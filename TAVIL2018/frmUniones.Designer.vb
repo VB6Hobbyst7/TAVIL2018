@@ -29,8 +29,8 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.BtnAceptar = New System.Windows.Forms.Button()
         Me.BtnCancelar = New System.Windows.Forms.Button()
-        Me.LblInsertarUnion = New System.Windows.Forms.Label()
         Me.LblT2 = New System.Windows.Forms.Label()
         Me.LblT1 = New System.Windows.Forms.Label()
         Me.BtnT2 = New System.Windows.Forms.Button()
@@ -40,6 +40,11 @@ Partial Class frmUniones
         Me.BtnBorrarUnion = New System.Windows.Forms.Button()
         Me.BtnSeleccionar = New System.Windows.Forms.Button()
         Me.cbCapa = New System.Windows.Forms.CheckBox()
+        Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
+        Me.cbTipo = New System.Windows.Forms.ComboBox()
+        Me.LblUniones = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -61,9 +66,9 @@ Partial Class frmUniones
         Me.tvUniones.Cursor = System.Windows.Forms.Cursors.Hand
         Me.tvUniones.HideSelection = False
         Me.tvUniones.HotTracking = True
-        Me.tvUniones.Location = New System.Drawing.Point(12, 29)
+        Me.tvUniones.Location = New System.Drawing.Point(12, 58)
         Me.tvUniones.Name = "tvUniones"
-        Me.tvUniones.Size = New System.Drawing.Size(145, 432)
+        Me.tvUniones.Size = New System.Drawing.Size(145, 413)
         Me.tvUniones.TabIndex = 4
         '
         'Label1
@@ -81,7 +86,7 @@ Partial Class frmUniones
         Me.cbZoom.AutoSize = True
         Me.cbZoom.Checked = True
         Me.cbZoom.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbZoom.Location = New System.Drawing.Point(12, 470)
+        Me.cbZoom.Location = New System.Drawing.Point(12, 477)
         Me.cbZoom.Name = "cbZoom"
         Me.cbZoom.Size = New System.Drawing.Size(122, 21)
         Me.cbZoom.TabIndex = 11
@@ -101,8 +106,10 @@ Partial Class frmUniones
         'GUnion
         '
         Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GUnion.Controls.Add(Me.Label2)
+        Me.GUnion.Controls.Add(Me.ComboBox1)
+        Me.GUnion.Controls.Add(Me.BtnAceptar)
         Me.GUnion.Controls.Add(Me.BtnCancelar)
-        Me.GUnion.Controls.Add(Me.LblInsertarUnion)
         Me.GUnion.Controls.Add(Me.LblT2)
         Me.GUnion.Controls.Add(Me.LblT1)
         Me.GUnion.Controls.Add(Me.BtnT2)
@@ -110,35 +117,38 @@ Partial Class frmUniones
         Me.GUnion.Controls.Add(Me.BtnInsertarUnion)
         Me.GUnion.Location = New System.Drawing.Point(368, 29)
         Me.GUnion.Name = "GUnion"
-        Me.GUnion.Size = New System.Drawing.Size(381, 357)
+        Me.GUnion.Size = New System.Drawing.Size(381, 387)
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
+        '
+        'BtnAceptar
+        '
+        Me.BtnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnAceptar.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnAceptar.Location = New System.Drawing.Point(301, 354)
+        Me.BtnAceptar.Name = "BtnAceptar"
+        Me.BtnAceptar.Size = New System.Drawing.Size(74, 27)
+        Me.BtnAceptar.TabIndex = 26
+        Me.BtnAceptar.Text = "Aceptar"
+        Me.BtnAceptar.UseVisualStyleBackColor = False
         '
         'BtnCancelar
         '
         Me.BtnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnCancelar.BackColor = System.Drawing.SystemColors.Control
-        Me.BtnCancelar.Location = New System.Drawing.Point(8, 323)
+        Me.BtnCancelar.Location = New System.Drawing.Point(8, 353)
         Me.BtnCancelar.Name = "BtnCancelar"
         Me.BtnCancelar.Size = New System.Drawing.Size(74, 27)
         Me.BtnCancelar.TabIndex = 25
         Me.BtnCancelar.Text = "Cancelar"
         Me.BtnCancelar.UseVisualStyleBackColor = False
         '
-        'LblInsertarUnion
-        '
-        Me.LblInsertarUnion.Location = New System.Drawing.Point(154, 257)
-        Me.LblInsertarUnion.Name = "LblInsertarUnion"
-        Me.LblInsertarUnion.Size = New System.Drawing.Size(221, 80)
-        Me.LblInsertarUnion.TabIndex = 24
-        Me.LblInsertarUnion.Text = "Datos Unión:"
-        '
         'LblT2
         '
         Me.LblT2.Location = New System.Drawing.Point(154, 140)
         Me.LblT2.Name = "LblT2"
-        Me.LblT2.Size = New System.Drawing.Size(221, 80)
+        Me.LblT2.Size = New System.Drawing.Size(221, 60)
         Me.LblT2.TabIndex = 23
         Me.LblT2.Text = "Datos T2:"
         '
@@ -146,7 +156,7 @@ Partial Class frmUniones
         '
         Me.LblT1.Location = New System.Drawing.Point(154, 29)
         Me.LblT1.Name = "LblT1"
-        Me.LblT1.Size = New System.Drawing.Size(221, 80)
+        Me.LblT1.Size = New System.Drawing.Size(221, 60)
         Me.LblT1.TabIndex = 22
         Me.LblT1.Text = "Datos T1:"
         '
@@ -170,7 +180,7 @@ Partial Class frmUniones
         '
         'BtnCrearUnion
         '
-        Me.BtnCrearUnion.Location = New System.Drawing.Point(178, 29)
+        Me.BtnCrearUnion.Location = New System.Drawing.Point(178, 39)
         Me.BtnCrearUnion.Name = "BtnCrearUnion"
         Me.BtnCrearUnion.Size = New System.Drawing.Size(171, 32)
         Me.BtnCrearUnion.TabIndex = 21
@@ -179,7 +189,7 @@ Partial Class frmUniones
         '
         'BtnEditarUnion
         '
-        Me.BtnEditarUnion.Location = New System.Drawing.Point(178, 86)
+        Me.BtnEditarUnion.Location = New System.Drawing.Point(178, 91)
         Me.BtnEditarUnion.Name = "BtnEditarUnion"
         Me.BtnEditarUnion.Size = New System.Drawing.Size(171, 32)
         Me.BtnEditarUnion.TabIndex = 22
@@ -198,7 +208,7 @@ Partial Class frmUniones
         'BtnSeleccionar
         '
         Me.BtnSeleccionar.Enabled = False
-        Me.BtnSeleccionar.Location = New System.Drawing.Point(178, 200)
+        Me.BtnSeleccionar.Location = New System.Drawing.Point(178, 195)
         Me.BtnSeleccionar.Name = "BtnSeleccionar"
         Me.BtnSeleccionar.Size = New System.Drawing.Size(171, 32)
         Me.BtnSeleccionar.TabIndex = 24
@@ -208,12 +218,57 @@ Partial Class frmUniones
         'cbCapa
         '
         Me.cbCapa.AutoSize = True
-        Me.cbCapa.Location = New System.Drawing.Point(178, 261)
+        Me.cbCapa.Location = New System.Drawing.Point(178, 310)
         Me.cbCapa.Name = "cbCapa"
         Me.cbCapa.Size = New System.Drawing.Size(156, 21)
         Me.cbCapa.TabIndex = 25
         Me.cbCapa.Text = "Capa UNION Visible"
         Me.cbCapa.UseVisualStyleBackColor = True
+        '
+        'BtnInsertaMultiplesUniones
+        '
+        Me.BtnInsertaMultiplesUniones.BackColor = System.Drawing.SystemColors.Control
+        Me.BtnInsertaMultiplesUniones.Location = New System.Drawing.Point(178, 247)
+        Me.BtnInsertaMultiplesUniones.Name = "BtnInsertaMultiplesUniones"
+        Me.BtnInsertaMultiplesUniones.Size = New System.Drawing.Size(171, 45)
+        Me.BtnInsertaMultiplesUniones.TabIndex = 26
+        Me.BtnInsertaMultiplesUniones.Text = "Insertar Multiples Uniones"
+        Me.BtnInsertaMultiplesUniones.UseVisualStyleBackColor = False
+        '
+        'cbTipo
+        '
+        Me.cbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbTipo.FormattingEnabled = True
+        Me.cbTipo.Items.AddRange(New Object() {"TODOS", "XXX"})
+        Me.cbTipo.Location = New System.Drawing.Point(80, 7)
+        Me.cbTipo.Name = "cbTipo"
+        Me.cbTipo.Size = New System.Drawing.Size(77, 24)
+        Me.cbTipo.TabIndex = 27
+        '
+        'LblUniones
+        '
+        Me.LblUniones.AutoSize = True
+        Me.LblUniones.Location = New System.Drawing.Point(12, 37)
+        Me.LblUniones.Name = "LblUniones"
+        Me.LblUniones.Size = New System.Drawing.Size(12, 17)
+        Me.LblUniones.TabIndex = 28
+        Me.LblUniones.Text = "."
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(223, 269)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(128, 24)
+        Me.ComboBox1.TabIndex = 27
+        '
+        'Label2
+        '
+        Me.Label2.Location = New System.Drawing.Point(154, 271)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(60, 22)
+        Me.Label2.TabIndex = 28
+        Me.Label2.Text = "UNION :"
         '
         'frmUniones
         '
@@ -221,6 +276,9 @@ Partial Class frmUniones
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(761, 503)
+        Me.Controls.Add(Me.LblUniones)
+        Me.Controls.Add(Me.cbTipo)
+        Me.Controls.Add(Me.BtnInsertaMultiplesUniones)
         Me.Controls.Add(Me.cbCapa)
         Me.Controls.Add(Me.BtnSeleccionar)
         Me.Controls.Add(Me.BtnBorrarUnion)
@@ -253,7 +311,6 @@ Partial Class frmUniones
     Friend WithEvents GUnion As Windows.Forms.GroupBox
     Friend WithEvents BtnT2 As Windows.Forms.Button
     Friend WithEvents BtnT1 As Windows.Forms.Button
-    Friend WithEvents LblInsertarUnion As Windows.Forms.Label
     Friend WithEvents LblT2 As Windows.Forms.Label
     Friend WithEvents LblT1 As Windows.Forms.Label
     Friend WithEvents BtnCrearUnion As Windows.Forms.Button
@@ -262,4 +319,10 @@ Partial Class frmUniones
     Friend WithEvents BtnCancelar As Windows.Forms.Button
     Friend WithEvents BtnSeleccionar As Windows.Forms.Button
     Friend WithEvents cbCapa As Windows.Forms.CheckBox
+    Friend WithEvents BtnAceptar As Windows.Forms.Button
+    Friend WithEvents BtnInsertaMultiplesUniones As Windows.Forms.Button
+    Friend WithEvents cbTipo As Windows.Forms.ComboBox
+    Friend WithEvents LblUniones As Windows.Forms.Label
+    Friend WithEvents Label2 As Windows.Forms.Label
+    Friend WithEvents ComboBox1 As Windows.Forms.ComboBox
 End Class

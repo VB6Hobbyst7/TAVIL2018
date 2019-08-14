@@ -21,6 +21,9 @@ Public Class clsUniones
             System.Windows.Forms.Application.DoEvents()
         Next
     End Sub
+    Public Function Fila_BuscaDame()
+
+    End Function
 End Class
 
 

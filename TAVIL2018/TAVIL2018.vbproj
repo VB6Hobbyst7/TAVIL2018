@@ -163,6 +163,7 @@
     <Compile Include="clsLAYOUTDBS4.vb" />
     <Compile Include="clsProxyML.vb" />
     <Compile Include="clsProxyMLCol.vb" />
+    <Compile Include="clsTransportador.vb" />
     <Compile Include="clsUniones.vb" />
     <Compile Include="EVENTOS\AXBlockTR.vb" />
     <Compile Include="EVENTOS\AXEditor.vb" />

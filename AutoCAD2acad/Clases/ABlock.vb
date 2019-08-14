@@ -79,6 +79,72 @@ Namespace A2acad
             End Try
         End Sub
 
+        ''' <summary>
+        ''' Inserta un bloque en el punto indicado. Le pasamos punto de insercion, nombre completo del bloque,
+        ''' escala x, y, z y rotación
+        ''' </summary>
+        ''' <param name="pt">Punto de inserción (Array(2) de coordenadas)</param>
+        ''' <param name="nombre">Nombre solo (Tienen que estar ya cargado) o fullPath (Si no está cargado)</param>
+        ''' <param name="sX">Escala X</param>
+        ''' <param name="sY">Escala Y</param>
+        ''' <param name="sZ">Escala Z</param>
+        ''' <param name="rotacion">Rotación (En radianes)</param>
+        Public Function Bloque_InsertaMultiple(Optional ByVal pt() As Double = Nothing, Optional ByVal nombre As String = "",
+                                 Optional ByVal sX As Double = 1.0#, Optional ByVal sY As Double = 1.0#,
+                                 Optional ByVal sZ As Double = 1.0#, Optional ByVal rotacion As Double = 0) As AcadBlockReference
+
+            'Me.LiberaApp(True)
+            Dim oDoc As Autodesk.AutoCAD.Interop.AcadDocument = oAppA.ActiveDocument
+            'Me.oDoc.SetVariable("NOMUTT", 1)
+            'AppActivate(clsA.oAppT)
+            Dim oBl As AcadBlock = Nothing
+            Dim oBlr As AcadBlockReference = Nothing
+            Dim existe As Boolean = True
+            If IO.File.Exists(nombre) = False Then
+                existe = False
+                Try
+                    ' Para saber si ya está cargado (Solo el nombre)
+                    oBl = oDoc.Blocks.Item(nombre)
+                    existe = True
+                Catch ex As Exception
+                    ' No existe este bloque cargado
+                    existe = False
+                End Try
+            End If
+            '
+            If existe = False Then
+                MsgBox("No existe el bloque " & nombre, MsgBoxStyle.Critical)
+                oBl = Nothing
+                VaciaMemoria()
+                Return Nothing
+            End If
+            '
+            Try
+                '********************************************************
+                'oDoc.SendCommand(Chr(27))
+                If pt Is Nothing Then pt = oAppA.ActiveDocument.Utility.GetPoint(, "Punto Inserción Bloque")
+                If pt Is Nothing Then
+                    Return Nothing
+                End If
+                Try
+                    oBlr = oDoc.ModelSpace.InsertBlock(pt, nombre, sX, sY, sZ, rotacion)
+                    VaciaMemoria()
+                Catch ex As Exception
+                    Return Nothing
+                End Try
+                '
+                oBlult = oBlr
+                'Me.oDoc.Blocks.Item(acb.Name).Explodable = False
+                'acb.Layer = preCapa & "TEMP"
+                'XPonDato(acb, xT.CAPA, preCapa & "TEMP")     'Ponemos el XDato "SERICAD" como aplicación registrado (codigo 1001)
+            Catch ex As Exception
+                'No hacemos nada. Ya que el usuario a podido cancelar la inserción.
+            Finally
+                VaciaMemoria()
+                'Me.oDoc.SetVariable("NOMUTT", 0)
+            End Try
+            Return oBlr
+        End Function
         ''
         Public Function Bloque_InsertaDerecha(queFiBlo As String, queBloEsta As AcadBlockReference, queEscala As Double, queDistDcha As Double) As AcadBlockReference
             Dim resultado As AcadBlockReference = Nothing
