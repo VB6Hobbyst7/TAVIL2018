@@ -21,8 +21,22 @@ Public Class clsUniones
             System.Windows.Forms.Application.DoEvents()
         Next
     End Sub
-    Public Function Fila_BuscaDame()
+    Public Function Fila_BuscaDame(inC As String, inInc As String, outC As String, outInc As String, angle As String) As String()
+        Dim resultado() As String = {"", ""}
 
+        Dim fila = From x In filas
+                   Where x.INFEED_CONVEYOR.Trim.StartsWith(inC.Trim) AndAlso
+                                    x.INFEED_INCLINATION.Trim = inInc.Trim AndAlso
+                                    x.OUTFEED_CONVEYOR.Trim.StartsWith(outC.Trim) AndAlso
+                                    x.OUTFEED_INCLINATION.Trim = outInc.Trim AndAlso
+                                    x.ANGLE.Trim = angle.Trim
+        '
+        If fila.Count = 0 Then
+            resultado(0) = fila.FirstOrDefault.UNION
+            resultado(1) = fila.FirstOrDefault.UNITS
+        End If
+        '
+        Return resultado
     End Function
 End Class
 

@@ -29,6 +29,8 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.CbUnion = New System.Windows.Forms.ComboBox()
         Me.BtnAceptar = New System.Windows.Forms.Button()
         Me.BtnCancelar = New System.Windows.Forms.Button()
         Me.LblT2 = New System.Windows.Forms.Label()
@@ -43,8 +45,10 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
         Me.cbTipo = New System.Windows.Forms.ComboBox()
         Me.LblUniones = New System.Windows.Forms.Label()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.LbT1 = New System.Windows.Forms.ListBox()
+        Me.LbT2 = New System.Windows.Forms.ListBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -106,8 +110,12 @@ Partial Class frmUniones
         'GUnion
         '
         Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GUnion.Controls.Add(Me.Label4)
+        Me.GUnion.Controls.Add(Me.Label3)
+        Me.GUnion.Controls.Add(Me.LbT2)
+        Me.GUnion.Controls.Add(Me.LbT1)
         Me.GUnion.Controls.Add(Me.Label2)
-        Me.GUnion.Controls.Add(Me.ComboBox1)
+        Me.GUnion.Controls.Add(Me.CbUnion)
         Me.GUnion.Controls.Add(Me.BtnAceptar)
         Me.GUnion.Controls.Add(Me.BtnCancelar)
         Me.GUnion.Controls.Add(Me.LblT2)
@@ -121,6 +129,22 @@ Partial Class frmUniones
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
+        '
+        'Label2
+        '
+        Me.Label2.Location = New System.Drawing.Point(206, 268)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(60, 22)
+        Me.Label2.TabIndex = 28
+        Me.Label2.Text = "UNION :"
+        '
+        'CbUnion
+        '
+        Me.CbUnion.FormattingEnabled = True
+        Me.CbUnion.Location = New System.Drawing.Point(272, 268)
+        Me.CbUnion.Name = "CbUnion"
+        Me.CbUnion.Size = New System.Drawing.Size(103, 24)
+        Me.CbUnion.TabIndex = 27
         '
         'BtnAceptar
         '
@@ -148,7 +172,7 @@ Partial Class frmUniones
         '
         Me.LblT2.Location = New System.Drawing.Point(154, 140)
         Me.LblT2.Name = "LblT2"
-        Me.LblT2.Size = New System.Drawing.Size(221, 60)
+        Me.LblT2.Size = New System.Drawing.Size(149, 60)
         Me.LblT2.TabIndex = 23
         Me.LblT2.Text = "Datos T2:"
         '
@@ -156,7 +180,7 @@ Partial Class frmUniones
         '
         Me.LblT1.Location = New System.Drawing.Point(154, 29)
         Me.LblT1.Name = "LblT1"
-        Me.LblT1.Size = New System.Drawing.Size(221, 60)
+        Me.LblT1.Size = New System.Drawing.Size(149, 60)
         Me.LblT1.TabIndex = 22
         Me.LblT1.Text = "Datos T1:"
         '
@@ -254,21 +278,41 @@ Partial Class frmUniones
         Me.LblUniones.TabIndex = 28
         Me.LblUniones.Text = "."
         '
-        'ComboBox1
+        'LbT1
         '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(223, 269)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(128, 24)
-        Me.ComboBox1.TabIndex = 27
+        Me.LbT1.FormattingEnabled = True
+        Me.LbT1.ItemHeight = 16
+        Me.LbT1.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
+        Me.LbT1.Location = New System.Drawing.Point(309, 29)
+        Me.LbT1.Name = "LbT1"
+        Me.LbT1.Size = New System.Drawing.Size(66, 52)
+        Me.LbT1.TabIndex = 30
         '
-        'Label2
+        'LbT2
         '
-        Me.Label2.Location = New System.Drawing.Point(154, 271)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(60, 22)
-        Me.Label2.TabIndex = 28
-        Me.Label2.Text = "UNION :"
+        Me.LbT2.FormattingEnabled = True
+        Me.LbT2.ItemHeight = 16
+        Me.LbT2.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
+        Me.LbT2.Location = New System.Drawing.Point(309, 140)
+        Me.LbT2.Name = "LbT2"
+        Me.LbT2.Size = New System.Drawing.Size(66, 52)
+        Me.LbT2.TabIndex = 31
+        '
+        'Label3
+        '
+        Me.Label3.Location = New System.Drawing.Point(206, 305)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(60, 22)
+        Me.Label3.TabIndex = 32
+        Me.Label3.Text = "UNITS :"
+        '
+        'Label4
+        '
+        Me.Label4.Location = New System.Drawing.Point(272, 305)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(103, 23)
+        Me.Label4.TabIndex = 33
+        Me.Label4.Text = "Label4"
         '
         'frmUniones
         '
@@ -324,5 +368,9 @@ Partial Class frmUniones
     Friend WithEvents cbTipo As Windows.Forms.ComboBox
     Friend WithEvents LblUniones As Windows.Forms.Label
     Friend WithEvents Label2 As Windows.Forms.Label
-    Friend WithEvents ComboBox1 As Windows.Forms.ComboBox
+    Friend WithEvents CbUnion As Windows.Forms.ComboBox
+    Friend WithEvents Label4 As Windows.Forms.Label
+    Friend WithEvents Label3 As Windows.Forms.Label
+    Friend WithEvents LbT2 As Windows.Forms.ListBox
+    Friend WithEvents LbT1 As Windows.Forms.ListBox
 End Class

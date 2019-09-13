@@ -408,8 +408,34 @@ Public Class frmUniones
                                         ButtonBorderStyle.Outset)
     End Sub
 
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbTipo.SelectedIndexChanged
+    Private Sub cbTipo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbTipo.SelectedIndexChanged
         tvUniones_LlenaXDATA(cbTipo.Text)
+    End Sub
+
+    Private Sub LbT1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LbT1.SelectedIndexChanged, LbT2.SelectedIndexChanged
+        If oT1 IsNot Nothing AndAlso oT2 IsNot Nothing AndAlso LbT1.SelectedIndex >= 0 AndAlso LbT2.SelectedIndex >= 0 Then
+            PonUnion()
+        End If
+    End Sub
+
+    'Private Sub LbT2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LbT2.SelectedIndexChanged
+
+    'End Sub
+
+    Private Sub CbUnion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CbUnion.SelectedIndexChanged
+
+    End Sub
+    '
+    Public Sub PonUnion()
+        'Dim coT1 As New clsTransportador(oT1)
+        'Dim coT2 As New clsTransportador(oT2)
+        Dim angulo As String = ""
+        If oT1.Rotation = oT2.Rotation Then
+            angulo = ""
+        Else
+            angulo = "90"
+        End If
+        Dim datos As String() = cU.Fila_BuscaDame(oT1.EffectiveName, LbT1.Text, oT2.EffectiveName, LbT2.Text, angulo)
     End Sub
 #End Region
 End Class

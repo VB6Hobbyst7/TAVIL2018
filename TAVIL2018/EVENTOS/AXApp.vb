@@ -94,7 +94,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXApp_EnterModal(sender As Object, e As EventArgs)
-
+        'Debug.Print(sender.ToString)
+        Debug.Print(e.ToString)
     End Sub
 
     Public Shared Sub AXApp_Idle(sender As Object, e As EventArgs)
