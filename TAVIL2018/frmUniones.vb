@@ -21,7 +21,8 @@ Public Class frmUniones
         Me.Text = HojaUniones & " - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ' Cargar recursos
-        clsA.ClonaTODODesdeDWG(BloqueRecursos)
+        clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
+        clsA.ClonaTODODesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), True, True)
         PonToolTipControles()
         Dim queCapa As AcadLayer = clsA.CapaDame(HojaUniones)
         If queCapa IsNot Nothing Then
@@ -222,6 +223,13 @@ Public Class frmUniones
         tvUniones_AfterSelect(Nothing, Nothing)
     End Sub
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+        If CbUnion.Text = "" Then
+            MsgBox("Debe seleccionar UNION...")
+            Exit Sub
+        Else
+            MsgBox("Guardado...")
+            BtnCancelar.PerformClick()
+        End If
     End Sub
 #Region "FUNCIONES"
     Public Sub PonToolTipControles()
@@ -422,20 +430,58 @@ Public Class frmUniones
 
     'End Sub
 
-    Private Sub CbUnion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CbUnion.SelectedIndexChanged
-
+    Public Sub CbUnion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CbUnion.SelectedIndexChanged
+        If CbUnion.Tag Is Nothing Then Exit Sub
+        If CbUnion.ToString = "" Then Exit Sub
+        '
+        Dim datos() As String = CbUnion.Tag
+        If datos Is Nothing Then Exit Sub
+        If datos.GetLength(0) <> 2 Then Exit Sub
+        If datos(0) = "" Then Exit Sub
+        '
+        datos(0) = datos(0).Replace(" ", "")
+        datos(1) = datos(1).Replace(" ", "")
+        '
+        Dim union As String() = datos(0).Split(";"c)
+        Dim units As String() = datos(1).Split(";"c)
+        For x As Integer = 0 To UBound(union)
+            If union(x) = CbUnion.Text Then
+                LblUnits.Text = units(x)
+                Exit For
+            End If
+        Next
     End Sub
     '
     Public Sub PonUnion()
         'Dim coT1 As New clsTransportador(oT1)
         'Dim coT2 As New clsTransportador(oT2)
+        CbUnion.Items.Clear()
         Dim angulo As String = ""
-        If oT1.Rotation = oT2.Rotation Then
+        'If oT1.Rotation = oT2.Rotation Then
+        '    angulo = ""
+        'Else
+        '    angulo = "90"
+        'End If
+        If (clsA.Bloque_LargoEnX(oT1.ObjectID) = True AndAlso clsA.Bloque_LargoEnX(oT2.ObjectID) = True) OrElse
+            (clsA.Bloque_LargoEnX(oT1.ObjectID) = False AndAlso clsA.Bloque_LargoEnX(oT2.ObjectID) = False) Then
             angulo = ""
         Else
             angulo = "90"
         End If
-        Dim datos As String() = cU.Fila_BuscaDame(oT1.EffectiveName, LbT1.Text, oT2.EffectiveName, LbT2.Text, angulo)
+        Dim datos As String() = cU.Fila_BuscaDame(oT1.EffectiveName.Split("_"c)(0), LbT1.Text, oT2.EffectiveName.Split("_"c)(0), LbT2.Text, angulo)
+        If datos(0) <> "" Then
+            CbUnion.Tag = datos
+            Dim valores As String = datos(0)
+            valores = valores.Replace(" o ", ";")
+            valores = valores.Replace(" ", "")
+            Dim partes() As String = valores.Split(";")
+            CbUnion.Items.AddRange(partes)
+            If CbUnion.Items.Contains(CbUnion.Text) = False Then CbUnion.Text = ""
+            If CbUnion.Items.Count = 1 Then
+                CbUnion.SelectedIndex = 0
+                'CbUnion_SelectedIndexChanged(Nothing, Nothing)
+            End If
+        End If
     End Sub
 #End Region
 End Class

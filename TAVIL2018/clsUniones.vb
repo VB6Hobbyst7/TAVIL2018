@@ -31,7 +31,7 @@ Public Class clsUniones
                                     x.OUTFEED_INCLINATION.Trim = outInc.Trim AndAlso
                                     x.ANGLE.Trim = angle.Trim
         '
-        If fila.Count = 0 Then
+        If fila.Count > 0 Then
             resultado(0) = fila.FirstOrDefault.UNION
             resultado(1) = fila.FirstOrDefault.UNITS
         End If

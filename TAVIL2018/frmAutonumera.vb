@@ -48,7 +48,7 @@ Public Class frmAutonumera
         '
         Me.Visible = False
         ' Cargar recursos
-        clsA.ClonaTODODesdeDWG(BloqueRecursos)
+        clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
 
         Try
             Autodesk.AutoCAD.ApplicationServices.Application.SetSystemVariable("CMLEADERSTYLE", fijoCliente)
@@ -120,7 +120,7 @@ Public Class frmAutonumera
         '
         Me.Visible = False
         ' Cargar recursos
-        clsA.ClonaTODODesdeDWG(BloqueRecursos)
+        clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
 
         Try
             Autodesk.AutoCAD.ApplicationServices.Application.SetSystemVariable("CMLEADERSTYLE", fijoCliente)

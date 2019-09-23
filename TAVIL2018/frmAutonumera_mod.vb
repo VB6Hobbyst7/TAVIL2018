@@ -502,7 +502,7 @@ Module frmAutonumera_mod
         '
 
         ' Cargar recursos
-        clsA.ClonaTODODesdeDWG(BloqueRecursos)
+        clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
 
         Try
             Autodesk.AutoCAD.ApplicationServices.Application.SetSystemVariable("CMLEADERSTYLE", regAPPCliente)

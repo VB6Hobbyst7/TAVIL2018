@@ -566,7 +566,42 @@ RETRY:
             ''
             VaciaMemoria()
         End Sub
-        ''
+        '
+
+        Public Function Bloque_LargoEnX(queId As Long) As Boolean
+            Dim resultado As Boolean = False
+            '
+            If oAppA Is Nothing Then _
+            oAppA = CType(Autodesk.AutoCAD.ApplicationServices.Application.AcadApplication, Autodesk.AutoCAD.Interop.AcadApplication)
+            '
+            Try
+                Dim oBl As Autodesk.AutoCAD.Interop.Common.AcadBlockReference = oAppA.ActiveDocument.ObjectIdToObject(queId)
+
+                ' Cargamos los atributos
+                Dim minExt As Object = Nothing
+                Dim maxExt As Object = Nothing
+                Dim largo As Double = 0   ' En X
+                Dim ancho As Double = 0   ' En Y
+                ' Rellenar coordenadas de minExt(2) y maxExt(2)
+                oBl.GetBoundingBox(minExt, maxExt)
+                ' Rellenar largo en X y ancho en Y
+                largo = maxExt(0) - minExt(0) ' 0 es la coordenada en X
+                ancho = maxExt(1) - minExt(1) ' 1 es la coordeanda en Y
+                '
+                If largo >= ancho Then
+                    resultado = True
+                Else
+                    resultado = False
+                End If
+                '
+                oBl = Nothing
+            Catch ex As Exception
+                resultado = False
+            End Try
+            '
+            Return resultado
+        End Function
+        '
         Public Sub Bloque_NUMERO()
             ''
             If oAppA Is Nothing Then _
