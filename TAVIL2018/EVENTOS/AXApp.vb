@@ -196,11 +196,11 @@ Partial Public Class Eventos
 
     End Sub
 
-    Public Shared Sub AXApp_QuitAborted(sender As Object, e As BeginQuitEventArgs) ' e As EventArgs)
+    Public Shared Sub AXApp_QuitAborted(sender As Object, e As EventArgs) ' e As EventArgs)
 
     End Sub
 
-    Public Shared Sub AXApp_QuitWillStart(sender As Object, e As Autodesk.AutoCAD.ApplicationServices.BeginQuitEventArgs) ' AcadApplication. e As EventArgs) ' e As EventArgs)
+    Public Shared Sub AXApp_QuitWillStart(sender As Object, e As EventArgs) ' AcadApplication. e As EventArgs) ' e As EventArgs)
 
     End Sub
 
