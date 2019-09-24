@@ -775,6 +775,31 @@ Repite:
     '    End If
     'End Function
     ''
-    Declare Function WNetGetConnection Lib "mpr.dll" Alias "WNetGetConnectionA" (ByVal lpszLocalName As String, _
+    Declare Function WNetGetConnection Lib "mpr.dll" Alias "WNetGetConnectionA" (ByVal lpszLocalName As String,
            ByVal lpszRemoteName As String, ByRef cbRemoteName As Integer) As Integer
+
+    Public Function Enum_DameValores(queEnum As System.Enum, Nombres As Boolean) As Array
+        Dim valores As Array = Nothing
+        If Nombres Then
+            valores = [Enum].GetNames(queEnum.GetType)
+        Else
+            valores = [Enum].GetValues(queEnum.GetType)
+        End If
+        '
+        'Dim names = [Enum].GetNames(queEnum.GetType)
+        'For Each name In names
+        '    Console.Write(name & " ")
+        'Next
+        'Console.WriteLine()
+        ' Output: Jumbo ExtraLarge Large Medium Small 
+
+        'Dim values = [Enum].GetValues(queEnum.GetType)
+        'For Each value In values
+        '    Console.Write(value & " ")
+        'Next
+        'Console.WriteLine()
+        ' Output: 0 1 2 3 4 
+        '
+        Return valores
+    End Function
 End Module

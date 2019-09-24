@@ -165,6 +165,7 @@
     <Compile Include="clsProxyMLCol.vb" />
     <Compile Include="clsTransportador.vb" />
     <Compile Include="clsUniones.vb" />
+    <Compile Include="ClsUnion.vb" />
     <Compile Include="EVENTOS\AXBlockTR.vb" />
     <Compile Include="EVENTOS\AXEditor.vb" />
     <Compile Include="EVENTOS\AXEventM.vb" />
