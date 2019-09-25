@@ -80,6 +80,7 @@ Public Class frmUniones
     End Sub
 
     Private Sub PonDatosUnion(Optional handle As String = "")
+        BorraDatos()
         If tvUniones.SelectedNode Is Nothing Then Exit Sub
         If handle = "" Then handle = tvUniones.SelectedNode.Tag.ToString
         If handle = "" Then Exit Sub
@@ -119,7 +120,7 @@ Public Class frmUniones
             End Try
         End If
         '
-        If UltimaClsUnion.ROTATION = "" OrElse UltimaClsUnion.ROTATION = "0" Then
+        If UltimaClsUnion.ROTATION = "0" Then
             LbRotation.SelectedIndex = 0
         ElseIf UltimaClsUnion.ROTATION = "90" Then
             LbRotation.SelectedIndex = 1
@@ -128,12 +129,14 @@ Public Class frmUniones
         End If
         '
         LbUnion.Items.Clear()
-        If UltimaClsUnion.UNION <> "" Then
+        If UltimaClsUnion.ExcelFilaUnion IsNot Nothing Then
             LbUnion.Tag = New String() {UltimaClsUnion.ExcelFilaUnion.UNION, UltimaClsUnion.ExcelFilaUnion.UNITS}
             LbUnion.Items.AddRange(UltimaClsUnion.ExcelFilaUnion.UNION.Split(";"c))
-            LbUnion.Text = UltimaClsUnion.UNION
+        Else
+            If UltimaClsUnion.UNION <> "" Then LbUnion.Items.Add(UltimaClsUnion.UNION)
         End If
-        '
+        LbUnion.Height = LbUnion.PreferredHeight
+        ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
         LblUnits.Text = UltimaClsUnion.UNITS
     End Sub
     Private Sub tvUniones_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles tvUniones.MouseDoubleClick
@@ -251,7 +254,7 @@ Public Class frmUniones
             LbInclinationT1.SelectedIndex >= 0 AndAlso
             LbInclinationT2.SelectedIndex >= 0 AndAlso
             LbRotation.SelectedIndex >= 0 Then
-            PonUnion()
+            'PonUnion()
         End If
     End Sub
     Private Sub LbUnion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LbUnion.SelectedIndexChanged
@@ -402,11 +405,11 @@ Public Class frmUniones
     Private Sub CompruebaDatos()
         ' Salir, si no esta activo GUnion
         If GUnion.Enabled = False Then Exit Sub
-        If EsUnionNueva = True Then
+        'If EsUnionNueva = True Then
 
-        ElseIf EsUnionNueva = False AndAlso UltimaClsUnion IsNot Nothing Then
+        'ElseIf EsUnionNueva = False AndAlso UltimaClsUnion IsNot Nothing Then
 
-        End If
+        'End If
         ' Antiguo PonUnion
         LbUnion.Items.Clear()
         LbUnion.SelectedIndex = -1
@@ -421,14 +424,14 @@ Public Class frmUniones
                 angulo = "90"
                 LbRotation.SelectedIndex = 1
             End If
-        Else
-            If UltimaClsUnion.ROTATION = "" OrElse UltimaClsUnion.ROTATION = "0" Then
-                LbRotation.SelectedIndex = 0
-            ElseIf UltimaClsUnion.ROTATION = "90" Then
-                LbRotation.SelectedIndex = 1
-            Else
-                LbRotation.SelectedIndex = -1
-            End If
+            'Else
+            '    If UltimaClsUnion.ROTATION = "" OrElse UltimaClsUnion.ROTATION = "0" Then
+            '        LbRotation.SelectedIndex = 0
+            '    ElseIf UltimaClsUnion.ROTATION = "90" Then
+            '        LbRotation.SelectedIndex = 1
+            '    Else
+            '        LbRotation.SelectedIndex = -1
+            '    End If
         End If
         UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, LbRotation.Text)
         If UltimaFilaExcel IsNot Nothing Then
@@ -616,11 +619,15 @@ Public Class frmUniones
     End Sub
     '
     Public Sub BorraDatos()
-        Me.LbInclinationT1.SelectedIndex = -1
-        Me.LbInclinationT2.SelectedIndex = -1
-        Me.LbRotation.SelectedIndex = -1
-        Me.LbUnion.SelectedIndex = -1
-        Me.LblUnits.Text = ""
+        'GUnion.Enabled = True
+        LblT1.Text = "Datos T1:" ': LblT1.Refresh()
+        LblT2.Text = "Datos T2:" ': LblT2.Refresh()
+        Me.LbInclinationT1.SelectedIndex = -1 ': Me.LbInclinationT1.Refresh()
+        Me.LbInclinationT2.SelectedIndex = -1 ': Me.LbInclinationT2.Refresh()
+        Me.LbRotation.SelectedIndex = -1 ': Me.LbRotation.Refresh()
+        Me.LbUnion.SelectedIndex = -1 ': Me.LbUnion.Refresh()
+        Me.LblUnits.Text = "" ': Me.LblUnits.Refresh()
+        'GUnion.Enabled = False
     End Sub
 #End Region
 End Class

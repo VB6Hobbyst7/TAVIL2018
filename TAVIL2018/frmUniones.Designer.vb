@@ -29,6 +29,7 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.LbUnion = New System.Windows.Forms.ListBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LbRotation = New System.Windows.Forms.ListBox()
         Me.LblUnits = New System.Windows.Forms.Label()
@@ -50,7 +51,6 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
         Me.cbTipo = New System.Windows.Forms.ComboBox()
         Me.LblUniones = New System.Windows.Forms.Label()
-        Me.LbUnion = New System.Windows.Forms.ListBox()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -133,6 +133,15 @@ Partial Class frmUniones
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
+        '
+        'LbUnion
+        '
+        Me.LbUnion.FormattingEnabled = True
+        Me.LbUnion.ItemHeight = 16
+        Me.LbUnion.Location = New System.Drawing.Point(77, 263)
+        Me.LbUnion.Name = "LbUnion"
+        Me.LbUnion.Size = New System.Drawing.Size(103, 20)
+        Me.LbUnion.TabIndex = 36
         '
         'Label4
         '
@@ -292,7 +301,7 @@ Partial Class frmUniones
         'cbCapa
         '
         Me.cbCapa.AutoSize = True
-        Me.cbCapa.Location = New System.Drawing.Point(178, 310)
+        Me.cbCapa.Location = New System.Drawing.Point(178, 388)
         Me.cbCapa.Name = "cbCapa"
         Me.cbCapa.Size = New System.Drawing.Size(156, 21)
         Me.cbCapa.TabIndex = 25
@@ -308,6 +317,7 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones.TabIndex = 26
         Me.BtnInsertaMultiplesUniones.Text = "Insertar Multiples Uniones"
         Me.BtnInsertaMultiplesUniones.UseVisualStyleBackColor = False
+        Me.BtnInsertaMultiplesUniones.Visible = False
         '
         'cbTipo
         '
@@ -327,15 +337,6 @@ Partial Class frmUniones
         Me.LblUniones.Size = New System.Drawing.Size(12, 17)
         Me.LblUniones.TabIndex = 28
         Me.LblUniones.Text = "."
-        '
-        'LbUnion
-        '
-        Me.LbUnion.FormattingEnabled = True
-        Me.LbUnion.ItemHeight = 16
-        Me.LbUnion.Location = New System.Drawing.Point(77, 263)
-        Me.LbUnion.Name = "LbUnion"
-        Me.LbUnion.Size = New System.Drawing.Size(103, 20)
-        Me.LbUnion.TabIndex = 36
         '
         'frmUniones
         '
