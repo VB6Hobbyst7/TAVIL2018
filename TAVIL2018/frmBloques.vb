@@ -115,7 +115,7 @@ Public Class frmBloques
             If oBlR IsNot Nothing Then
                 Dim tipoSel As String = lbTipos.SelectedItem.ToString.ToLower
                 Dim tipo As String = tipoSel.Substring(0, tipoSel.Length - 1)
-                clsA.XPonDato(oBlR, "tipo", tipo)
+                clsA.XPonDato(oBlR.Handle, "tipo", tipo)
             End If
         Catch ex As Exception
             MsgBox(ex.Message.ToString)
@@ -143,8 +143,8 @@ Public Class frmBloques
                 If clsA.oBlult IsNot Nothing Then
                         Dim tipoSel As String = lbTipos.SelectedItem.ToString.ToLower
                         Dim tipo As String = tipoSel.Substring(0, tipoSel.Length - 1)
-                        clsA.XPonDato(clsA.oBlult, "tipo", tipo)
-                    End If
+                    clsA.XPonDato(clsA.oBlult.Handle, "tipo", tipo)
+                End If
                 End If
         Catch ex As Exception
             MsgBox(ex.Message.ToString)

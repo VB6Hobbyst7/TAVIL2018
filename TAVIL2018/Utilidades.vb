@@ -5,6 +5,7 @@ Imports System.Data
 Imports System.Drawing
 Imports System.Text
 Imports System.IO
+Imports System.Windows.Forms
 
 '' Agregar Referencias NET: "System.Speech" y COM: "Microsoft Speech Object Library"
 Module Utilidades
@@ -167,7 +168,7 @@ Module Utilidades
         Dim colLista As New Collection
         Dim strD As String = CType(strD1, String)
 
-        For Each foundF As String In My.Computer.FileSystem.GetFiles( _
+        For Each foundF As String In My.Computer.FileSystem.GetFiles(
         strD, queEstructura, extension)
             'If todo = True Then
             'colLista.Add(foundF)
@@ -195,7 +196,7 @@ Module Utilidades
         If colFicherosProc Is Nothing Then colFicherosProc = New Hashtable
         Dim strD As String = CType(strD1, String)
 
-        For Each foundF As String In My.Computer.FileSystem.GetFiles( _
+        For Each foundF As String In My.Computer.FileSystem.GetFiles(
         strD, queEstructura, extension)
             'If todo = True Then
             'colLista.Add(foundF)
@@ -364,7 +365,7 @@ Module Utilidades
             Next
         End If
     End Sub
-''
+    ''
     Public Sub BorraTodosFicheros(ByVal queDir As String, ByVal dirTambien As Boolean)
         If IO.Directory.Exists(queDir) = False Then
             IO.Directory.CreateDirectory(queDir)
@@ -659,7 +660,7 @@ Repite:
         If ordenado = True Then arrNumeros.Sort()
         Return arrNumeros
     End Function
-	''
+    ''
     Public Sub CierraProceso(queProceso As String)
         'Dim proceso As System.Diagnostics.Process
         ' '' Cargar el proceso.
@@ -802,4 +803,39 @@ Repite:
         '
         Return valores
     End Function
+
+    Public Sub ListBox_SeleccionaPorTexto(ByRef queLb As ListBox, queTexto As String)
+        'For x As Integer = 0 To queLb.Items.Count - 1
+        '    If queLb.Items.Item(x).ToString = queTexto Then
+        '        queLb.SelectedIndex = x
+        '        Exit For
+        '    End If
+        'Next
+        'queLb.SelectedItem = queTexto
+        ' Buscar queTexto en queLb
+        Dim index As Integer = queLb.FindString(queTexto)
+        ' Si se ha encontrado, lo seleccionamos.
+        If index > -1 Then
+            'queLb.SetSelected(index, True)
+            queLb.SelectedIndex = index
+        Else
+            queLb.SelectedIndex = -1
+        End If
+    End Sub
+    Public Sub ComboBox_SeleccionaPorTexto(ByRef queCb As ComboBox, queTexto As String)
+        'For x As Integer = 0 To queCb.Items.Count - 1
+        '    If queCb.Items.Item(x).ToString = queTexto Then
+        '        queCb.SelectedIndex = x
+        '        Exit For
+        '    End If
+        'Next
+        ' Buscar queTexto en queLb
+        Dim index As Integer = queCb.FindString(queTexto)
+        ' Si se ha encontrado, lo seleccionamos.
+        If index > -1 Then
+            queCb.SelectedIndex = index
+        Else
+            queCb.SelectedIndex = -1
+        End If
+    End Sub
 End Module

@@ -59,7 +59,7 @@ Public Class frmAgrupa
         Dim arrEntities As ArrayList = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=False)
         If arrEntities IsNot Nothing AndAlso arrEntities.Count > 0 Then
             For Each oEnt As AcadEntity In arrEntities
-                clsA.XPonDato(oEnt, cGRUPO, queGrupo, True)
+                clsA.XPonDato(oEnt.Handle, cGRUPO, queGrupo, True)
             Next
             Dim oNode As TreeNode = tvGrupos.SelectedNode
             tvGrupos.SelectedNode = Nothing
@@ -75,9 +75,9 @@ Public Class frmAgrupa
         Dim arrEntities As ArrayList = clsA.SeleccionaDameEntitiesONSCREEN(solouna:=False)
         If arrEntities IsNot Nothing AndAlso arrEntities.Count > 0 Then
             For Each oEnt As AcadEntity In arrEntities
-                Dim queG As String = clsA.XLeeDato(oEnt, cGRUPO)
+                Dim queG As String = clsA.XLeeDato(oEnt.Handle, cGRUPO)
                 If queG = grupoAhora Then
-                    clsA.XPonDato(oEnt, cGRUPO, "", True)
+                    clsA.XPonDato(oEnt.Handle, cGRUPO, "", True)
                     If Eventos.COMDoc.ActiveSelectionSet IsNot Nothing Then
                         Try
                             Eventos.COMDoc.ActiveSelectionSet.RemoveItems(oEnt)
@@ -132,8 +132,8 @@ REPITE:
         Dim lGrupo As List(Of Long) = clsA.SeleccionaTodosObjetosXData("GRUPO", grupo)
         If lGrupo IsNot Nothing AndAlso lGrupo.Count > 0 Then
             For Each queId As Long In lGrupo
-                Dim oEnt As AcadEntity = Eventos.COMDoc().ObjectIdToObject(queId)
-                clsA.XPonDato(oEnt, cGRUPO, "")
+                Dim oEnt As AcadObject = Eventos.COMDoc().ObjectIdToObject(queId)
+                clsA.XPonDato(oEnt.Handle, cGRUPO, "")
             Next
         End If
         txtNombreGrupo.Text = ""
@@ -154,7 +154,7 @@ REPITE:
         ' Filtrar lista de grupo. Sacar nombres únicos.
         For Each queId As Long In arrTodos
             Dim acadObj As AcadObject = Eventos.COMDoc().ObjectIdToObject(queId)
-            Dim grupo As String = clsA.XLeeDato(acadObj, cGRUPO)
+            Dim grupo As String = clsA.XLeeDato(acadObj.Handle, cGRUPO)
             If grupo = "" Then Continue For
             '
             If tvGrupos.Nodes.ContainsKey(grupo) Then Continue For

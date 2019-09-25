@@ -793,7 +793,7 @@ repetir:
             '' Iteramos con el ArrayList de bloques insertados
             For Each oBlr As AcadBlockReference In queArrBlo
                 'Cogemos el FullPath del bloque insertado
-                Dim fullPath As String = XLeeDato(oBlr, datoPath)
+                Dim fullPath As String = XLeeDato(oBlr.Handle, datoPath)
                 If fullPath = "" Or IO.File.Exists(fullPath) = False Then Exit Sub
                 'Cogemos el nombre
                 Dim nombre As String = IO.Path.GetFileName(fullPath)
@@ -829,7 +829,7 @@ repetir:
                 inserta = oAppA.ActiveDocument.ActiveLayout.Block.InsertBlock(puntoInserta, nuevoFullPath, escX, escY, escZ, rotacion)
                 oBlr.Delete()
                 If inserta IsNot Nothing Then
-                    XPonDato(inserta, datoPath, nuevoFullPath)
+                    XPonDato(inserta.Handle, datoPath, nuevoFullPath)
                 End If
             Next
             oAppA.ActiveDocument.Regen(AcRegenType.acActiveViewport)
@@ -982,7 +982,7 @@ repetir:
             ' Leer XData para ver si está registrada regAPP
             If resultado = False Then
                 Try
-                    If XLeeDato(oBl, regAPPA) = regAPPA Then resultado = True
+                    If XLeeDato(oBl.Handle, regAPPA) = regAPPA Then resultado = True
                 Catch
                 End Try
             End If

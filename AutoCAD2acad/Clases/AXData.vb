@@ -78,10 +78,22 @@ Namespace A2acad
             Return resul
         End Function
 
-        Public Function XLeeDatosObject(ByVal objA As AcadObject) As Object()         'Devuelve todos los Xdata en un array
+        Public Function XLeeDatosHandle(ByVal oHandle As String) As Object()         'Devuelve todos los Xdata en un array
+            Dim objA As AcadObject = Nothing
             ' Leer xdata del objeto
             Dim xtipos() As Short = Nothing
             Dim resultado As Object() = Nothing
+            If oHandle = "" Then
+                Return resultado
+                Exit Function
+            End If
+            Try
+                objA = oAppA.ActiveDocument.HandleToObject(oHandle)
+            Catch ex As Exception
+                Return resultado
+                Exit Function
+            End Try
+            '
             Try
                 objA.GetXData(regAPPA, xtipos, resultado)
                 '' Si el objeto no tiene XData
@@ -95,11 +107,19 @@ Namespace A2acad
             Return resultado
         End Function
 
-        Public Function XLeeDato(ByVal objA As AcadObject, ByVal queNombre As String) As String     'Devuelve sólo la zona de SERICAD
+        Public Function XLeeDato(ByVal oHandle As String, ByVal queNombre As String) As String
             Dim resultado As String = ""
             Try
                 Dim xtipos() As Short = Nothing
                 Dim xdatos() As Object = Nothing
+                Dim objA As AcadObject = Nothing
+                Try
+                    objA = oAppA.ActiveDocument.HandleToObject(oHandle)
+                Catch ex As Exception
+                    Return ""
+                    Exit Function
+                End Try
+                '
                 objA.GetXData(regAPPA, xtipos, xdatos)
                 '' Si el objeto no tiene XData
                 If xdatos Is Nothing Then
@@ -125,7 +145,6 @@ Namespace A2acad
                 Else
                     resultado = ""
                 End If
-
             Catch ex As Exception
 
             End Try
@@ -186,98 +205,250 @@ Namespace A2acad
             objA.Update()
         End Sub
 
-        Public Sub XPonDato(ByVal objA As AcadObject, queNombre As String, queValor As String,
-                        Optional crear As Boolean = True)
-            Dim xtipos() As Short = Nothing
-            Dim xdatos() As Object = Nothing
-            objA.GetXData(regAPPA, xtipos, xdatos)
-            '' Si el objeto no tiene XData
-            If xdatos Is Nothing Then
-                XNuevo(objA)
-                objA.GetXData(regAPPA, xtipos, xdatos)
-            End If
-            '
-            Dim encontrado As Boolean = False
-            Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
-            '
-            If queNombre = "" Then
-                ' No hacemos nada
-            ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
-                xdatos(0) = regAPPA
-            ElseIf todo.Contains(queNombre) Then
-                Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
-                For x As Integer = 0 To UBound(valoresdatos)
-                    Dim nombrevalor As String = valoresdatos(x)
-                    Dim nombre As String = nombrevalor.Split("="c)(0)
-                    Dim valor As String = nombrevalor.Split("="c)(1)
-                    If nombre.Equals(queNombre) Then
-                        Dim nombrevalornuevo = nombre & "=" & queValor
-                        todo = todo.Replace(nombrevalor, nombrevalornuevo)
-                        xdatos(1) = todo
-                        objA.SetXData(xtipos, xdatos)
-                        encontrado = True
-                        Exit For
-                    End If
-                Next
-            End If
-            '
-            If encontrado = False And crear = True Then
-                If xdatos(1) = "" Then
-                    xdatos(1) = queNombre & "=" & queValor
-                Else
-                    xdatos(1) &= ";" & queNombre & "=" & queValor
-                End If
-                objA.SetXData(xtipos, xdatos)
-            End If
-            objA.Update()
-        End Sub
+        'Public Sub XPonDato(ByVal objA As Object, queNombre As String, queValor As String,
+        '                Optional crear As Boolean = True)
+        '    If objA Is Nothing Then Exit Sub
+        '    '
+        '    Dim xtipos() As Short = Nothing
+        '    Dim xdatos() As Object = Nothing
+        '    objA.GetXData(regAPPA, xtipos, xdatos)
+        '    '' Si el objeto no tiene XData
+        '    If xdatos Is Nothing Then
+        '        XNuevo(CType(objA, AcadObject))
+        '        objA.GetXData(regAPPA, xtipos, xdatos)
+        '    End If
+        '    '
+        '    Dim encontrado As Boolean = False
+        '    Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
+        '    '
+        '    If queNombre = "" Then
+        '        ' No hacemos nada
+        '    ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
+        '        xdatos(0) = regAPPA
+        '    ElseIf todo.Contains(queNombre) Then
+        '        Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+        '        For x As Integer = 0 To UBound(valoresdatos)
+        '            Dim nombrevalor As String = valoresdatos(x)
+        '            Dim nombre As String = nombrevalor.Split("="c)(0)
+        '            Dim valor As String = nombrevalor.Split("="c)(1)
+        '            If nombre.Equals(queNombre) Then
+        '                Dim nombrevalornuevo = nombre & "=" & queValor
+        '                todo = todo.Replace(nombrevalor, nombrevalornuevo)
+        '                xdatos(1) = todo
+        '                CType(objA, AcadObject).SetXData(xtipos, xdatos)
+        '                encontrado = True
+        '                Exit For
+        '            End If
+        '        Next
+        '    End If
+        '    '
+        '    If encontrado = False And crear = True Then
+        '        If xdatos(1) = "" Then
+        '            xdatos(1) = queNombre & "=" & queValor
+        '        Else
+        '            xdatos(1) &= ";" & queNombre & "=" & queValor
+        '        End If
+        '        CType(objA, AcadObject).SetXData(xtipos, xdatos)
+        '    End If
+        '    objA.Update()
+        'End Sub
+
+        'Public Sub XPonDato(ByVal objA As AcadEntity, queNombre As String, queValor As String,
+        '                Optional crear As Boolean = True)
+        '    Dim xtipos() As Short = Nothing
+        '    Dim xdatos() As Object = Nothing
+        '    objA.GetXData(regAPPA, xtipos, xdatos)
+        '    '' Si el objeto no tiene XData
+        '    If xdatos Is Nothing Then
+        '        XNuevo(objA)
+        '        objA.GetXData(regAPPA, xtipos, xdatos)
+        '    End If
+        '    '
+        '    Dim encontrado As Boolean = False
+        '    Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
+        '    '
+        '    If queNombre = "" Then
+        '        ' No hacemos nada
+        '    ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
+        '        xdatos(0) = regAPPA
+        '    ElseIf todo.Contains(queNombre) Then
+        '        Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+        '        For x As Integer = 0 To UBound(valoresdatos)
+        '            Dim nombrevalor As String = valoresdatos(x)
+        '            Dim nombre As String = nombrevalor.Split("="c)(0)
+        '            Dim valor As String = nombrevalor.Split("="c)(1)
+        '            If nombre.Equals(queNombre) Then
+        '                Dim nombrevalornuevo = nombre & "=" & queValor
+        '                todo = todo.Replace(nombrevalor, nombrevalornuevo)
+        '                xdatos(1) = todo
+        '                objA.SetXData(xtipos, xdatos)
+        '                encontrado = True
+        '                Exit For
+        '            End If
+        '        Next
+        '    End If
+        '    '
+        '    If encontrado = False And crear = True Then
+        '        If xdatos(1) = "" Then
+        '            xdatos(1) = queNombre & "=" & queValor
+        '        Else
+        '            xdatos(1) &= ";" & queNombre & "=" & queValor
+        '        End If
+        '        objA.SetXData(xtipos, xdatos)
+        '    End If
+        '    objA.Update()
+        'End Sub
+        'Public Sub XPonDato(ByVal objA As AcadObject, queNombre As String, queValor As String,
+        '                Optional crear As Boolean = True)
+        '    Dim xtipos() As Short = Nothing
+        '    Dim xdatos() As Object = Nothing
+        '    objA.GetXData(regAPPA, xtipos, xdatos)
+        '    '' Si el objeto no tiene XData
+        '    If xdatos Is Nothing Then
+        '        XNuevo(objA)
+        '        objA.GetXData(regAPPA, xtipos, xdatos)
+        '    End If
+        '    '
+        '    Dim encontrado As Boolean = False
+        '    Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
+        '    '
+        '    If queNombre = "" Then
+        '        ' No hacemos nada
+        '    ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
+        '        xdatos(0) = regAPPA
+        '    ElseIf todo.Contains(queNombre) Then
+        '        Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+        '        For x As Integer = 0 To UBound(valoresdatos)
+        '            Dim nombrevalor As String = valoresdatos(x)
+        '            Dim nombre As String = nombrevalor.Split("="c)(0)
+        '            Dim valor As String = nombrevalor.Split("="c)(1)
+        '            If nombre.Equals(queNombre) Then
+        '                Dim nombrevalornuevo = nombre & "=" & queValor
+        '                todo = todo.Replace(nombrevalor, nombrevalornuevo)
+        '                xdatos(1) = todo
+        '                objA.SetXData(xtipos, xdatos)
+        '                encontrado = True
+        '                Exit For
+        '            End If
+        '        Next
+        '    End If
+        '    '
+        '    If encontrado = False And crear = True Then
+        '        If xdatos(1) = "" Then
+        '            xdatos(1) = queNombre & "=" & queValor
+        '        Else
+        '            xdatos(1) &= ";" & queNombre & "=" & queValor
+        '        End If
+        '        objA.SetXData(xtipos, xdatos)
+        '    End If
+        '    objA.Update()
+        'End Sub
 
         Public Sub XPonDato(oId As Long, queNombre As String, queValor As String,
                         Optional crear As Boolean = True)
+            If IsNumeric(oId) = False Then Exit Sub
+            '
             Dim xtipos() As Short = Nothing
             Dim xdatos() As Object = Nothing
-            Dim objA As AcadObject = oAppA.ActiveDocument.ObjectIdToObject(oId)
-            objA.GetXData(regAPPA, xtipos, xdatos)
-            '' Si el objeto no tiene XData
-            If xdatos Is Nothing Then
-                XNuevo(objA)
+            Try
+                Dim objA As AcadObject = oAppA.ActiveDocument.ObjectIdToObject(oId)
                 objA.GetXData(regAPPA, xtipos, xdatos)
-            End If
-            '
-            Dim encontrado As Boolean = False
-            Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
-            '
-            If queNombre = "" Then
-                ' No hacemos nada
-            ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
-                xdatos(0) = regAPPA
-            ElseIf todo.Contains(queNombre) Then
-                Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
-                For x As Integer = 0 To UBound(valoresdatos)
-                    Dim nombrevalor As String = valoresdatos(x)
-                    Dim nombre As String = nombrevalor.Split("="c)(0)
-                    Dim valor As String = nombrevalor.Split("="c)(1)
-                    If nombre.Equals(queNombre) Then
-                        Dim nombrevalornuevo = nombre & "=" & queValor
-                        todo = todo.Replace(nombrevalor, nombrevalornuevo)
-                        xdatos(1) = todo
-                        objA.SetXData(xtipos, xdatos)
-                        encontrado = True
-                        Exit For
-                    End If
-                Next
-            End If
-            '
-            If encontrado = False And crear = True Then
-                If xdatos(1) = "" Then
-                    xdatos(1) = queNombre & "=" & queValor
-                Else
-                    xdatos(1) &= ";" & queNombre & "=" & queValor
+                '' Si el objeto no tiene XData
+                If xdatos Is Nothing Then
+                    XNuevo(objA)
+                    objA.GetXData(regAPPA, xtipos, xdatos)
                 End If
-                objA.SetXData(xtipos, xdatos)
-            End If
-            objA.Update()
+                '
+                Dim encontrado As Boolean = False
+                Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
+                '
+                If queNombre = "" Then
+                    ' No hacemos nada
+                ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
+                    xdatos(0) = regAPPA
+                ElseIf todo.Contains(queNombre) Then
+                    Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+                    For x As Integer = 0 To UBound(valoresdatos)
+                        Dim nombrevalor As String = valoresdatos(x)
+                        Dim nombre As String = nombrevalor.Split("="c)(0)
+                        Dim valor As String = nombrevalor.Split("="c)(1)
+                        If nombre.Equals(queNombre) Then
+                            Dim nombrevalornuevo = nombre & "=" & queValor
+                            todo = todo.Replace(nombrevalor, nombrevalornuevo)
+                            xdatos(1) = todo
+                            objA.SetXData(xtipos, xdatos)
+                            encontrado = True
+                            Exit For
+                        End If
+                    Next
+                End If
+                '
+                If encontrado = False And crear = True Then
+                    If xdatos(1) = "" Then
+                        xdatos(1) = queNombre & "=" & queValor
+                    Else
+                        xdatos(1) &= ";" & queNombre & "=" & queValor
+                    End If
+                    objA.SetXData(xtipos, xdatos)
+                End If
+                objA.Update()
+            Catch ex As Exception
+
+            End Try
         End Sub
+
+        Public Sub XPonDato(oHandle As String, queNombre As String, queValor As String,
+                        Optional crear As Boolean = True)
+            Dim xtipos() As Short = Nothing
+            Dim xdatos() As Object = Nothing
+            Try
+                Dim objA As AcadObject = oAppA.ActiveDocument.HandleToObject(oHandle)
+                objA.GetXData(regAPPA, xtipos, xdatos)
+                '' Si el objeto no tiene XData
+                If xdatos Is Nothing Then
+                    XNuevo(objA)
+                    objA.GetXData(regAPPA, xtipos, xdatos)
+                End If
+                '
+                Dim encontrado As Boolean = False
+                Dim todo As String = xdatos(1).ToString  '' Cadena de texto con todas los datos.
+                '
+                If queNombre = "" Then
+                    ' No hacemos nada
+                ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
+                    xdatos(0) = regAPPA
+                ElseIf todo.Contains(queNombre) Then
+                    Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+                    For x As Integer = 0 To UBound(valoresdatos)
+                        Dim nombrevalor As String = valoresdatos(x)
+                        Dim nombre As String = nombrevalor.Split("="c)(0)
+                        Dim valor As String = nombrevalor.Split("="c)(1)
+                        If nombre.Equals(queNombre) Then
+                            Dim nombrevalornuevo = nombre & "=" & queValor
+                            todo = todo.Replace(nombrevalor, nombrevalornuevo)
+                            xdatos(1) = todo
+                            objA.SetXData(xtipos, xdatos)
+                            encontrado = True
+                            Exit For
+                        End If
+                    Next
+                End If
+                '
+                If encontrado = False And crear = True Then
+                    If xdatos(1) = "" Then
+                        xdatos(1) = queNombre & "=" & queValor
+                    Else
+                        xdatos(1) &= ";" & queNombre & "=" & queValor
+                    End If
+                    objA.SetXData(xtipos, xdatos)
+                End If
+                objA.Update()
+            Catch ex As Exception
+
+            End Try
+
+        End Sub
+        '
         Public Function XEsApp(ByVal objA As AcadObject) As Boolean
             Dim resultado As Boolean = False
             Dim xtipos() As Short = Nothing
@@ -483,7 +654,7 @@ Namespace A2acad
                 For Each oEnt As AcadEntity In oSel
                     If Not (TypeOf oEnt Is AcadBlockReference) Then Continue For
 
-                    Dim strDato = Me.XLeeDato(oEnt, queNombre)
+                    Dim strDato = Me.XLeeDato(oEnt.Handle, queNombre)
                     If strDato.Trim().ToUpper() = queValor.Trim().ToUpper() Then
                         If elID Then
                             resultado.Add(CType(oEnt, AcadBlockReference).ObjectID) 'oBl.ObjectID)
@@ -535,7 +706,7 @@ Namespace A2acad
                 For Each oEnt As AcadEntity In oSel
                     If Not (TypeOf oEnt Is AcadBlockReference) Then Continue For
 
-                    Dim strDato = Me.XLeeDato(oEnt, queNombre)
+                    Dim strDato = Me.XLeeDato(oEnt.Handle, queNombre)
                     If strDato.Trim().ToUpper() = queValor.Trim().ToUpper() Then
                         If elID Then
                             resultado.Add(CType(oEnt, AcadBlockReference).ObjectID) 'oBl.ObjectID)

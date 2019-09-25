@@ -4,7 +4,7 @@ Imports Autodesk.AutoCAD.DatabaseServices
 Namespace A2acad
     Partial Public Class A2acad
 
-        Public Function XLeeDato(ByVal pId As ObjectId, ByVal queNombre As String, ByVal BlkRefIsErased As Boolean) As String
+        Public Function XLeeDatoNET(ByVal pId As ObjectId, ByVal queNombre As String, ByVal BlkRefIsErased As Boolean) As String
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
             Dim db As Database = doc.Database
             Dim strResult As String = ""
@@ -33,8 +33,6 @@ Namespace A2acad
                         Else
                             strResult = ""
                         End If
-
-
                     End If
                     acTrans.Commit()
                 End Using
@@ -46,7 +44,7 @@ Namespace A2acad
             End Try
         End Function
 
-        Public Sub XPonDato(ByVal pId As ObjectId, queNombre As String, queValor As String, ByVal BlkRefIsErased As Boolean)
+        Public Sub XPonDatoNET(ByVal pId As ObjectId, queNombre As String, queValor As String, ByVal BlkRefIsErased As Boolean)
 
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
             Dim db As Database = doc.Database
@@ -85,7 +83,7 @@ Namespace A2acad
                         ent.XData = rb
 
                     End Using
-                    Dim strDato As String = XLeeDato(pId, "ELEMENTO", BlkRefIsErased)
+                    Dim strDato As String = XLeeDatoNET(pId, "ELEMENTO", BlkRefIsErased)
                 End If
 
 

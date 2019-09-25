@@ -380,7 +380,7 @@ Namespace A2acad
             '
             If oSel IsNot Nothing AndAlso oSel.Count > 0 Then
                 For Each oEnt As AcadEntity In oSel
-                    Dim queGrupo As String = Me.XLeeDato(oEnt, nombreXData)
+                    Dim queGrupo As String = Me.XLeeDato(oEnt.Handle, nombreXData)
                     If queGrupo = "" Then Continue For
                     If igual = True AndAlso queGrupo.ToUpper <> valueXData.ToUpper Then
                         Continue For
@@ -1098,7 +1098,7 @@ repetir:
             Return resultado
         End Function
         '
-        Public Function SeleccionaDameBloquesPorNombre(Optional nombrebloque As String = "*") As List(Of Long)
+        Public Function SeleccionaDameBloquesPorNombreID(Optional nombrebloque As String = "*") As List(Of Long)
             Dim resultado As New List(Of Long)
             'Dim cSeleccion As AcadSelectionSets
             Dim F1(4) As Short
@@ -1144,6 +1144,52 @@ repetir:
             Return resultado
         End Function
 
+        Public Function SeleccionaDameHandle_PorNombreBloque(Optional nombrebloque As String = "*") As List(Of String)
+            Dim resultado As New List(Of String)
+            'Dim cSeleccion As AcadSelectionSets
+            Dim F1(4) As Short
+            Dim F2(4) As Object
+            Dim vF1 As Object = Nothing
+            Dim vF2 As Object = Nothing
+            ' F1(x) = 100 : F2(x) = "AcDbBlockReference"
+            ' F1(y) = 0 : F2(y) = "INSERT"
+            '' Las 2 maneras valen igual. AcDbBlckReference es mejor (Solo coge bloques) INSERT coge sombreados también.
+            F1(0) = -4 : F2(0) = "<AND"
+            F1(1) = 100 : F2(1) = "AcDbBlockReference"  ' Solo bloques
+            F1(2) = 0 : F2(2) = "INSERT"                ' Bloques y sombreados
+            F1(3) = 2 : F2(3) = nombrebloque            ' Solo con este nombre
+            F1(4) = -4 : F2(4) = "AND>"
+            ''
+            vF1 = F1
+            vF2 = F2
+            '
+            Try
+                oSel = oAppA.ActiveDocument.SelectionSets.Add(regAPPA)
+            Catch ex As System.Exception
+                oSel = oAppA.ActiveDocument.SelectionSets.Item(regAPPA)
+            End Try
+            ''
+            oSel.Clear()
+            Try
+                oSel.Select(AcSelect.acSelectionSetAll, , , vF1, vF2)
+            Catch ex As System.Exception
+                Debug.Print(ex.Message)
+            End Try
+            ''
+            If oSel.Count > 0 Then
+                For Each oEnt As AcadEntity In oSel
+                    If Not (TypeOf oEnt Is AcadBlockReference) Then Continue For
+                    resultado.Add(oEnt.Handle)
+                Next
+                '
+                oSel.Clear()
+                oSel.Delete()
+                oSel = Nothing
+            End If
+            ''
+            Return resultado
+        End Function
+        '
         Public Function Selecciona_TodoEnPunto(quePunto As Double, Optional acTipo As String = "*", Optional Tipo As String = "*") As List(Of Long)
             Dim resultado As New List(Of Long)
             'Dim cSeleccion As AcadSelectionSets

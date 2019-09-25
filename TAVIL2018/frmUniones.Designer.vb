@@ -33,10 +33,9 @@ Partial Class frmUniones
         Me.LbRotation = New System.Windows.Forms.ListBox()
         Me.LblUnits = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.LbT2 = New System.Windows.Forms.ListBox()
-        Me.LbT1 = New System.Windows.Forms.ListBox()
+        Me.LbInclinationT2 = New System.Windows.Forms.ListBox()
+        Me.LbInclinationT1 = New System.Windows.Forms.ListBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.CbUnion = New System.Windows.Forms.ComboBox()
         Me.BtnAceptar = New System.Windows.Forms.Button()
         Me.BtnCancelar = New System.Windows.Forms.Button()
         Me.LblT2 = New System.Windows.Forms.Label()
@@ -51,6 +50,7 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
         Me.cbTipo = New System.Windows.Forms.ComboBox()
         Me.LblUniones = New System.Windows.Forms.Label()
+        Me.LbUnion = New System.Windows.Forms.ListBox()
         Me.GUnion.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -112,14 +112,14 @@ Partial Class frmUniones
         'GUnion
         '
         Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GUnion.Controls.Add(Me.LbUnion)
         Me.GUnion.Controls.Add(Me.Label4)
         Me.GUnion.Controls.Add(Me.LbRotation)
         Me.GUnion.Controls.Add(Me.LblUnits)
         Me.GUnion.Controls.Add(Me.Label3)
-        Me.GUnion.Controls.Add(Me.LbT2)
-        Me.GUnion.Controls.Add(Me.LbT1)
+        Me.GUnion.Controls.Add(Me.LbInclinationT2)
+        Me.GUnion.Controls.Add(Me.LbInclinationT1)
         Me.GUnion.Controls.Add(Me.Label2)
-        Me.GUnion.Controls.Add(Me.CbUnion)
         Me.GUnion.Controls.Add(Me.BtnAceptar)
         Me.GUnion.Controls.Add(Me.BtnCancelar)
         Me.GUnion.Controls.Add(Me.LblT2)
@@ -168,25 +168,25 @@ Partial Class frmUniones
         Me.Label3.TabIndex = 32
         Me.Label3.Text = "UNITS :"
         '
-        'LbT2
+        'LbInclinationT2
         '
-        Me.LbT2.FormattingEnabled = True
-        Me.LbT2.ItemHeight = 16
-        Me.LbT2.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
-        Me.LbT2.Location = New System.Drawing.Point(309, 108)
-        Me.LbT2.Name = "LbT2"
-        Me.LbT2.Size = New System.Drawing.Size(66, 52)
-        Me.LbT2.TabIndex = 31
+        Me.LbInclinationT2.FormattingEnabled = True
+        Me.LbInclinationT2.ItemHeight = 16
+        Me.LbInclinationT2.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
+        Me.LbInclinationT2.Location = New System.Drawing.Point(309, 108)
+        Me.LbInclinationT2.Name = "LbInclinationT2"
+        Me.LbInclinationT2.Size = New System.Drawing.Size(66, 52)
+        Me.LbInclinationT2.TabIndex = 31
         '
-        'LbT1
+        'LbInclinationT1
         '
-        Me.LbT1.FormattingEnabled = True
-        Me.LbT1.ItemHeight = 16
-        Me.LbT1.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
-        Me.LbT1.Location = New System.Drawing.Point(309, 29)
-        Me.LbT1.Name = "LbT1"
-        Me.LbT1.Size = New System.Drawing.Size(66, 52)
-        Me.LbT1.TabIndex = 30
+        Me.LbInclinationT1.FormattingEnabled = True
+        Me.LbInclinationT1.ItemHeight = 16
+        Me.LbInclinationT1.Items.AddRange(New Object() {"FLAT", "DOWN", "UP"})
+        Me.LbInclinationT1.Location = New System.Drawing.Point(309, 29)
+        Me.LbInclinationT1.Name = "LbInclinationT1"
+        Me.LbInclinationT1.Size = New System.Drawing.Size(66, 52)
+        Me.LbInclinationT1.TabIndex = 30
         '
         'Label2
         '
@@ -195,14 +195,6 @@ Partial Class frmUniones
         Me.Label2.Size = New System.Drawing.Size(60, 22)
         Me.Label2.TabIndex = 28
         Me.Label2.Text = "UNION :"
-        '
-        'CbUnion
-        '
-        Me.CbUnion.FormattingEnabled = True
-        Me.CbUnion.Location = New System.Drawing.Point(77, 263)
-        Me.CbUnion.Name = "CbUnion"
-        Me.CbUnion.Size = New System.Drawing.Size(103, 24)
-        Me.CbUnion.TabIndex = 27
         '
         'BtnAceptar
         '
@@ -336,6 +328,15 @@ Partial Class frmUniones
         Me.LblUniones.TabIndex = 28
         Me.LblUniones.Text = "."
         '
+        'LbUnion
+        '
+        Me.LbUnion.FormattingEnabled = True
+        Me.LbUnion.ItemHeight = 16
+        Me.LbUnion.Location = New System.Drawing.Point(77, 263)
+        Me.LbUnion.Name = "LbUnion"
+        Me.LbUnion.Size = New System.Drawing.Size(103, 20)
+        Me.LbUnion.TabIndex = 36
+        '
         'frmUniones
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -390,11 +391,11 @@ Partial Class frmUniones
     Friend WithEvents cbTipo As Windows.Forms.ComboBox
     Friend WithEvents LblUniones As Windows.Forms.Label
     Friend WithEvents Label2 As Windows.Forms.Label
-    Friend WithEvents CbUnion As Windows.Forms.ComboBox
     Friend WithEvents LblUnits As Windows.Forms.Label
     Friend WithEvents Label3 As Windows.Forms.Label
-    Friend WithEvents LbT2 As Windows.Forms.ListBox
-    Friend WithEvents LbT1 As Windows.Forms.ListBox
+    Friend WithEvents LbInclinationT2 As Windows.Forms.ListBox
+    Friend WithEvents LbInclinationT1 As Windows.Forms.ListBox
     Friend WithEvents Label4 As Windows.Forms.Label
     Friend WithEvents LbRotation As Windows.Forms.ListBox
+    Friend WithEvents LbUnion As Windows.Forms.ListBox
 End Class

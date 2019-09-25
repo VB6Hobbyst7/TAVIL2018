@@ -133,7 +133,7 @@ Namespace TAVIL2018
             '
             '
             ' Rellenar las clases con los datos de Excel
-            cU = New clsUniones
+            cU = New ExcelFilas
             If Log Then cfg.PonLog("Llenada clase datos UNIONES (cU)", False)
             '
             CierraFormularios()

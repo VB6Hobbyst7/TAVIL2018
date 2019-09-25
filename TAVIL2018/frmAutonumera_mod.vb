@@ -124,7 +124,7 @@ Module frmAutonumera_mod
                     'Hay que acceder con Active X a la base de datos porque con ACAD da error al estar eliminado el objeto
                     'strElementoEntity = clsA.BloqueAtributoDame(CType(ent.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
                     'strElementoEntity = clsA.AttributeReference_Get(e.DBObject.Id, "ELEMENTO", OpenMode.ForRead, True).TextString
-                    strElementoEntity = clsA.XLeeDato(e.DBObject.Id, "ELEMENTO", True)
+                    strElementoEntity = clsA.XLeeDatoNET(e.DBObject.Id, "ELEMENTO", True)
                 Catch ex As Exception
                     strElementoEntity = "-1" 'Ha seleccionado un blockReference que no tiene atributo ELEMENTO y por lo tanto no se le puede asignar un proxy
                 End Try
@@ -167,7 +167,7 @@ Module frmAutonumera_mod
                     If arrayProxy.Count > 0 Then
                         'En principio solo tiene que encontrar uno
                         'clsA.BloqueAtributoEscribe(CType(arrayProxy(0), AcadBlockReference).ObjectID, "ELEMENTO", "") 'Lo pone vacio porque se elimina el proxy.
-                        clsA.XPonDato(CType(arrayProxy(0), AcadBlockReference), "ELEMENTO", "")
+                        clsA.XPonDato(CType(arrayProxy(0), AcadBlockReference).Handle, "ELEMENTO", "")
                     End If
                     ActualizaArrayProxiesEliminados(strElementoEntity)
 
@@ -322,9 +322,9 @@ Module frmAutonumera_mod
             If Not oBlkRef Is Nothing Then
                 Try
                     'Mira si tiene el xdata Elemento, si lo tiene lo modifica, y si no lo tiene, salta la Exception
-                    clsA.XLeeDato(oBlkRef.AcadObject, "ELEMENTO")
+                    clsA.XLeeDato(CType(oBlkRef.AcadObject, AcadObject).Handle, "ELEMENTO")
                     'Resetea valor
-                    clsA.XPonDato(oBlkRef.AcadObject, "ELEMENTO", "")
+                    clsA.XPonDato(CType(oBlkRef.AcadObject, AcadObject).Handle, "ELEMENTO", "")
                 Catch ex As Exception
 
                 End Try
@@ -348,17 +348,17 @@ Module frmAutonumera_mod
             If Not ent Is Nothing Then
                 Dim oMl As AcadMLeader = CType(ent.AcadObject, AcadMLeader)
                 'Con el valor antiguo de ELEMENTO, busca el blockreference asociado para actualizar su XDATA
-                Dim strElementoEntityOld As String = clsA.XLeeDato(oMl, "ELEMENTO")
+                Dim strElementoEntityOld As String = clsA.XLeeDato(oMl.Handle, "ELEMENTO")
                 Dim arrayProxy As ArrayList = clsA.DameBloquesTODOS_XData("ELEMENTO", strElementoEntityOld)
                 If arrayProxy.Count > 0 Then
                     'En principio solo tiene que encontrar un blockReference
                     'Actualiza el XDATA del blockReference
-                    clsA.XPonDato(CType(arrayProxy(0), AcadBlockReference), "ELEMENTO", item.Value)
+                    clsA.XPonDato(CType(arrayProxy(0), AcadBlockReference).Handle, "ELEMENTO", item.Value)
                 End If
                 'Actualiza el atributo del Mleader
                 clsA.MLeaderBlock_PonValorAtributo(oMl, "ELEMENTO", item.Value.Split(".")(1))
                 'Actualiza el Xdata del Mleader
-                clsA.XPonDato(oMl, "ELEMENTO", item.Value)  ', regAPPCliente)
+                clsA.XPonDato(oMl.Handle, "ELEMENTO", item.Value)  ', regAPPCliente)
 
             End If
         Next
@@ -386,7 +386,7 @@ Module frmAutonumera_mod
                 'arrayElemento(1) es Id
 
                 'Dim arrayElemento() As String = clsP.ELEMENTO.Split(".")
-                Dim arrayElemento() As String = clsA.XLeeDato(oMl, "ELEMENTO").Split(".")
+                Dim arrayElemento() As String = clsA.XLeeDato(oMl.Handle, "ELEMENTO").Split(".")
 
                 If colP.ContainsKey(arrayElemento(0)) = True Then
                     colP(arrayElemento(0)).Add(clsP)
@@ -449,7 +449,7 @@ Module frmAutonumera_mod
 
                 Try
                     'strElementoEntity = clsA.BloqueAtributoDame(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
-                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference), "ELEMENTO")
+                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
                 Catch ex As Exception
                     strElementoEntity = "-1" 'Ha seleccionado un blockReference que no tiene atributo ELEMENTO y por lo tanto no se le puede asignar un proxy
                 End Try
@@ -526,7 +526,7 @@ Module frmAutonumera_mod
                 Dim strElementoEntity As String
                 Try
                     'strElementoEntity = clsA.BloqueAtributoDame(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
-                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference), "ELEMENTO")
+                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference).Handle, "ELEMENTO")
                 Catch ex As Exception
                     strElementoEntity = "-1" 'Ha seleccionado un blockReference que no tiene atributo ELEMENTO y por lo tanto no se le puede asignar un proxy
                 End Try
@@ -538,12 +538,12 @@ Module frmAutonumera_mod
 
                         'Actualiza el proxy con el Elemento (Familia.ID)
                         clsA.MLeaderBlock_PonValorAtributo(oMl, "ELEMENTO", ElementoProxyRecomendado.Split(".")(1))
-                        clsA.XPonDato(oMl, "ELEMENTO", ElementoProxyRecomendado)    ', regAPPCliente)
+                        clsA.XPonDato(oMl.Handle, "ELEMENTO", ElementoProxyRecomendado)    ', regAPPCliente)
 
                         colP_AddElemento(ElementoProxyRecomendado, oMl)
 
                         'clsA.BloqueAtributoEscribe(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO", ElementoProxyRecomendado)
-                        clsA.XPonDato(CType(oEntity.AcadObject, AcadBlockReference), "ELEMENTO", ElementoProxyRecomendado)  ', regAPPCliente)
+                        clsA.XPonDato(CType(oEntity.AcadObject, AcadBlockReference).Handle, "ELEMENTO", ElementoProxyRecomendado)  ', regAPPCliente)
 
                         ElementoProxyRecomendado = RecomiendaElementoLibre(oEntity)
                     End If

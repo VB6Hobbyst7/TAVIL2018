@@ -72,7 +72,7 @@ Public Class frmAutonumera
                 Dim strElementoEntity As String
                 Try
                     'strElementoEntity = clsA.BloqueAtributoDame(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
-                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference), "ELEMENTO")
+                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
                 Catch ex As Exception
                     strElementoEntity = "-1" 'Ha seleccionado un blockReference que no tiene atributo ELEMENTO y por lo tanto no se le puede asignar un proxy
                 End Try
@@ -84,12 +84,12 @@ Public Class frmAutonumera
 
                         'Actualiza el proxy con el Elemento (Familia.ID)
                         clsA.MLeaderBlock_PonValorAtributo(oMl, "ELEMENTO", ElementoProxyRecomendado.Split(".")(1))
-                        clsA.XPonDato(oMl, "ELEMENTO", ElementoProxyRecomendado)    ', regAPPCliente)
+                        clsA.XPonDato(oMl.Handle, "ELEMENTO", ElementoProxyRecomendado)    ', regAPPCliente)
 
                         colP_AddElemento(ElementoProxyRecomendado, oMl)
 
                         'clsA.BloqueAtributoEscribe(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO", ElementoProxyRecomendado)
-                        clsA.XPonDato(CType(oEntity.AcadObject, AcadBlockReference), "ELEMENTO", ElementoProxyRecomendado)  ', regAPPCliente)
+                        clsA.XPonDato(CType(oEntity.AcadObject, AcadBlockReference).Handle, "ELEMENTO", ElementoProxyRecomendado)  ', regAPPCliente)
 
                         ElementoProxyRecomendado = RecomiendaElementoLibre(oEntity)
                     End If

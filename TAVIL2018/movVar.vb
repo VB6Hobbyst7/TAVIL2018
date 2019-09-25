@@ -33,7 +33,7 @@ Module movVar
     Public pataD As clsBloquePataDatos     ' Datos de un bloque de pata (Parametros y Atributos)
     ' ***** CLASES con los datos de cada Hoja Excel
     Public cPT As clsPT     ' Hoja PT de LAYOUTDBS4.xlsx
-    Public cU As clsUniones ' Hoja UNIONES de LAYOUTDBS4.xlsx
+    Public cU As ExcelFilas ' Hoja UNIONES de LAYOUTDBS4.xlsx
 
     '
     ' ***** FORMULARIO
@@ -68,7 +68,7 @@ Module movVar
     Public Const estilotexto As String = fijoCliente & "_TEXTO"
     Public Const estilotabla As String = fijoCliente & "_TABLA"
     Public Const cGRUPO As String = "GRUPO"
-    Public Const cUNION As String = "UNION"
+    Public Const NombreBloqueUNION As String = "UNION"
     'Public Const BloqueUnion As String = cUNION
     '
     ' ***** VARIABLES CONFIGURACION
