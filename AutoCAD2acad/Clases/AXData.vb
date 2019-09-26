@@ -23,8 +23,8 @@ Namespace A2acad
         Public Sub XNuevo(ByRef objA As AcadObject,
                   Optional queRegApp As String = "",
                   Optional queValor As String = "")
-            Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
-                If queRegApp = "" Then
+            'Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
+            If queRegApp = "" Then
                     xDObj(0) = regAPPA
                 Else
                     xDObj(0) = queRegApp
@@ -35,7 +35,7 @@ Namespace A2acad
                 End If
                 '' Pone los XData. Solo si un objeto no tiene XData.
                 XPonTiposDatosArrays(objA, xTObj, xDObj)
-            End Using
+            'End Using
         End Sub
 
         Public Sub XBorrar(ByVal objA As AcadObject)
@@ -151,6 +151,26 @@ Namespace A2acad
             Return resultado
         End Function
 
+        Public Function XLeeDato(ByVal oId As Long, ByVal queNombre As String) As String
+            Dim resultado As String = ""
+            Dim objA As AcadObject = Nothing
+            Try
+                objA = oAppA.ActiveDocument.HandleToObject(oId)
+            Catch ex As Exception
+                Return ""
+                Exit Function
+            End Try
+            '
+            resultado = XLeeDato(objA.Handle, queNombre)
+            Return resultado
+        End Function
+
+        Public Function XLeeDato(ByVal objA As AcadObject, ByVal queNombre As String) As String
+            Dim resultado As String = ""
+            resultado = XLeeDato(objA.Handle, queNombre)
+            Return resultado
+        End Function
+
         Public Function XLeeDatoTodosNombresValores(ByVal objA As AcadObject) As String
             Dim resultado As String = ""
             Try
@@ -184,7 +204,9 @@ Namespace A2acad
 
         Public Sub XPonTiposDatosArrays(ByVal objA As AcadObject, ByVal tipo As Short(), ByVal dato As Object())
             '' Poner xdata al objeto. Solo para SERICAD
-            Call objA.SetXData(tipo, dato)
+            Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
+                Call objA.SetXData(tipo, dato)
+            End Using
             Try
                 objA.Update()
             Catch ex As Exception
@@ -200,7 +222,9 @@ Namespace A2acad
             If xdatos Is Nothing Then
                 XNuevo(objA)
                 xdatos(1) = datos
-                objA.SetXData(xtipos, xdatos)
+                Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
+                    objA.SetXData(xtipos, xdatos)
+                End Using
             End If
             objA.Update()
         End Sub
@@ -376,7 +400,10 @@ Namespace A2acad
                             Dim nombrevalornuevo = nombre & "=" & queValor
                             todo = todo.Replace(nombrevalor, nombrevalornuevo)
                             xdatos(1) = todo
-                            objA.SetXData(xtipos, xdatos)
+
+                            Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
+                                objA.SetXData(xtipos, xdatos)
+                            End Using
                             encontrado = True
                             Exit For
                         End If
@@ -427,7 +454,10 @@ Namespace A2acad
                             Dim nombrevalornuevo = nombre & "=" & queValor
                             todo = todo.Replace(nombrevalor, nombrevalornuevo)
                             xdatos(1) = todo
-                            objA.SetXData(xtipos, xdatos)
+                            Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
+
+                                objA.SetXData(xtipos, xdatos)
+                            End Using
                             encontrado = True
                             Exit For
                         End If

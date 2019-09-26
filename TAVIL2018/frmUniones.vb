@@ -26,7 +26,8 @@ Public Class frmUniones
         ' Cargar recursos
         Using oLock As DocumentLock = Eventos.AXDoc.LockDocument
             'clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
-            clsA.ClonaTODODesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), True, True)
+            'clsA.ClonaTODODesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), True, True)
+            clsA.ClonaBloqueDesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), "UNION")
         End Using
         PonToolTipControles()
         Dim queCapa As AcadLayer = clsA.CapaDame(HojaUniones)
@@ -373,6 +374,7 @@ Public Class frmUniones
     Public Sub Datos_1PonUnion()
         If GUnion.Enabled = False Then Exit Sub
         '
+        If UltimoBloqueT1 Is Nothing OrElse UltimoBloqueT2 Is Nothing Then Exit Sub
         Dim angulo As String = LbRotation.Text
         UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, angulo)
         If UltimaFilaExcel IsNot Nothing Then

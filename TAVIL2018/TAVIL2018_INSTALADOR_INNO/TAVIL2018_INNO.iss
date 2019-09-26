@@ -3,7 +3,7 @@
 
 #define MyAppName "TAVIL2018"
 #define MyAppNameDir "TAVIL2018.bundle"
-#define MyAppVersion "2018.0.0.15"
+#define MyAppVersion "2018.0.0.16"
 #define MyAppPublisher "Copyright © Jose Alberto Torres (2aCAD Global Group  2018)"
 #define MyAppURL "http://www.2acad.es"
 #define MyWeb "2aCAD Global Group"

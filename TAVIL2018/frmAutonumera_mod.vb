@@ -180,11 +180,10 @@ Module frmAutonumera_mod
     End Sub
 
     Public Sub AutoEnumera_AppIdle(ByVal sender As Object, ByVal e As EventArgs)
-        'If (app_procesointerno = False) Then
-        ReseteaXDataIncorrectos()
-        ActualizaProxyIncorrectos()
-
-        'End If
+        If (app_procesointerno = False) Then
+            ReseteaXDataIncorrectos()
+            ActualizaProxyIncorrectos()
+        End If
     End Sub
 
     Public Function colP_BuscaIDLibreEnFamilia(strFamilia As String) As String

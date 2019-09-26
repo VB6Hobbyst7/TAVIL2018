@@ -13,10 +13,16 @@ Public Class frmAutonumera
         Me.Text = "AUTONUMERACION - v" & cfg._appversion
 
         ElementoProxyRecomendado = RecomiendaElementoLibre()
-
+        AddHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf frmAutonumera_mod.AutoEnumera_AppIdle
+        AddHandler Eventos.AXDb.ObjectAppended, AddressOf frmAutonumera_mod.AutoEnumera_DBObjectAppended
+        AddHandler Eventos.AXDb.ObjectModified, AddressOf frmAutonumera_mod.AutoEnumera_DBObjectModified
+        AddHandler Eventos.AXDb.ObjectErased, AddressOf frmAutonumera_mod.AutoEnumera_ObjectErased
     End Sub
 
     Private Sub frmAutonumera_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        RemoveHandler Autodesk.AutoCAD.ApplicationServices.Application.Idle, AddressOf frmAutonumera_mod.AutoEnumera_AppIdle
+        RemoveHandler Eventos.AXDb.ObjectModified, AddressOf frmAutonumera_mod.AutoEnumera_DBObjectModified
+        RemoveHandler Eventos.AXDb.ObjectErased, AddressOf frmAutonumera_mod.AutoEnumera_ObjectErased
         frmAu = Nothing
         GC.Collect()
         GC.WaitForPendingFinalizers()
@@ -72,7 +78,7 @@ Public Class frmAutonumera
                 Dim strElementoEntity As String
                 Try
                     'strElementoEntity = clsA.BloqueAtributoDame(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
-                    strElementoEntity = clsA.XLeeDato(CType(oEntity.AcadObject, AcadBlockReference).ObjectID, "ELEMENTO")
+                    strElementoEntity = clsA.XLeeDato(oEntity.AcadObject, "ELEMENTO")
                 Catch ex As Exception
                     strElementoEntity = "-1" 'Ha seleccionado un blockReference que no tiene atributo ELEMENTO y por lo tanto no se le puede asignar un proxy
                 End Try
@@ -81,7 +87,7 @@ Public Class frmAutonumera
                     Dim oMl As AcadMLeader = Nothing
                     oMl = clsA.MLeader_InsertaCommand()
                     If oMl IsNot Nothing Then
-
+                        ElementoProxyRecomendado = RecomiendaElementoLibre(clsA.Entity_Get(oMl.ObjectID))
                         'Actualiza el proxy con el Elemento (Familia.ID)
                         clsA.MLeaderBlock_PonValorAtributo(oMl, "ELEMENTO", ElementoProxyRecomendado.Split(".")(1))
                         clsA.XPonDato(oMl.Handle, "ELEMENTO", ElementoProxyRecomendado)    ', regAPPCliente)
