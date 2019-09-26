@@ -216,81 +216,22 @@ Public Class ClsUnion
     End Sub
 
     Public Function OUnionDame() As AcadBlockReference
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         Return Eventos.COMDoc().HandleToObject(Me.HANDLE)
     End Function
-    'Public Sub PonDatosX(
-    '                    Optional Union As String = "",
-    '                    Optional Units As String = "",
-    '                    Optional T1Handle As String = "",
-    '                    Optional T1Infeed As String = "",
-    '                    Optional T1Inclination As String = "",
-    '                    Optional T2Handle As String = "",
-    '                    Optional T2Outfeed As String = "",
-    '                    Optional T2Inclination As String = "",
-    '                    Optional Rotation As String = "")
-    '    If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
-    '    Dim oUnion As AcadObject = Nothing
-    '    Try
-    '        oUnion = Eventos.COMDoc().HandleToObject(Me.HANDLE)
-    '    Catch ex As Exception
-    '        Exit Sub
-    '    End Try
-
-    '    'Dim nombres As String() = {"UNION", "UNITS", "T1ID", "T1INFEED", "T1INCLINATION", "T2ID", "T2OUTFEED", "T2INCLINATION", "ROTATION"}
-    '    '
-    '    If Union = "" Then
-    '        Me.UNION = clsA.XLeeDato(oUnion.Handle, "UNION")
-    '    Else
-    '        Me.UNION = Union
-    '    End If
-    '    If Units = "" Then
-    '        Me.UNITS = clsA.XLeeDato(oUnion.Handle, "UNITS")
-    '    Else
-    '        Me.UNITS = Units
-    '    End If
-
-    '    If T1Handle = "" Then
-    '        Me.T1HANDLE = clsA.XLeeDato(oUnion.Handle, "T1HANDLE")
-    '    Else
-    '        Me.T1HANDLE = T1Handle
-    '    End If
-
-    '    If T1Infeed = "" Then
-    '        Me.T1INFEED = clsA.XLeeDato(oUnion.Handle, "T1INFEED")
-    '    Else
-    '        Me.T1INFEED = T1Infeed
-    '    End If
-
-    '    If T1Inclination = "" Then
-    '        Me.T1INCLINATION = clsA.XLeeDato(oUnion.Handle, "T1INCLINATION")
-    '    Else
-    '        Me.T1INCLINATION = T1Inclination
-    '    End If
-
-    '    If T2Handle = "" Then
-    '        Me.T2HANDLE = clsA.XLeeDato(oUnion.Handle, "T2HANDLE")
-    '    Else
-    '        Me.T2HANDLE = T2Handle
-    '    End If
-
-    '    If T2Outfeed = "" Then
-    '        Me.T2OUTFEED = clsA.XLeeDato(oUnion.Handle, "T2OUTFEED")
-    '    Else
-    '        Me.T2OUTFEED = T2Outfeed
-    '    End If
-
-    '    If T2Inclination = "" Then
-    '        Me.T2INCLINATION = clsA.XLeeDato(oUnion.Handle, "T2INCLINATION")
-    '    Else
-    '        Me.T2INCLINATION = T2Inclination
-    '    End If
-
-    '    If Rotation = "" Then
-    '        Me.ROTATION = clsA.XLeeDato(oUnion.Handle, "ROTATION")
-    '    Else
-    '        Me.ROTATION = Rotation
-    '    End If
-    '    oUnion = Nothing
-    'End Sub
+    Public Sub PonAtributos()
+        If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
+        Dim oUnion As AcadBlockReference = OUnionDame()
+        If oUnion IsNot Nothing Then
+            Try
+                Dim dicNomVal As New Dictionary(Of String, String)
+                dicNomVal.Add("UNION", Me.UNION)
+                dicNomVal.Add("UNITS", Me.UNITS)
+                clsA.Bloque_AtributoEscribe(oUnion.ObjectID, dicNomVal)
+            Catch ex As Exception
+                Exit Sub
+            End Try
+        End If
+    End Sub
 End Class
 
