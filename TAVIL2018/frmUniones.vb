@@ -25,7 +25,7 @@ Public Class frmUniones
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ' Cargar recursos
         Using oLock As DocumentLock = Eventos.AXDoc.LockDocument
-            clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
+            'clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
             clsA.ClonaTODODesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), True, True)
         End Using
         PonToolTipControles()
