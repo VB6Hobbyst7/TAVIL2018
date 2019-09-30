@@ -217,10 +217,10 @@
     <Compile Include="frmConfigura.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPatas1.Designer.vb">
-      <DependentUpon>frmPatas1.vb</DependentUpon>
+    <Compile Include="frmPatas.Designer.vb">
+      <DependentUpon>frmPatas.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPatas1.vb">
+    <Compile Include="frmPatas.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmUniones.Designer.vb">
@@ -274,8 +274,8 @@
     <EmbeddedResource Include="frmConfigura.resx">
       <DependentUpon>frmConfigura.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPatas1.resx">
-      <DependentUpon>frmPatas1.vb</DependentUpon>
+    <EmbeddedResource Include="frmPatas.resx">
+      <DependentUpon>frmPatas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUniones.resx">
       <DependentUpon>frmUniones.vb</DependentUpon>
@@ -442,7 +442,7 @@
 
 xcopy "$(ProjectDir)Resources\$(ProjectName).cuix" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
 
-xcopy "$(ProjectDir)Resources\BloqueRecursos.dwg" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
+xcopy "$(ProjectDir)Resources\*.dwg" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
 
 xcopy "$(ProjectDir)$(ProjectName).ico" "%25programdata%25\Autodesk\ApplicationPlugins\$(TargetName).bundle\" /Y
 

@@ -277,7 +277,7 @@ Partial Public Class Eventos
         'If e.DBObject Is Nothing OrElse
         '    e.DBObject.IsErased = True OrElse
         '    e.DBObject.IsUndoing = True OrElse
-        '    e.DBObject.IsWriteEnabled = True Then Exit Sub
+        '    e.DBObject.IsWriteEnabled = False Then Exit Sub
         ''
         'Dim oObj As DBObject = e.DBObject
         ''

@@ -28,7 +28,8 @@ Public Class frmUniones
         Using oLock As DocumentLock = Eventos.AXDoc.LockDocument
             'clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
             'clsA.ClonaTODODesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), True, True)
-            clsA.ClonaBloqueDesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), "UNION")
+            'clsA.ClonaBloqueDesdeDWG(IO.Path.Combine(IO.Path.GetDirectoryName(BloqueRecursos), "UNION.dwg"), "UNION")
+            clsA.Clona_UnBloqueDesdeDWG(BloqueRecursos, "UNION")
         End Using
         PonToolTipControles()
         Dim queCapa As AcadLayer = clsA.CapaDame(HojaUniones)

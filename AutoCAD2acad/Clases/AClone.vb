@@ -15,7 +15,7 @@ Imports Autodesk.AutoCAD.EditorInput
 
 Namespace A2acad
     Partial Public Class A2acad
-        Public Sub ClonaTODODesdeDWG(quePlantilla As String, Optional borrabloque As Boolean = True, Optional cargarsiempre As Boolean = False)
+        Public Sub Clona_TodoDesdeDWGInsertando(quePlantilla As String, Optional borrabloque As Boolean = True, Optional cargarsiempre As Boolean = False)
             If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
             '
             ' Poner el estilo Standard antes de insertar recursos
@@ -57,7 +57,22 @@ Namespace A2acad
                 Debug.Print(ex.ToString)
             End Try
         End Sub
-        Public Sub ClonaBloqueDesdeDWG(quePlantilla As String, queBloque As String)
+        '
+        Public Sub Clona_TodoDesdeDWGDatabase(quePlantilla As String)
+            If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
+            '
+            Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
+            Dim db As Database = doc.Database
+            Using tr As Transaction = db.TransactionManager.StartTransaction()
+                Using sourceDb As Database = New Database(False, True)
+                    sourceDb.ReadDwgFile(quePlantilla, System.IO.FileShare.Read, True, "")
+                    db.Insert(quePlantilla, sourceDb, False)
+                End Using                   '
+                tr.Commit()
+            End Using
+            VaciaMemoria()
+        End Sub
+        Public Sub Clona_UnBloqueDesdeDWG(quePlantilla As String, queBloque As String)
             If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
             '
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
@@ -72,22 +87,23 @@ Namespace A2acad
                     If bt.Has(queBloque) Then
                         ids.Add(bt(queBloque))
                     End If
+
+                    'if found, add the block
+                    If ids.Count <> 0 Then
+                        'get the current drawing database
+                        Dim destdb As Database = doc.Database
+
+                        Dim iMap As New IdMapping()
+                        destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Replace, False)
+                        destdb.Dispose()
+                    End If
+                    '
                     tr.Commit()
                 End Using
-
-                'if found, add the block
-                If ids.Count <> 0 Then
-                    'get the current drawing database
-                    Dim destdb As Database = doc.Database
-
-                    Dim iMap As New IdMapping()
-                    destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Ignore, False)
-                    destdb.Dispose()
-                End If
             End Using
             VaciaMemoria()
         End Sub
-        Public Sub ClonaBLOQUESDesdeDWG(quePlantilla As String)
+        Public Sub Clona_TodosBloquesDesdeDWG(quePlantilla As String)
             If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
             '
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
@@ -102,22 +118,22 @@ Namespace A2acad
                     For Each queId As ObjectId In bt
                         ids.Add(queId)
                     Next
+                    'if found, add the block
+                    If ids.Count <> 0 Then
+                        'get the current drawing database
+                        Dim destdb As Database = doc.Database
+
+                        Dim iMap As New IdMapping()
+                        destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Replace, False)
+                        destdb.Dispose()
+                    End If
                     tr.Commit()
                 End Using
-                'if found, add the block
-                If ids.Count <> 0 Then
-                    'get the current drawing database
-                    Dim destdb As Database = doc.Database
-
-                    Dim iMap As New IdMapping()
-                    destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Ignore, False)
-                    destdb.Dispose()
-                End If
             End Using
             VaciaMemoria()
         End Sub
         '
-        Public Sub ClonaESTILOSTEXTODesdeDWG(quePlantilla As String)
+        Public Sub Clona_TodosEstilosDesdeDWG(quePlantilla As String)
             If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
             '
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
@@ -132,21 +148,21 @@ Namespace A2acad
                     For Each queId As ObjectId In bt
                         ids.Add(queId)
                     Next
+                    'if found, add the block
+                    If ids.Count <> 0 Then
+                        'get the current drawing database
+                        Dim destdb As Database = doc.Database
+
+                        Dim iMap As New IdMapping()
+                        destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Replace, False)
+                        destdb.Dispose()
+                    End If
                     tr.Commit()
                 End Using
-                'if found, add the block
-                If ids.Count <> 0 Then
-                    'get the current drawing database
-                    Dim destdb As Database = doc.Database
-
-                    Dim iMap As New IdMapping()
-                    destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Ignore, False)
-                    destdb.Dispose()
-                End If
             End Using
             VaciaMemoria()
         End Sub
-        Public Sub ClonaESTILOSMLEADERDesdeDWG(quePlantilla As String)
+        Public Sub Clona_TodosEstilosMLeaderDesdeDWG(quePlantilla As String)
             If System.IO.File.Exists(quePlantilla) = False Then Exit Sub
             '
             Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
@@ -162,20 +178,20 @@ Namespace A2acad
                     For Each dEnt As DictionaryEntry In bt
                         ids.Add(bt.GetAt(dEnt.Key))
                     Next
+                    'if found, add the block
+                    If ids.Count <> 0 Then
+                        'get the current drawing database
+                        Dim destdb As Database = doc.Database
+                        Dim iMap As New IdMapping()
+                        destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Replace, False)
+                        destdb.Dispose()
+                    End If
                     tr.Commit()
                 End Using
-                'if found, add the block
-                If ids.Count <> 0 Then
-                    'get the current drawing database
-                    Dim destdb As Database = doc.Database
-                    Dim iMap As New IdMapping()
-                    destdb.WblockCloneObjects(ids, destdb.BlockTableId, iMap, DuplicateRecordCloning.Replace, False)
-                    destdb.Dispose()
-                End If
             End Using
             VaciaMemoria()
         End Sub
-        Public Sub ClonaEstiloDesdeDWG(quePlantilla As String, mleaderStyle As String)
+        Public Sub Clona_UnEstiloDesdeDWG(quePlantilla As String, mleaderStyle As String)
             Dim dm As DocumentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager
             Dim doc As Document = dm.MdiActiveDocument
             Dim db As Database = doc.Database
@@ -203,7 +219,7 @@ Namespace A2acad
                             styleId = dbDic.GetAt(mleaderStyle)
                             styleColl.Add(styleId)
                             Dim idMapping As New IdMapping
-                            dwt.Database.WblockCloneObjects(styleColl, doc.Database.BlockTableId, idMapping, DuplicateRecordCloning.MangleName, False)
+                            dwt.Database.WblockCloneObjects(styleColl, doc.Database.BlockTableId, idMapping, DuplicateRecordCloning.Replace, False)
                             idMapping.Dispose()
                         End If
                         dwt.CloseAndDiscard()

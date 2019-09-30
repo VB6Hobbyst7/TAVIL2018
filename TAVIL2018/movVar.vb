@@ -39,7 +39,7 @@ Module movVar
     ' ***** FORMULARIO
     Public frmCo As frmConfigura
     Public frmAu As frmAutonumera
-    Public frmPa As frmPatas1
+    Public frmPa As frmPatas
     Public frmUn As frmUniones
     Public frmAg As frmAgrupa
     Public frmBo As frmBomDatos

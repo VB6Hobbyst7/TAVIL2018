@@ -75,7 +75,7 @@ Public Class clsPT
                   Select fi.HEIGHT
                   Distinct
 
-        If alturas Is Nothing Then
+        If alturas Is Nothing OrElse alturas.Count = 0 Then
             Return Nothing
         Else
             Return alturas.ToList
@@ -88,7 +88,7 @@ Public Class clsPT
                  Select fi.WIDTH
                  Distinct
 
-        If anchos Is Nothing Then
+        If anchos Is Nothing OrElse anchos.Count = 0 Then
             Return Nothing
         Else
             Return anchos.ToList
@@ -101,7 +101,7 @@ Public Class clsPT
                  Select fi.RADIUS
                  Distinct
 
-        If radios Is Nothing Then
+        If radios Is Nothing OrElse radios.Count = 0 Then
             Return Nothing
         Else
             Return radios.ToList
@@ -147,7 +147,7 @@ Public Class clsPT
                         Select fi.CONVEYOR_HEIGHT_1
         End Select
 
-        If valor Is Nothing Then
+        If valor Is Nothing OrElse valor.Count = 0 Then
             Return ""
         Else
             Return valor.FirstOrDefault.ToString

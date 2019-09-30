@@ -62,7 +62,7 @@ Namespace A2acad
             oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
         End Sub
 
-        Public Sub SeleccionCreaResalta_SinTimer(queEntidades As ArrayList, Optional conZoom As Boolean = True)
+        Public Sub SeleccionCreaResalta(queEntidades As ArrayList, conZoom As Boolean)
             ''
             Try
                 oSel = oAppA.ActiveDocument.SelectionSets.Add(regAPPA)

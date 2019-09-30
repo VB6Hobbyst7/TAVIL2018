@@ -185,9 +185,11 @@ REPITE:
             Next
             If arrSeleccion.Count > 0 Then
                 lblInf.Text = arrSeleccion.Count & " Elementos"
-                clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
+
                 If cbZoom.Checked Then
-                    'Zoom_Seleccion()
+                    clsA.SeleccionCreaResalta(arrSeleccion, True)
+                Else
+                    clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
                 End If
             End If
         Else

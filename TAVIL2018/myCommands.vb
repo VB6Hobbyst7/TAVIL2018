@@ -113,7 +113,7 @@ Namespace TAVIL2018
             'Exit Sub
             '
 
-            frmPa = New frmPatas1
+            frmPa = New frmPatas
             frmPa.Visible = True
             frmPa.WindowState = Windows.Forms.FormWindowState.Normal
             frmPa.StartPosition = Windows.Forms.FormStartPosition.CenterParent
@@ -252,7 +252,7 @@ Namespace TAVIL2018
                     Application.ShowModelessDialog(Application.MainWindow.Handle, frmBloE, True)
                 Else
                     Dim arrEnt As New ArrayList : arrEnt.Add(oBl)
-                    clsA.SeleccionCreaResalta_SinTimer(arrEnt, False)
+                    clsA.SeleccionCreaResalta(arrEnt, False)
                     Eventos.COMDoc().SendCommand("_eattedit ")
                 End If
             Catch ex As System.Exception

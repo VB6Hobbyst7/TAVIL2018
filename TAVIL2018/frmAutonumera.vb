@@ -116,7 +116,7 @@ Public Class frmAutonumera
     Private Sub CargaRecursosProxy()
         ' Cargar recursos
 
-        clsA.ClonaTODODesdeDWG(BloqueRecursos, True, True)
+        clsA.Clona_TodoDesdeDWGInsertando(BloqueRecursos, True, True)
 
         Try
             Autodesk.AutoCAD.ApplicationServices.Application.SetSystemVariable("CMLEADERSTYLE", fijoCliente)

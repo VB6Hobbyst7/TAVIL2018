@@ -8,7 +8,7 @@ Imports System.Linq
 Imports uau = UtilesAlberto.Utiles
 Imports a2 = AutoCAD2acad.A2acad
 
-Public Class frmPatas1
+Public Class frmPatas
 #Region "FORMULARIO"
     Public b As clsBloquePataDatos = Nothing
     Public valoresTemp As String = ""
@@ -475,6 +475,9 @@ Public Class frmPatas1
     'End Sub
 
     Public Function DameValoresFormulario() As String
+        If b IsNot Nothing Then
+            txtCODE.Text = cPT.Filas_DameCODE(b._PREFIJO, cbWIDTH.Text, cbHEIGHT.Text, b.encurva)
+        End If
         Return cbWIDTH.Text & cbHEIGHT.Text & cbSTANDARD.Text & txtCODE.Text & txtDIRECTRIZ.Text & txtDIRECTRIZ1.Text
     End Function
     '
