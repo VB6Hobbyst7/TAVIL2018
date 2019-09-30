@@ -1,14 +1,15 @@
 ﻿Imports System.Windows.Forms
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Interop.Common
+Imports System.Linq
 
 Module frmAutonumera_mod
     Public colP As New Dictionary(Of String, List(Of clsProxyML))    ' Key=ELEMENTO (Atributo), Value=clsProxy
     Public arrayProxiesEliminados() As String
     Public ElementoProxyRecomendado As String
 
-    Dim listIdToReset As List(Of ObjectId) = New List(Of ObjectId)
-    Dim ProxyToUpdate As New Dictionary(Of ObjectId, String)
+    Public listIdToReset As List(Of ObjectId) = New List(Of ObjectId)
+    Public ProxyToUpdate As New Dictionary(Of ObjectId, String)
 
 #Region "UTILITIES"
 
@@ -189,6 +190,7 @@ Module frmAutonumera_mod
     Public Function colP_BuscaIDLibreEnFamilia(strFamilia As String) As String
         Dim bolFin As Boolean = False
         Dim intID As Integer = 1
+        '27/09/19 Se pone en comentario la siguiente funcion porque devolvia el numero vacio en la familia
         Do While bolFin = False
 
             If colP(strFamilia).Exists(Function(p)
@@ -198,8 +200,14 @@ Module frmAutonumera_mod
             Else
                 intID = intID + 1
             End If
-
         Loop
+
+        ''Devuelve el ultimo id de la familia + 1, sin tener los eliminados entre medio
+        'intID = colP(strFamilia).Max(Function(p)
+        '                                 Convert.ToInt32(p.ELEMENTO)
+        '                             End Function) + 1
+
+        'Fin 27/09/19
         Return intID.ToString()
     End Function
 
@@ -217,7 +225,8 @@ Module frmAutonumera_mod
 
         Loop
         'Como ya no hay familia, devuelve siempre 1
-        Return "1"
+        'Return "1" '27/09/19 se pone en comentario
+        Return intFamilia '27/09/19 se pone en comentario
 
     End Function
 
@@ -313,7 +322,7 @@ Module frmAutonumera_mod
 
     End Function
 
-    Private Sub ReseteaXDataIncorrectos()
+    Public Sub ReseteaXDataIncorrectos()
         'listIdToReset contiene el objectid de todos los blockreference a quitar xdata ELEMENTO pq se han añadido fuera de la aplicacion.
         app_procesointerno = True
         For Each oId As ObjectId In listIdToReset
@@ -339,7 +348,7 @@ Module frmAutonumera_mod
         app_procesointerno = False
     End Sub
 
-    Private Sub ActualizaProxyIncorrectos()
+    Public Sub ActualizaProxyIncorrectos()
         app_procesointerno = True
         Dim ent As Entity = Nothing
         For Each item As KeyValuePair(Of ObjectId, String) In ProxyToUpdate

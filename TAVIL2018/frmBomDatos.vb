@@ -2,10 +2,12 @@
 
 Public Class frmBomDatos
     Private Sub frmBomDatos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         Me.Text = "LISTAD DE PIEZAS - v" & cfg._appversion
     End Sub
 
     Private Sub frmBomDatos_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR()
         frmBo = Nothing
         GC.Collect()
         GC.WaitForPendingFinalizers()

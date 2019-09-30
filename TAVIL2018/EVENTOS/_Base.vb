@@ -35,19 +35,32 @@ Partial Public Class Eventos
     ' ***** OBJETOS AUTOCAD
     '
     ' ***** Los tipos de objetos que vamos a controlar con eventos
-    Public Shared lTypesAXObj As String() = {"BlockReference", "Circle"}
-    Public Shared lTypesCOMObj As String() = {"AcDbCircle", "AcDbBlockReference"}
+    Public Shared lTypesAXObj As String() = {"BlockReference", "Circle", "MLeader"}
+    Public Shared lTypesCOMObj As String() = {"AcDbCircle", "AcDbBlockReference", "AcadMLeader"}
     Public Shared lIds As List(Of ObjectId)     ' Lista de objetos modificados
     '
     ' ***** Variables
     Public Shared ultimoObjectId As ObjectId = Nothing
     Public Shared ultimoAXDoc As String = ""
+    Public Shared FicheroLog As String = ""
     ' ***** FLAG
-    Public Const coneventos As Boolean = False
+    Public Const coneventos As Boolean = True
+    Public Const logeventos As Boolean = False
+    Public Shared SYSMON As Object = 0
     '
     Public Shared Sub Eventos_Inicializa()
+        FicheroLog = System.IO.Path.Combine(System.IO.Path.GetTempPath, "logeventos.csv")
+        If logeventos Then
+            File.WriteAllText(FicheroLog, "EVENTOS EN ORDEN;DATOS" & vbCrLf, Encoding.UTF8)
+        Else
+            If File.Exists(FicheroLog) Then
+                Try
+                    File.Delete(FicheroLog)
+                Catch ex As System.Exception
+                End Try
+            End If
+        End If
         lIds = New List(Of ObjectId)
-        'AXEventM = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager
         If AXDocM.Count > 0 Then
             Subscribe_AXDoc()
         End If
@@ -66,6 +79,26 @@ Partial Public Class Eventos
         Unsubscribe_COMApp()
         Unsubscribe_AXDocM()
     End Sub
+
+    Public Shared Sub PonLogEv(queTexto As String)
+        If queTexto.EndsWith(vbCrLf) = False Then queTexto &= vbCrLf
+        File.AppendAllText(FicheroLog, queTexto, Encoding.UTF8)
+        'PonLogEvAsync(queTexto)  ' Falla al dejar abierto el fichero
+    End Sub
+    'Public Shared Async Sub PonLogEvAsync(quetexto As String)
+    '    Exit Sub  ' Anulado hasta resolver problema con cerrar fichero.
+    '    Dim uniencoding As UnicodeEncoding = New UnicodeEncoding()
+    '    Dim filename As String = FicheroLog
+
+    '    Dim result As Byte() = uniencoding.GetBytes(quetexto)
+
+    '    Using SourceStream As FileStream = File.Open(filename, FileMode.Append)
+    '        SourceStream.Seek(0, SeekOrigin.End)
+    '        Await SourceStream.WriteAsync(result, 0, result.Length)
+    '        SourceStream.Close()
+    '        SourceStream.Dispose()
+    '    End Using
+    'End Sub
 
     Public Shared Sub AcadBlockReference_PonEventosModified()
         If clsA Is Nothing Then clsA = New a2.A2acad(COMApp, cfg._appFullPath, regAPPCliente)
@@ -107,6 +140,8 @@ Partial Public Class Eventos
     End Function
     '
     Public Shared Sub AcadPopupMenuItem_PonerQuitar(ByRef ShortcutMenu As AcadPopupMenu, comando As String, queLabel As String, poner As Boolean)
+        'AXDoc.Editor.WriteMessage("AcadPopupMenuItem_PonerQuitar")
+        If logeventos Then PonLogEv("AcadPopupMenuItem_PonerQuitar")
         ' Poner el AcadPopupMenuItem (Tiene que existir el comando TAVILACERCADE)
         Dim acercadeMacro As String = Chr(27) + Chr(27) + Chr(95) + IIf(comando.EndsWith(" "), comando, comando & " ")  ' "TAVILACERCADE "
         'Dim queLabel As String = "Tavil. Acerca de..."
@@ -129,5 +164,21 @@ Partial Public Class Eventos
         Catch ex As System.Exception
 
         End Try
+    End Sub
+    Public Shared Sub SYSMONVAR(Optional guardar As Boolean = False)
+        If guardar Then
+            SYSMON = AXApp.GetSystemVariable("SYSMON")
+            AXApp.SetSystemVariable("SYSMON", 0)
+        Else
+            AXApp.SetSystemVariable("SYSMON", SYSMON)
+        End If
+    End Sub
+    Public Shared Sub SYSMONVARCOM(Optional guardar As Boolean = False)
+        If guardar Then
+            SYSMON = Convert.ToInt32(Eventos.COMDoc.GetVariable("SYSMON"))
+            Eventos.COMDoc.SetVariable("SYSMON", 0)
+        Else
+            Eventos.COMDoc.SetVariable("SYSMON", SYSMON)
+        End If
     End Sub
 End Class

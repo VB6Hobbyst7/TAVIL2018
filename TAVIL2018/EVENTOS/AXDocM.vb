@@ -55,53 +55,69 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXDocM_DocumentActivated(sender As Object, e As DocumentCollectionEventArgs)
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentActivated")
+        If logeventos Then PonLogEv("AXDocM_DocumentActivated;" & e.Document.Name)
     End Sub
 
     Public Shared Sub AXDocM_DocumentActivationChanged(sender As Object, e As DocumentActivationChangedEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentActivationChanged")
+        If logeventos Then PonLogEv("AXDocM_DocumentActivationChanged")
     End Sub
 
     Public Shared Sub AXDocM_DocumentBecameCurrent(sender As Object, e As DocumentCollectionEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentBecameCurrent")
+        If logeventos Then PonLogEv("AXDocM_DocumentBecameCurrent")
     End Sub
 
     Public Shared Sub AXDocM_DocumentCreated(sender As Object, e As DocumentCollectionEventArgs)
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentCreated")
+        If logeventos Then PonLogEv("AXDocM_DocumentCreated;" & e.Document.Name)
         Subscribe_AXDoc()
     End Sub
 
     Public Shared Sub AXDocM_DocumentCreateStarted(sender As Object, e As DocumentCollectionEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentCreateStarted")
+        If logeventos Then PonLogEv("AXDocM_DocumentCreateStarted")
     End Sub
 
     Public Shared Sub AXDocM_DocumentCreationCanceled(sender As Object, e As DocumentCollectionEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentCreationCanceled")
+        If logeventos Then PonLogEv("AXDocM_DocumentCreationCanceled")
     End Sub
 
     Public Shared Sub AXDocM_DocumentDestroyed(sender As Object, e As DocumentDestroyedEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentDestroyed")
+        If logeventos Then PonLogEv("AXDocM_DocumentDestroyed")
     End Sub
 
     Public Shared Sub AXDocM_DocumentLockModeChanged(sender As Object, e As DocumentLockModeChangedEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentLockModeChanged")
+        'If logeventos Then PonLogEv("AXDocM_DocumentLockModeChanged")
     End Sub
 
     Public Shared Sub AXDocM_DocumentLockModeChangeVetoed(sender As Object, e As DocumentLockModeChangeVetoedEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentLockModeChangeVetoed")
+        'If logeventos Then PonLogEv("AXDocM_DocumentLockModeChangeVetoed")
     End Sub
 
     Public Shared Sub AXDocM_DocumentLockModeWillChange(sender As Object, e As DocumentLockModeWillChangeEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentLockModeWillChange")
+        'If logeventos Then PonLogEv("AXDocM_DocumentLockModeWillChange")
     End Sub
 
     Public Shared Sub AXDocM_DocumentToBeActivated(sender As Object, e As DocumentCollectionEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentToBeActivated")
+        If logeventos Then PonLogEv("AXDocM_DocumentToBeActivated")
     End Sub
 
     Public Shared Sub AXDocM_DocumentToBeDeactivated(sender As Object, e As DocumentCollectionEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentToBeDeactivated")
+        If logeventos Then PonLogEv("AXDocM_DocumentToBeDeactivated")
     End Sub
 
     Public Shared Sub AXDocM_DocumentToBeDestroyed(sender As Object, e As DocumentCollectionEventArgs)
+        'AXDoc.Editor.WriteMessage("AXDocM_DocumentToBeDestroyed")
+        If logeventos Then PonLogEv("AXDocM_DocumentToBeDestroyed;" & e.Document.Name)
         Unsubscribe_AXDoc()
     End Sub
 End Class

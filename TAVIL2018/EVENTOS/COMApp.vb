@@ -77,95 +77,119 @@ Partial Public Class Eventos
         RemoveHandler COMApp.WindowMovedOrResized, AddressOf COMApp_WindowMovedOrResized
     End Sub
     Public Shared Sub COMApp_AppActivate()
-
+        'AXDoc.Editor.WriteMessage("COMApp_AppActivate")
+        If logeventos Then PonLogEv("COMApp_AppActivate")
     End Sub
 
     Public Shared Sub COMApp_AppDeactivate()
-
+        'AXDoc.Editor.WriteMessage("COMApp_AppDeactivate")
+        If logeventos Then PonLogEv("COMApp_AppDeactivate")
     End Sub
 
     Public Shared Sub COMApp_ARXLoaded(AppName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_ARXLoaded")
+        If logeventos Then PonLogEv("COMApp_ARXLoaded")
     End Sub
 
     Public Shared Sub COMApp_ARXUnloaded(AppName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_ARXUnloaded")
+        If logeventos Then PonLogEv("COMApp_ARXUnloaded")
     End Sub
 
     Public Shared Sub COMApp_BeginCommand(CommandName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginCommand")
+        If logeventos Then PonLogEv("COMApp_BeginCommand")
     End Sub
 
     Public Shared Sub COMApp_BeginFileDrop(FileName As String, ByRef Cancel As Boolean)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginFileDrop")
+        If logeventos Then PonLogEv("COMApp_BeginFileDrop")
     End Sub
 
     Public Shared Sub COMApp_BeginLisp(FirstLine As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginLisp")
+        If logeventos Then PonLogEv("COMApp_BeginLisp")
     End Sub
 
     Public Shared Sub COMApp_BeginModal()
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginModal")
+        If logeventos Then PonLogEv("COMApp_BeginModal")
     End Sub
 
     Public Shared Sub COMApp_BeginOpen(ByRef FileName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginOpen")
+        If logeventos Then PonLogEv("COMApp_BeginOpen")
     End Sub
 
     Public Shared Sub COMApp_BeginPlot(DrawingName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginPlot")
+        If logeventos Then PonLogEv("COMApp_BeginPlot")
     End Sub
 
     Public Shared Sub COMApp_BeginQuit(ByRef Cancel As Boolean)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginQuit")
+        If logeventos Then PonLogEv("COMApp_BeginQuit")
     End Sub
 
     Public Shared Sub COMApp_BeginSave(FileName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_BeginSave")
+        If logeventos Then PonLogEv("COMApp_BeginSave")
     End Sub
 
     Public Shared Sub COMApp_EndCommand(CommandName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_EndCommand")
+        If logeventos Then PonLogEv("COMApp_EndCommand")
     End Sub
 
     Public Shared Sub COMApp_EndLisp()
-
+        'AXDoc.Editor.WriteMessage("COMApp_EndLisp")
+        If logeventos Then PonLogEv("COMApp_EndLisp")
     End Sub
 
     Public Shared Sub COMApp_EndModal()
-
+        'AXDoc.Editor.WriteMessage("COMApp_EndModal")
+        If logeventos Then PonLogEv("COMApp_EndModal")
     End Sub
 
     Public Shared Sub COMApp_EndOpen(FileName As String)
+        'AXDoc.Editor.WriteMessage("COMApp_EndOpen")
+        If logeventos Then PonLogEv("COMApp_EndOpen")
         'Subscribre_EvDocS(EvDocM.CurrentDocument)
     End Sub
 
     Public Shared Sub COMApp_EndPlot(DrawingName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_EndPlot")
+        If logeventos Then PonLogEv("COMApp_EndPlot")
     End Sub
 
     Public Shared Sub COMApp_EndSave(FileName As String)
-
+        'AXDoc.Editor.WriteMessage("COMApp_EndSave")
+        If logeventos Then PonLogEv("COMApp_EndSave")
     End Sub
 
     Public Shared Sub COMApp_LispCancelled()
-
+        'AXDoc.Editor.WriteMessage("COMApp_LispCancelled")
+        If logeventos Then PonLogEv("COMApp_LispCancelled")
     End Sub
 
     Public Shared Sub COMApp_NewDrawing()
-
+        'AXDoc.Editor.WriteMessage("COMApp_NewDrawing")
+        If logeventos Then PonLogEv("COMApp_NewDrawing")
     End Sub
 
     Public Shared Sub COMApp_SysVarChanged(SysvarName As String, newVal As Object)
-
+        'AXDoc.Editor.WriteMessage("COMApp_SysVarChanged")
+        If logeventos Then PonLogEv("COMApp_SysVarChanged")
     End Sub
 
     Public Shared Sub COMApp_WindowChanged(WindowState As AcWindowState)
-
+        'AXDoc.Editor.WriteMessage("COMApp_WindowChanged")
+        If logeventos Then PonLogEv("COMApp_WindowChanged")
     End Sub
 
     Public Shared Sub COMApp_WindowMovedOrResized(HWNDFrame As Integer, bMoved As Boolean)
-
+        'AXDoc.Editor.WriteMessage("COMApp_WindowMovedOrResized")
+        If logeventos Then PonLogEv("COMApp_WindowMovedOrResized")
     End Sub
 End Class
 '

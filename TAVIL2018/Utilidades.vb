@@ -804,6 +804,47 @@ Repite:
         Return valores
     End Function
 
+
+    Public Function Enum_BuscaNombreDameValor(queEnum As System.Enum, queNombreBusco As String, Optional valorpordefecto As Integer = 17) As Integer
+        Dim nombres As Array = Nothing
+        Dim valores As Array = Nothing
+        nombres = [Enum].GetNames(queEnum.GetType)
+        valores = [Enum].GetValues(queEnum.GetType)
+        '
+        Dim indice As Integer = Array.IndexOf(nombres, queNombreBusco)
+        '
+        If indice = -1 AndAlso valorpordefecto <> "" Then
+            indice = valorpordefecto
+        End If
+        Return indice
+    End Function
+    Public Enum FormatoSaveAs
+        AM2018
+        AM2016
+        AM2015
+        AM2014
+        AM2013
+        AM2012
+        AM2011
+        AM2010
+        AM2009
+        AM2008
+        AM2007
+        AM2006
+        AM2005
+        AM2004DX
+        AM2004
+        AM6
+        R2013
+        R2010
+        R2007
+        R2004
+        R2000
+        'S
+        'T
+        'DXF
+    End Enum
+
     Public Sub ListBox_SeleccionaPorTexto(ByRef queLb As ListBox, queTexto As String)
         'For x As Integer = 0 To queLb.Items.Count - 1
         '    If queLb.Items.Item(x).ToString = queTexto Then

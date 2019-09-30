@@ -97,135 +97,171 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXEditor_Dragging_Handler(ByVal sender As Object, ByVal e As DraggingEventArgs)
-        'AXEditor().WriteMessage(vbLf & "Dragging" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_Dragging_Handler")
+        If logeventos Then PonLogEv("AXEditor_Dragging_Handler")
     End Sub
 
     Public Shared Sub AXEditor_DraggingEnded_Handler(ByVal sender As Object, ByVal e As DraggingEndedEventArgs)
-        'AXEditor().WriteMessage(vbLf & "DraggingEnded" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_DraggingEnded_Handler")
+        If logeventos Then PonLogEv("AXEditor_DraggingEnded_Handler")
     End Sub
 
+
+    ' AutoCAD entre en estado inactivo (Esta trabajando) is Quiescent = es inactivo
     Public Shared Sub AXEditor_EnteringQuiescentState_Handler(ByVal sender As Object, ByVal e As EventArgs)
-        'AXEditor().WriteMessage(vbLf & "EnteringQuiescentState" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_EnteringQuiescentState_Handler")
+        'If logeventos Then PonLogEv("AXEditor_EnteringQuiescentState_Handler")
     End Sub
 
+    ' AutoCAD sale de inactivo (Esta libre) is Quiescent = es inactivo
     Public Shared Sub AXEditor_LeavingQuiescentState_Handler(ByVal sender As Object, ByVal e As EventArgs)
-        'AXEditor().WriteMessage(vbLf & "LeavingQuiescentState" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_LeavingQuiescentState_Handler")
+        'If logeventos Then PonLogEv("AXEditor_LeavingQuiescentState_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PointFilter_Handler(ByVal sender As Object, ByVal e As PointFilterEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PointFilter" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PointFilter_Handler")
+        'If logeventos Then PonLogEv("AXEditor_PointFilter_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PointMonitor_Handler(ByVal sender As Object, ByVal e As PointMonitorEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PointMonitor" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PointMonitor_Handler")
+        If logeventos Then PonLogEv("AXEditor_PointMonitor_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptForEntityEnding_Handler(ByVal sender As Object, ByVal e As PromptForEntityEndingEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptForEntityEnding" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptForEntityEnding_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptForEntityEnding_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptForSelectionEnding_Handler(ByVal sender As Object, ByVal e As PromptForSelectionEndingEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptForSelectionEnding" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptForSelectionEnding_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptForSelectionEnding_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForAngle_Handler(ByVal sender As Object, ByVal e As PromptDoubleResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForAngle" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForAngle_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForAngle_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForCorner_Handler(ByVal sender As Object, ByVal e As PromptPointResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForCorner" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForCorner_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForCorner_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForDistance_Handler(ByVal sender As Object, ByVal e As PromptDoubleResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForDistance" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForDistance_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForDistance_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForDouble_Handler(ByVal sender As Object, ByVal e As PromptDoubleResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForDouble" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForDouble_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForDouble_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForEntity_Handler(ByVal sender As Object, ByVal e As PromptEntityResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForEntity" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForEntity_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForEntity_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForInteger_Handler(ByVal sender As Object, ByVal e As PromptIntegerResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForInteger" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForInteger_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForInteger_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForKeyword_Handler(ByVal sender As Object, ByVal e As PromptStringResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForKeyword" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForKeyword_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForKeyword_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForNestedEntity_Handler(ByVal sender As Object, ByVal e As PromptNestedEntityResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForNestedEntity" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForNestedEntity_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForNestedEntity_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForPoint_Handler(ByVal sender As Object, ByVal e As PromptPointResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForPoint" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForPoint_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForPoint_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForSelection_Handler(ByVal sender As Object, ByVal e As PromptSelectionResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForSelection" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForSelection_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForSelection_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptedForString_Handler(ByVal sender As Object, ByVal e As PromptStringResultEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptedForString" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptedForString_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptedForString_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForAngle_Handler(ByVal sender As Object, ByVal e As PromptAngleOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForAngle" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForAngle_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForAngle_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForCorner_Handler(ByVal sender As Object, ByVal e As PromptPointOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForCorner" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForCorner_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForCorner_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForDistance_Handler(ByVal sender As Object, ByVal e As PromptDistanceOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForDistance" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForDistance_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForDistance_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForDouble_Handler(ByVal sender As Object, ByVal e As PromptDoubleOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForDouble" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForDouble_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForDouble_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForEntity_Handler(ByVal sender As Object, ByVal e As PromptEntityOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForEntity" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForEntity_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForEntity_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForInteger_Handler(ByVal sender As Object, ByVal e As PromptIntegerOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForInteger" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForInteger_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForInteger_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForKeyword_Handler(ByVal sender As Object, ByVal e As PromptKeywordOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForKeyword" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForKeyword_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForKeyword_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForNestedEntity_Handler(ByVal sender As Object, ByVal e As PromptNestedEntityOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForNestedEntity" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForNestedEntity_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForNestedEntity_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForPoint_Handler(ByVal sender As Object, ByVal e As PromptPointOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForPoint" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForPoint_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForPoint_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForSelection_Handler(ByVal sender As Object, ByVal e As PromptSelectionOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForSelection" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForSelection_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForSelection_Handler")
     End Sub
 
     Public Shared Sub AXEditor_PromptingForString_Handler(ByVal sender As Object, ByVal e As PromptStringOptionsEventArgs)
-        'AXEditor().WriteMessage(vbLf & "PromptingForString" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_PromptingForString_Handler")
+        If logeventos Then PonLogEv("AXEditor_PromptingForString_Handler")
     End Sub
 
     Public Shared Sub AXEditor_Rollover_Handler(ByVal sender As Object, ByVal e As RolloverEventArgs)
-        'AXEditor().WriteMessage(vbLf & "Rollover" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_Rollover_Handler")
+        If logeventos Then PonLogEv("AXEditor_Rollover_Handler")
     End Sub
 
     Public Shared Sub AXEditor_SelectionAdded_Handler(ByVal sender As Object, ByVal e As SelectionAddedEventArgs)
-        'AXEditor().WriteMessage(vbLf & "SelectionAdded" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_SelectionAdded_Handler")
+        If logeventos Then PonLogEv("AXEditor_SelectionAdded_Handler")
     End Sub
 
     Public Shared Sub AXEditor_SelectionRemoved_Handler(ByVal sender As Object, ByVal e As SelectionRemovedEventArgs)
-        'AXEditor().WriteMessage(vbLf & "SelectionRemoved" & vbLf)
+        'AXDoc.Editor.WriteMessage("AXEditor_SelectionRemoved_Handler")
+        If logeventos Then PonLogEv("AXEditor_SelectionRemoved_Handler")
     End Sub
 End Class
 

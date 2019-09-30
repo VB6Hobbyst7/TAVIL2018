@@ -4,6 +4,7 @@ Imports a2 = AutoCAD2acad.A2acad
 Public Class frmBloques
     Private oImgL As ImageList
     Private Sub frmBloques_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         app_procesointerno = True
         oBlR = Nothing
         Me.Text = "GESTOR BLOQUES - v" & cfg._appversion
@@ -11,6 +12,7 @@ Public Class frmBloques
     End Sub
 
     Private Sub frmBloques_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR(False)
         app_procesointerno = False
         oBlR = Nothing
         frmBlo = Nothing
@@ -141,11 +143,11 @@ Public Class frmBloques
                     Exit Sub
                 End If
                 If clsA.oBlult IsNot Nothing Then
-                        Dim tipoSel As String = lbTipos.SelectedItem.ToString.ToLower
-                        Dim tipo As String = tipoSel.Substring(0, tipoSel.Length - 1)
+                    Dim tipoSel As String = lbTipos.SelectedItem.ToString.ToLower
+                    Dim tipo As String = tipoSel.Substring(0, tipoSel.Length - 1)
                     clsA.XPonDato(clsA.oBlult.Handle, "tipo", tipo)
                 End If
-                End If
+            End If
         Catch ex As Exception
             MsgBox(ex.Message.ToString)
         End Try

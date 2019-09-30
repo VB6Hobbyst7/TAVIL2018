@@ -32,6 +32,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXBlockTR_BlockInsertionPoints(sender As Object, e As BlockInsertionPointsEventArgs)
+        'AXDoc.Editor.WriteMessage("AXBlockTR_BlockInsertionPoints")
+        If logeventos Then PonLogEv("AXBlockTR_BlockInsertionPoints")
         If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         'AXEditor.WriteMessage("BlockTableRecord_BlockInsertionPoints - Block Name: {0}\n", e.BlockTableRecord.Name)
     End Sub

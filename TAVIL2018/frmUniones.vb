@@ -21,6 +21,7 @@ Public Class frmUniones
     Private EsUnionNueva As Boolean = False
 
     Private Sub frmUniones_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         Me.Text = HojaUniones & " - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ' Cargar recursos
@@ -43,6 +44,7 @@ Public Class frmUniones
     End Sub
 
     Private Sub frmUniones_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR()
         If cbCapa.Enabled = True Then
             Dim queCapa As AcadLayer = clsA.CapaDame(HojaUniones)
             If queCapa IsNot Nothing Then

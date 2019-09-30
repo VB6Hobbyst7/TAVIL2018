@@ -36,6 +36,8 @@ Partial Public Class Eventos
         End If
     End Sub
     Public Shared Sub Unsubscribre_COMObj(pObject As AcadObject)
+        'AXDoc.Editor.WriteMessage("COMDoc_Activate")
+        If logeventos Then PonLogEv("COMDoc_Activate")
         If pObject Is Nothing Then Exit Sub
         Try
             If lTypesCOMObj.Contains(pObject.ObjectName) = False Then Exit Sub
@@ -50,6 +52,8 @@ Partial Public Class Eventos
         End Try
     End Sub
     Public Shared Sub AcadCircle_Modified(pObject As AcadObject)
+        'AXDoc.Editor.WriteMessage("AcadCircle_Modified")
+        If logeventos Then PonLogEv("AcadCircle_Modified")
         'Try
         '    Dim oCi As AcadCircle = CType(pObject, AcadCircle)
         '    EvDocM.CurrentDocument.Editor.WriteMessage(vbLf & "COM Radio: " & oCi.Radius)
@@ -59,6 +63,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AcadBlockReference_Modified(pObject As AcadObject)
+        'AXDoc.Editor.WriteMessage("AcadBlockReference_Modified")
+        If logeventos Then PonLogEv("AcadBlockReference_Modified")
         'Try
         '    Dim oBl As AcadBlockReference = CType(pObject, AcadBlockReference)
         '    EvDocM.CurrentDocument.Editor.WriteMessage(vbLf & "COM Nombre: " & oBl.EffectiveNamef)

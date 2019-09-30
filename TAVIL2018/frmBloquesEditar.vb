@@ -16,6 +16,7 @@ Public Class frmBloquesEditar
     End Sub
 
     Private Sub frmBloquesEditar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         app_procesointerno = True
         Me.Text = "BLOCK EDITOR - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
@@ -23,6 +24,7 @@ Public Class frmBloquesEditar
     End Sub
 
     Private Sub frmBloquesEditar_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR()
         frmBloE = Nothing
         GC.Collect()
         GC.WaitForPendingFinalizers()

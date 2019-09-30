@@ -455,7 +455,6 @@ Namespace A2acad
                             todo = todo.Replace(nombrevalor, nombrevalornuevo)
                             xdatos(1) = todo
                             Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument()
-
                                 objA.SetXData(xtipos, xdatos)
                             End Using
                             encontrado = True

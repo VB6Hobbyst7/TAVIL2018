@@ -74,89 +74,108 @@ Partial Public Class Eventos
         Unsubscribe_AXEditor()
     End Sub
     Public Shared Sub AXDoc_BeginDocumentClose(sender As Object, e As DocumentBeginCloseEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_BeginDocumentClose")
+        If logeventos Then PonLogEv("AXDoc_BeginDocumentClose")
     End Sub
 
     Public Shared Sub AXDoc_BeginDwgOpen(sender As Object, e As DrawingOpenEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_BeginDwgOpen")
+        If logeventos Then PonLogEv("AXDoc_BeginDwgOpen")
     End Sub
 
     Public Shared Sub AXDoc_CloseAborted(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_CloseAborted")
+        If logeventos Then PonLogEv("AXDoc_CloseAborted")
     End Sub
 
     Public Shared Sub AXDoc_CloseWillStart(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_CloseWillStart")
+        If logeventos Then PonLogEv("AXDoc_CloseWillStart")
     End Sub
 
     Public Shared Sub AXDoc_CommandCancelled(sender As Object, e As CommandEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_CommandCancelled")
+        If logeventos Then PonLogEv("AXDoc_CommandCancelled")
     End Sub
 
     Public Shared Sub AXDoc_CommandEnded(sender As Object, e As CommandEventArgs)
+        'AXDoc.Editor.WriteMessage("AXDoc_CommandEnded")
+        If logeventos Then PonLogEv("AXDoc_CommandEnded;" & e.GlobalCommandName)
         If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         ' Si no hay elementos añadidos o modificados, salir (lIds.Count = 0)
-        If lIds.Count = 0 Then Exit Sub
+        If lIds Is Nothing OrElse lIds.Count = 0 Then Exit Sub
         '
-        For Each oId As ObjectId In lIds
-            Dim oObj As DBObject = clsA.DBObject_Get(oId)
-            If oObj.GetType.Name = "Circle" Then
-                AXEditor.WriteMessage(vbLf & "Radius: " & CType(oObj, Circle).Radius)
-            ElseIf oObj.GetType.Name = "BlockReference" Then
-                While AXApp.IsQuiescent
-                    System.Windows.Forms.Application.DoEvents()
-                End While
-                AXEditor.WriteMessage(vbLf & "Block Name: " & CType(oObj, BlockReference).Name)
-            End If
-        Next
-        lIds.Clear()
-        ultimoObjectId = Nothing
+        'For Each oId As ObjectId In lIds
+        '    Dim oObj As DBObject = clsA.DBObject_Get(oId)
+        '    If oObj.GetType.Name = "Circle" Then
+        '        AXEditor.WriteMessage(vbLf & "Radius: " & CType(oObj, Circle).Radius)
+        '    ElseIf oObj.GetType.Name = "BlockReference" Then
+        '        While AXApp.IsQuiescent
+        '            System.Windows.Forms.Application.DoEvents()
+        '        End While
+        '        AXEditor.WriteMessage(vbLf & "Block Name: " & CType(oObj, BlockReference).Name)
+        '    End If
+        'Next
+        'lIds.Clear()
+        'ultimoObjectId = Nothing
         '*********************************************
     End Sub
 
     Public Shared Sub AXDoc_CommandFailed(sender As Object, e As CommandEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_CommandFailed")
+        If logeventos Then PonLogEv("AXDoc_CommandFailed")
     End Sub
 
     Public Shared Sub AXDoc_CommandWillStart(sender As Object, e As CommandEventArgs)
+        'AXDoc.Editor.WriteMessage("AXDoc_CommandWillStart")
+        If logeventos Then PonLogEv("AXDoc_CommandWillStart;" & e.GlobalCommandName)
         If coneventos = False Then Exit Sub  ' Para que no haga nada después de un comando.
         lIds = New List(Of ObjectId)
     End Sub
 
     Public Shared Sub AXDoc_EndDwgOpen(sender As Object, e As DrawingOpenEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_EndDwgOpen")
+        If logeventos Then PonLogEv("AXDoc_EndDwgOpen")
     End Sub
 
     Public Shared Sub AXDoc_ImpliedSelectionChanged(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_ImpliedSelectionChanged")
+        If logeventos Then PonLogEv("AXDoc_ImpliedSelectionChanged")
     End Sub
 
     Public Shared Sub AXDoc_LayoutSwitched(sender As Object, e As LayoutSwitchedEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_LayoutSwitched")
+        If logeventos Then PonLogEv("AXDoc_LayoutSwitched;" & e.NewLayout)
     End Sub
 
     Public Shared Sub AXDoc_LayoutSwitching(sender As Object, e As LayoutSwitchingEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_LayoutSwitching")
+        If logeventos Then PonLogEv("AXDoc_LayoutSwitching")
     End Sub
 
     Public Shared Sub AXDoc_LispCancelled(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_LispCancelled")
+        If logeventos Then PonLogEv("AXDoc_LispCancelled")
     End Sub
 
     Public Shared Sub AXDoc_LispEnded(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_LispEnded")
+        If logeventos Then PonLogEv("AXDoc_LispEnded")
     End Sub
 
     Public Shared Sub AXDoc_LispWillStart(sender As Object, e As LispWillStartEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_LispWillStart")
+        If logeventos Then PonLogEv("AXDoc_LispWillStart;" & e.FirstLine)
     End Sub
 
     Public Shared Sub AXDoc_UnknownCommand(sender As Object, e As UnknownCommandEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_UnknownCommand")
+        If logeventos Then PonLogEv("AXDoc_UnknownCommand")
     End Sub
 
     Public Shared Sub AXDoc_ViewChanged(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXDoc_ViewChanged")
+        If logeventos Then PonLogEv("AXDoc_ViewChanged")
     End Sub
 End Class
 '

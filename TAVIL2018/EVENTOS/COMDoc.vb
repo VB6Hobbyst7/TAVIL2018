@@ -92,13 +92,17 @@ Partial Public Class Eventos
         RemoveHandler COMDoc.WindowMovedOrResized, AddressOf COMDoc_WindowMovedOrResized
     End Sub
     Public Shared Sub COMDoc_Activate()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_Activate")
+        If logeventos Then PonLogEv("COMDoc_Activate")
     End Sub
     Public Shared Sub COMDoc_BeginClose()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginClose")
+        If logeventos Then PonLogEv("COMDoc_BeginClose")
     End Sub
 
     Public Shared Sub COMDoc_BeginCommand(CommandName As String)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginCommand")
+        If logeventos Then PonLogEv("COMDoc_BeginCommand;" & CommandName)
         If coneventos = False Then Exit Sub
         'If CommandName = "SAVE" Or CommandName = "QSAVE" Then
         'If clsA Is Nothing Then clsA = New AutoCAD2acad.clsAutoCAD2acad(Ev.EvApp, cfg._appFullPath, regAPPCliente)
@@ -132,54 +136,73 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub COMDoc_BeginDocClose(ByRef Cancel As Boolean)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginDocClose")
+        If logeventos Then PonLogEv("COMDoc_BeginDocClose")
     End Sub
 
     Public Shared Sub COMDoc_BeginDoubleClick(PickPoint As Object)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginDoubleClick")
+        If logeventos Then PonLogEv("COMDoc_BeginDoubleClick;" & PickPoint.ToString)
     End Sub
 
     Public Shared Sub COMDoc_BeginLisp(FirstLine As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginLisp")
+        If logeventos Then PonLogEv("COMDoc_BeginLisp;" & FirstLine)
     End Sub
 
     Public Shared Sub COMDoc_BeginPlot(DrawingName As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginPlot")
+        If logeventos Then PonLogEv("COMDoc_BeginPlot;" & DrawingName)
     End Sub
 
     Public Shared Sub COMDoc_BeginRightClick(PickPoint As Object)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginRightClick")
+        If logeventos Then PonLogEv("COMDoc_BeginRightClick;" & PickPoint.ToString)
     End Sub
 
     Public Shared Sub COMDoc_BeginSave(FileName As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginSave")
+        If logeventos Then PonLogEv("COMDoc_BeginSave;" & FileName)
     End Sub
 
     Public Shared Sub COMDoc_BeginShortcutMenuCommand(ByRef ShortcutMenu As AcadPopupMenu, Command As String)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginShortcutMenuCommand")
+        If logeventos Then PonLogEv("COMDoc_BeginShortcutMenuCommand;" & ShortcutMenu.Name & "|" & Command)
         AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
     End Sub
 
     Public Shared Sub COMDoc_BeginShortcutMenuDefault(ByRef ShortcutMenu As AcadPopupMenu)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginShortcutMenuDefault")
+        If logeventos Then PonLogEv("COMDoc_BeginShortcutMenuDefault;" & ShortcutMenu.Name)
         AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
     End Sub
 
     Public Shared Sub COMDoc_BeginShortcutMenuEdit(ByRef ShortcutMenu As AcadPopupMenu, ByRef SelectionSet As AcadSelectionSet)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginShortcutMenuEdit")
+        If logeventos Then PonLogEv("COMDoc_BeginShortcutMenuEdit;" & ShortcutMenu.Name & SelectionSet.Count)
         'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
     End Sub
 
     Public Shared Sub COMDoc_BeginShortcutMenuGrip(ByRef ShortcutMenu As AcadPopupMenu)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginShortcutMenuGrip")
+        If logeventos Then PonLogEv("COMDoc_BeginShortcutMenuGrip;" & ShortcutMenu.Name)
         'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
     End Sub
 
     Public Shared Sub COMDoc_BeginShortcutMenuOsnap(ByRef ShortcutMenu As AcadPopupMenu)
+        'AXDoc.Editor.WriteMessage("COMDoc_BeginShortcutMenuOsnap")
+        If logeventos Then PonLogEv("COMDoc_BeginShortcutMenuOsnap;" & ShortcutMenu.Name)
         'AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=True)
     End Sub
 
     Public Shared Sub COMDoc_Deactivate()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_Deactivate")
+        If logeventos Then PonLogEv("COMDoc_Deactivate")
     End Sub
 
     Public Shared Sub COMDoc_EndCommand(CommandName As String)
+        'AXDoc.Editor.WriteMessage("COMDoc_EndCommand")
+        If logeventos Then PonLogEv("COMDoc_EndCommand;" & CommandName)
         If coneventos = False Then Exit Sub
         'If CommandName = "INSERT" Then
 
@@ -188,30 +211,39 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub COMDoc_EndLisp()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_EndLisp")
+        If logeventos Then PonLogEv("COMDoc_EndLisp")
     End Sub
 
     Public Shared Sub COMDoc_EndPlot(DrawingName As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_EndPlot")
+        If logeventos Then PonLogEv("COMDoc_EndPlotCommandName;" & DrawingName)
     End Sub
 
     Public Shared Sub COMDoc_EndSave(FileName As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_EndSave")
+        If logeventos Then PonLogEv("COMDoc_EndSave;" & FileName)
     End Sub
 
     Public Shared Sub COMDoc_EndShortcutMenu(ByRef ShortcutMenu As AcadPopupMenu)
+        'AXDoc.Editor.WriteMessage("COMDoc_EndShortcutMenu")
+        If logeventos Then PonLogEv("COMDoc_EndShortcutMenu;" & ShortcutMenu.Name)
         AcadPopupMenuItem_PonerQuitar(ShortcutMenu, "TAVILACERCADE", "Tavil. Acerca de...", poner:=False)
     End Sub
 
     Public Shared Sub COMDoc_LayoutSwitched(LayoutName As String)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_LayoutSwitched")
+        If logeventos Then PonLogEv("COMDoc_LayoutSwitched;" & LayoutName)
     End Sub
 
     Public Shared Sub COMDoc_LispCancelled()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_LispCancelled")
+        If logeventos Then PonLogEv("COMDoc_LispCancelled")
     End Sub
 
     Public Shared Sub COMDoc_ObjectAdded([Object] As Object)
+        'AXDoc.Editor.WriteMessage("COMDoc_ObjectAdded")
+        If logeventos Then PonLogEv("COMDoc_ObjectAdded;" & [Object].GetType.ToString)
         'If clsA Is Nothing Then clsA = New AutoCAD2acad.A2acad.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         ''Debug.Print([Object].EntityName)
         'Dim acadO As AcadObject = EvCOMApp.ActiveDocument.ObjectIdToObject([Object].ObjectId)
@@ -227,6 +259,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub COMDoc_ObjectErased(<ComAliasName("AXDBLib.LONG_PTR")> ObjectId As Long)
+        'AXDoc.Editor.WriteMessage("COMDoc_ObjectErased")
+        If logeventos Then PonLogEv("COMDoc_ObjectErased;" & ObjectId.ToString)
         'Try
         '    Unsubscribe_EvAXObj(clsA.DBObject_Get(ObjectId))
         '    Dim colIds As New ObjectIdCollection
@@ -238,6 +272,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub COMDoc_ObjectModified(queObj As Object)
+        'AXDoc.Editor.WriteMessage("COMDoc_ObjectModified")
+        If logeventos Then PonLogEv("COMDoc_ObjectModified;" & queObj.GetType.ToString)
         'If TypeOf queObj Is Autodesk.AutoCAD.Interop.Common.AcadBlockReference Then
         '    '        Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument
         '    '            'modTavil.AcadBlockReference_Modified(CType(queObj, Autodesk.AutoCAD.Interop.Common.AcadBlockReference))
@@ -267,15 +303,18 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub COMDoc_SelectionChanged()
-
+        'AXDoc.Editor.WriteMessage("COMDoc_SelectionChanged")
+        If logeventos Then PonLogEv("COMDoc_SelectionChanged")
     End Sub
 
     Public Shared Sub COMDoc_WindowChanged(WindowState As AcWindowState)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_WindowChanged")
+        If logeventos Then PonLogEv("COMDoc_WindowChanged;" & WindowState.ToString)
     End Sub
 
     Public Shared Sub COMDoc_WindowMovedOrResized(<ComAliasName("AXDBLib.LONG_PTR")> HWNDFrame As Long, bMoved As Boolean)
-
+        'AXDoc.Editor.WriteMessage("COMDoc_WindowMovedOrResized")
+        If logeventos Then PonLogEv("COMDoc_WindowMovedOrResized;" & HWNDFrame & "|" & bMoved.ToString)
     End Sub
 End Class
 '

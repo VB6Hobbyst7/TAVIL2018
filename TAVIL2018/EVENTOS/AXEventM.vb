@@ -42,22 +42,27 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXEventM_ApplicationDockLayoutChanged(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXEventM_ApplicationDockLayoutChanged")
+        If logeventos Then PonLogEv("AXEventM_ApplicationDockLayoutChanged")
     End Sub
 
     Public Shared Sub AXEventM_ApplicationDocumentFrameChanged(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXEventM_ApplicationDocumentFrameChanged")
+        If logeventos Then PonLogEv("AXEventM_ApplicationDocumentFrameChanged")
     End Sub
 
     Public Shared Sub AXEventM_ApplicationMainWindowMoved(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXEventM_ApplicationMainWindowMoved")
+        If logeventos Then PonLogEv("AXEventM_ApplicationMainWindowMoved")
     End Sub
 
     Public Shared Sub AXEventM_ApplicationMainWindowSized(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXEventM_ApplicationMainWindowSized")
+        If logeventos Then PonLogEv("AXEventM_ApplicationMainWindowSized")
     End Sub
 
     Public Shared Sub AXEventM_ApplicationMainWindowVisibleChanged(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXEventM_ApplicationMainWindowVisibleChanged")
+        If logeventos Then PonLogEv("AXEventM_ApplicationMainWindowVisibleChanged")
     End Sub
 End Class

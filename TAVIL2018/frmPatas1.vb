@@ -17,6 +17,7 @@ Public Class frmPatas1
     Private ultimaVista As AcadViewport = Nothing
     '
     Private Sub frmPatas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
         If cPT Is Nothing Then cPT = New clsPT
         app_procesointerno = True
@@ -32,6 +33,7 @@ Public Class frmPatas1
     End Sub
     '
     Private Sub frmPatas_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR(False)
         app_procesointerno = False
         If ultimaVista IsNot Nothing Then Eventos.COMDoc().ActiveViewport = ultimaVista
         oBlR = Nothing

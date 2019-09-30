@@ -3,11 +3,13 @@ Imports ua = UtilesAlberto.Utiles
 
 Public Class frmConfigura
     Private Sub frmConfigura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Eventos.SYSMONVAR(True)
         Me.Text = "CONFIGURACIÓN - v" & cfg._appversion
         PonConfiguracionInicial()
     End Sub
 
     Private Sub frmConfigura_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        'Eventos.SYSMONVAR()
         frmCo = Nothing
         GC.Collect()
         GC.WaitForPendingFinalizers()

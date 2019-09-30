@@ -29,11 +29,11 @@ Partial Class frmAutonumera
         '
         'btnInsertaNum
         '
-        Me.btnInsertaNum.Location = New System.Drawing.Point(23, 41)
+        Me.btnInsertaNum.Location = New System.Drawing.Point(23, 58)
         Me.btnInsertaNum.Name = "btnInsertaNum"
         Me.btnInsertaNum.Size = New System.Drawing.Size(205, 23)
-        Me.btnInsertaNum.TabIndex = 1
-        Me.btnInsertaNum.Text = "Insertar Numeración"
+        Me.btnInsertaNum.TabIndex = 3
+        Me.btnInsertaNum.Text = "Insertar Numeración Desde Inicio"
         Me.btnInsertaNum.UseVisualStyleBackColor = True
         '
         'btnCargarNumeracion
@@ -41,15 +41,15 @@ Partial Class frmAutonumera
         Me.btnCargarNumeracion.Location = New System.Drawing.Point(23, 12)
         Me.btnCargarNumeracion.Name = "btnCargarNumeracion"
         Me.btnCargarNumeracion.Size = New System.Drawing.Size(205, 23)
-        Me.btnCargarNumeracion.TabIndex = 2
-        Me.btnCargarNumeracion.Text = "Cargar Numeración"
+        Me.btnCargarNumeracion.TabIndex = 4
+        Me.btnCargarNumeracion.Text = "Cargar Numeración e Inserta"
         Me.btnCargarNumeracion.UseVisualStyleBackColor = True
         '
         'frmAutonumera
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(247, 75)
+        Me.ClientSize = New System.Drawing.Size(247, 94)
         Me.Controls.Add(Me.btnCargarNumeracion)
         Me.Controls.Add(Me.btnInsertaNum)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -62,7 +62,6 @@ Partial Class frmAutonumera
         Me.ResumeLayout(False)
 
     End Sub
-
     Friend WithEvents btnInsertaNum As Windows.Forms.Button
     Friend WithEvents btnCargarNumeracion As Windows.Forms.Button
 End Class

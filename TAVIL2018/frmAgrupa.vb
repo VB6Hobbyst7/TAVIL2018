@@ -9,6 +9,7 @@ Imports a2 = AutoCAD2acad.A2acad
 Public Class frmAgrupa
     Public conMensaje As Boolean = True
     Private Sub frmAgrupa_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Eventos.SYSMONVAR(True)
         Me.Text = "AGRUPAR ELEMENTOS LINEA - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp(), cfg._appFullPath, regAPPCliente)
         app_procesointerno = True
@@ -20,6 +21,7 @@ Public Class frmAgrupa
     End Sub
 
     Private Sub frmAgrupa_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Eventos.SYSMONVAR(False)
         app_procesointerno = False
         frmAg = Nothing
         GC.Collect()

@@ -58,14 +58,18 @@ Partial Public Class Eventos
         RemoveHandler AXObj.Unappended, AddressOf AXObj_Unappended
     End Sub
     Public Shared Sub AXObj_Cancelled(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_Cancelled")
+        If logeventos Then PonLogEv("AXObj_Cancelled")
     End Sub
 
     Public Shared Sub AXObj_Copied(sender As Object, e As ObjectEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_Copied")
+        If logeventos Then PonLogEv("AXObj_Copied")
     End Sub
 
     Public Shared Sub AXObj_Erased(sender As Object, e As ObjectErasedEventArgs)
+        'AXDoc.Editor.WriteMessage("AXObj_Erased")
+        If logeventos Then PonLogEv("AXObj_Erased")
         'If e.DBObject IsNot Nothing AndAlso e.Erased = False Then
         '    'Debug.Print(sender.Name)
         '    Unsubscribe_EvObjDB(sender)
@@ -74,6 +78,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXObj_Goodbye(sender As Object, e As EventArgs)
+        'AXDoc.Editor.WriteMessage("AXObj_Goodbye")
+        If logeventos Then PonLogEv("AXObj_Goodbye")
         'Try
         '    Dim colPurge As New ObjectIdCollection
         '    Dim oDbO As DBObject = CType(sender, DBObject)
@@ -90,6 +96,8 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXObj_Modified(sender As Object, e As EventArgs)
+        'AXDoc.Editor.WriteMessage("AXObj_Modified")
+        If logeventos Then PonLogEv("AXObj_Modified")
         'Dim dbobj As DBObject = CType(sender, DBObject)
         'If TypeOf dbobj Is Autodesk.AutoCAD.DatabaseServices.BlockReference Then
         '    '        Using Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument
@@ -116,31 +124,40 @@ Partial Public Class Eventos
     End Sub
 
     Public Shared Sub AXObj_ModifiedXData(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_ModifiedXData")
+        If logeventos Then PonLogEv("AXObj_ModifiedXData")
     End Sub
 
     Public Shared Sub AXObj_ModifyUndone(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_ModifyUndone")
+        If logeventos Then PonLogEv("AXObj_ModifyUndone")
     End Sub
 
     Public Shared Sub AXObj_ObjectClosed(sender As Object, e As ObjectClosedEventArgs)
+        'AXDoc.Editor.WriteMessage("AXObj_ObjectClosed")
+        If logeventos Then PonLogEv("AXObj_ObjectClosed")
         If sender Is Nothing Then Exit Sub
         'Debug.Print("Hola")
     End Sub
 
     Public Shared Sub AXObj_OpenedForModify(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_OpenedForModify")
+        If logeventos Then PonLogEv("AXObj_OpenedForModify")
     End Sub
 
     Public Shared Sub AXObj_Reappended(sender As Object, e As EventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_Reappended")
+        If logeventos Then PonLogEv("AXObj_Reappended")
     End Sub
 
     Public Shared Sub AXObj_SubObjectModified(sender As Object, e As ObjectEventArgs)
-
+        'AXDoc.Editor.WriteMessage("AXObj_SubObjectModified")
+        If logeventos Then PonLogEv("AXObj_SubObjectModified")
     End Sub
 
     Public Shared Sub AXObj_Unappended(sender As Object, e As EventArgs)
+        'AXDoc.Editor.WriteMessage("AXObj_Unappended")
+        If logeventos Then PonLogEv("AXObj_Unappended")
         'If sender IsNot Nothing Then
         '    Unsubscribe_EvObjDB(sender)
         '    Unsubscribre_EvObjCOM(CType(sender, DBObject).AcadObject)
