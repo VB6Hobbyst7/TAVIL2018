@@ -14,13 +14,51 @@ Imports Autodesk.AutoCAD.EditorInput
 
 Namespace A2acad
     Partial Public Class A2acad
-        Public Sub CoberturaOnOff(Optional activar As Boolean = False)
-            If activar = True Then
-                oAppA.ActiveDocument.SendCommand("COBERTURA M ACT ")
+        Public Sub CoberturaOnOff(Optional activar As Boolean = False)  '_WIPEOUT
+            If activar = False Then
+                oAppA.ActiveDocument.SendCommand("_FRAME 0 ")
+                oAppA.ActiveDocument.SendCommand("_WIPEOUTFRAME 0 ")
             Else
-                oAppA.ActiveDocument.SendCommand("COBERTURA M DES ")
+                oAppA.ActiveDocument.SendCommand("_FRAME 2 ")
+                oAppA.ActiveDocument.SendCommand("_WIPEOUTFRAME 2 ")
             End If
+            ' Solo funciona en Español
+            'If activar = True Then
+            '    oAppA.ActiveDocument.SendCommand("_WIPEOUT M ACT ")
+            'Else
+            '    oAppA.ActiveDocument.SendCommand("_WIPEOUT M DES ")
+            'End If
+            ' Solo funciona en Ingles
+            'If activar = True Then
+            '    oAppA.ActiveDocument.SendCommand("_WIPEOUT F ON ")
+            'Else
+            '    oAppA.ActiveDocument.SendCommand("_WIPEOUT F OFF ")
+            'End If
         End Sub
+
+        Public Sub WipeOut_CreatePolilyne()
+            Dim doc As Document = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument
+            Dim db As Database = doc.Database
+            Dim tr As Transaction = db.TransactionManager.StartTransaction()
+
+            Using tr
+                Dim bt As BlockTable = CType(tr.GetObject(db.BlockTableId, OpenMode.ForRead, False), BlockTable)
+                Dim btr As BlockTableRecord = CType(tr.GetObject(bt(BlockTableRecord.ModelSpace), OpenMode.ForWrite, False), BlockTableRecord)
+                Dim pts As Point2dCollection = New Point2dCollection(5)
+                pts.Add(New Point2d(0.0, 0.0))
+                pts.Add(New Point2d(100.0, 0.0))
+                pts.Add(New Point2d(100.0, 100.0))
+                pts.Add(New Point2d(0.0, 100.0))
+                pts.Add(New Point2d(0.0, 0.0))
+                Dim wo As Wipeout = New Wipeout()
+                wo.SetDatabaseDefaults(db)
+                wo.SetFrom(pts, New Vector3d(0.0, 0.0, 0.1))
+                btr.AppendEntity(wo)
+                tr.AddNewlyCreatedDBObject(wo, True)
+                tr.Commit()
+            End Using
+        End Sub
+
 
         Public Function MleaderDameTodos_PorNombreBloque(quenombre As String, Optional exacto As Boolean = False) As ArrayList
             Dim resultado As New ArrayList
@@ -102,6 +140,7 @@ Namespace A2acad
             Return resultado
         End Function
         Public Function MLeader_InsertaCommand() As AcadMLeader
+            ''Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.SendStringToExecute("\x03\x03", False, True, False)
             Dim resultado As AcadMLeader = Nothing
             Dim ptIns(2) As Double
             'Dim oCir As AcadCircle = Nothing

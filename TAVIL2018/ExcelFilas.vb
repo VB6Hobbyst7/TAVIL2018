@@ -1,5 +1,7 @@
 ﻿Imports System.Linq
 Imports ce = ClosedXML.Excel
+Imports System.Windows.Forms
+
 Public Class ExcelFilas
     Public nHoja As String = HojaUniones
     Public Campos As List(Of String)
@@ -67,13 +69,15 @@ Public Class ExcelFila
     Public OUTFEED_INCLINATION As String = ""
     Public ANGLE As String = ""
     Public INFORMACION As String = ""
+    Public Rows As List(Of DataGridViewRow)
+    Public hayerror As Boolean = False
 
     Public Property UNION As String
         Get
             Return _UNION
         End Get
         Set(value As String)
-            _UNION = value.Replace("o", ";").Replace(" ", "").Trim
+            _UNION = value.Replace(" ", "").Trim    ' value.Replace("o", ";").Replace(" ", "").Trim
         End Set
     End Property
 
@@ -95,13 +99,45 @@ Public Class ExcelFila
             Select Case cabecera
                 Case "INFEED_CONVEYOR" : INFEED_CONVEYOR = Convert.ToString(valor)
                 Case "INFEED_INCLINATION" : Me.INFEED_INCLINATION = Convert.ToString(valor)
-                Case "UNION" : Me.UNION = Convert.ToString(valor)
-                Case "UNITS" : Me.UNITS = Convert.ToString(valor)
+                Case "UNION" : Me.UNION = Convert.ToString(valor).Trim
+                Case "UNITS" : Me.UNITS = Convert.ToString(valor).Trim
                 Case "OUTFEED_CONVEYOR" : Me.OUTFEED_CONVEYOR = Convert.ToString(valor)
                 Case "OUTFEED_INCLINATION" : Me.OUTFEED_INCLINATION = Convert.ToString(valor)
                 Case "ANGLE" : Me.ANGLE = Convert.ToString(valor)
                 Case "INFORMACION" : Me.INFORMACION = Convert.ToString(valor)
             End Select
+        Next
+        FilasDataGridView_Crea()
+    End Sub
+    Public Sub FilasDataGridView_Crea()
+        Dim unionesP() As String = Me.UNION.Split(";")
+        Dim unidadesP() As String = Me.UNITS.Split(";")
+        If unionesP.Count <> unidadesP.Count Then
+            MsgBox("Error in Excel. Columns UNION and UNITS")
+            hayerror = True
+            Exit Sub
+        Else
+            hayerror = False
+        End If
+        '
+        Rows = New List(Of DataGridViewRow)
+        '
+        For x As Integer = 0 To unionesP.Count - 1
+            Dim Fila As New DataGridViewRow
+            Dim Ctext As New DataGridViewComboBoxCell
+            Dim TUnits As New DataGridViewTextBoxCell
+            If unionesP(x).Contains("o") Then
+                Ctext.Items.AddRange(unionesP(x).Split("o"))
+            Else
+                Ctext.Items.Add(unionesP(x))
+            End If
+            TUnits.Value = unidadesP(x)
+            Fila.Cells.Add(Ctext)
+            Fila.Cells.Add(TUnits)
+            Rows.Add(Fila)
+            TUnits = Nothing
+            Ctext = Nothing
+            Fila = Nothing
         Next
     End Sub
 End Class

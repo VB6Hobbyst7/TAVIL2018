@@ -29,7 +29,7 @@ Namespace A2acad
                 ' No existe
             End Try
         End Sub
-        Public Sub Selection_Quitar()
+        Public Sub Seleccion_Quitar()
             ' No usamos objecto. Por si los usaramos
             Dim F1(1) As Short
             Dim F2(1) As Object
@@ -62,7 +62,7 @@ Namespace A2acad
             oAppA.ActiveDocument.SetVariable("pickadd", 2)   '' La seleccion actual se suma a la que hubiera.
         End Sub
 
-        Public Sub SeleccionCreaResalta(queEntidades As ArrayList, conZoom As Boolean)
+        Public Sub Seleccion_CreaResalta(queEntidades As ArrayList, conZoom As Boolean)
             ''
             Try
                 oSel = oAppA.ActiveDocument.SelectionSets.Add(regAPPA)

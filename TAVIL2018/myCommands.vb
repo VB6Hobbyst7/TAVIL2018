@@ -252,7 +252,7 @@ Namespace TAVIL2018
                     Application.ShowModelessDialog(Application.MainWindow.Handle, frmBloE, True)
                 Else
                     Dim arrEnt As New ArrayList : arrEnt.Add(oBl)
-                    clsA.SeleccionCreaResalta(arrEnt, False)
+                    clsA.Seleccion_CreaResalta(arrEnt, False)
                     Eventos.COMDoc().SendCommand("_eattedit ")
                 End If
             Catch ex As System.Exception

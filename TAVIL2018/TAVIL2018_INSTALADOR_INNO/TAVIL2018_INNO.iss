@@ -3,7 +3,7 @@
 
 #define MyAppName "TAVIL2018"
 #define MyAppNameDir "TAVIL2018.bundle"
-#define MyAppVersion "2018.0.0.16"
+#define MyAppVersion "2018.0.0.19"
 #define MyAppPublisher "Copyright © Jose Alberto Torres (2aCAD Global Group  2018)"
 #define MyAppURL "http://www.2acad.es"
 #define MyWeb "2aCAD Global Group"
@@ -53,7 +53,7 @@ Source: "{#MyOrigen}bin\*.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyOrigen}bin\*.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyOrigen}Resources\{#MyAppName}.cuix"; DestDir: "{app}"; Flags: ignoreversion
 ; *** RESOURCES (Bloques, Excel, etc.)
-Source: "{#MyOrigen}Resources\BloqueRecursos.dwg"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyOrigen}Resources\*.dwg"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyOrigen}Resources\TAVIL.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyOrigen}bin\BLOQUES\*"; Excludes: "*.bak*,*.ac$"; DestDir: "{app}\BLOQUES"; Flags: ignoreversion createallsubdirs recursesubdirs; Permissions: everyone-full
 

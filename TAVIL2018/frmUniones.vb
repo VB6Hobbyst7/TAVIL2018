@@ -67,7 +67,7 @@ Public Class frmUniones
     End Sub
     '
     Private Sub tvUniones_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles tvUniones.AfterSelect
-        clsA.Selection_Quitar()
+        clsA.Seleccion_Quitar()
         UltimoBloqueT1 = Nothing
         UltimoBloqueT2 = Nothing
         UltimoBloqueUnion = Nothing
@@ -132,21 +132,28 @@ Public Class frmUniones
             LbRotation.SelectedIndex = -1
         End If
         '
-        LbUnion.Items.Clear()
-        If UltimaClsUnion.ExcelFilaUnion IsNot Nothing Then
-            LbUnion.Tag = New String() {UltimaClsUnion.ExcelFilaUnion.UNION, UltimaClsUnion.ExcelFilaUnion.UNITS}
-            LbUnion.Items.AddRange(UltimaClsUnion.ExcelFilaUnion.UNION.Split(";"c))
-        Else
-            If UltimaClsUnion.UNION <> "" Then LbUnion.Items.Add(UltimaClsUnion.UNION)
+        DgvUnion.Rows.Clear()
+        If UltimaClsUnion.ExcelFilaUnion IsNot Nothing AndAlso
+            UltimaClsUnion.ExcelFilaUnion.Rows IsNot Nothing _
+            AndAlso UltimaClsUnion.ExcelFilaUnion.Rows.Count > 0 Then
+            DgvUnion.Rows.AddRange(UltimaClsUnion.ExcelFilaUnion.Rows.ToArray)
         End If
-        LbUnion.Height = LbUnion.PreferredHeight
-        ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
-        LblUnits.Text = UltimaClsUnion.UNITS
+        'LbUnion.Items.Clear()
+        'If UltimaClsUnion.ExcelFilaUnion IsNot Nothing Then
+        '    LbUnion.Tag = New String() {UltimaClsUnion.ExcelFilaUnion.UNION, UltimaClsUnion.ExcelFilaUnion.UNITS}
+        '    LbUnion.Items.AddRange(UltimaClsUnion.ExcelFilaUnion.UNION.Split(";"c))
+        'Else
+        '    If UltimaClsUnion.UNION <> "" Then LbUnion.Items.Add(UltimaClsUnion.UNION)
+        'End If
+        'LbUnion.Height = LbUnion.PreferredHeight
+        'ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
+        'LblUnits.Text = UltimaClsUnion.UNITS
     End Sub
     Private Sub tvUniones_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles tvUniones.MouseDoubleClick
         Uniones_SeleccionarObjetos(tvUniones.SelectedNode.Tag, conZoom:=True)
     End Sub
     Private Sub BtnCrearUnion_Click(sender As Object, e As EventArgs) Handles BtnCrearUnion.Click
+        clsA.Seleccion_Quitar()
         EsUnionNueva = True
         BorraDatos()
         UltimoBloqueT1 = Nothing
@@ -155,6 +162,8 @@ Public Class frmUniones
         UltimaClsUnion = Nothing
         '
         GUnion.Enabled = True
+        BtnT1.Enabled = True
+        BtnT2.Enabled = True
         BtnInsertarUnion.Visible = True
         BtnInsertarUnion.Enabled = False
         BtnAceptar.Visible = False
@@ -170,10 +179,11 @@ Public Class frmUniones
         BtnInsertarUnion.Enabled = False
         BtnAceptar.Visible = True
         BtnAceptar.Enabled = True
+        Datos_1PonUnion()
         Datos_2CompruebaDatos()
     End Sub
     Private Sub BtnBorrarUnion_Click(sender As Object, e As EventArgs) Handles BtnBorrarUnion.Click
-        clsA.Selection_Quitar()
+        clsA.Seleccion_Quitar()
         Dim oBl As AcadBlockReference = Eventos.COMDoc().HandleToObject(tvUniones.SelectedNode.Tag)
         If oBl Is Nothing Then Exit Sub
         '
@@ -233,19 +243,21 @@ Public Class frmUniones
         Me.Visible = False
         clsA.ActivaAppAPI()
         UltimoBloqueT1 = clsA.Bloque_SeleccionaDame
-        If UltimoBloqueT1 IsNot Nothing AndAlso UltimoBloqueUnion IsNot Nothing Then
-            Datos_1PonUnion()
-        End If
+        'If UltimoBloqueT1 IsNot Nothing AndAlso UltimoBloqueUnion IsNot Nothing Then
+        '    Datos_1PonUnion()
+        'End If
         Me.Visible = True
+        LbT1_SelectedIndexChanged(Nothing, Nothing)
     End Sub
     Private Sub BtnT2_Click(sender As Object, e As EventArgs) Handles BtnT2.Click
         Me.Visible = False
         clsA.ActivaAppAPI()
         UltimoBloqueT2 = clsA.Bloque_SeleccionaDame
-        If UltimoBloqueT2 IsNot Nothing AndAlso UltimoBloqueUnion IsNot Nothing Then
-            Datos_1PonUnion()
-        End If
+        'If UltimoBloqueT2 IsNot Nothing AndAlso UltimoBloqueUnion IsNot Nothing Then
+        '    Datos_1PonUnion()
+        'End If
         Me.Visible = True
+        LbT1_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
 
@@ -259,41 +271,16 @@ Public Class frmUniones
             LbRotation.SelectedIndex >= 0 Then
             Datos_1PonUnion()   ' Rellenar datos union y ejecutar las 2 comprobaciones siguientes.
         Else
-            LbUnion.Items.Clear()
-            LbUnion.Text = ""
-            LblUnits.Text = ""
+            DgvUnion.Rows.Clear()
             Datos_2CompruebaDatos()
         End If
     End Sub
-    Private Sub LbUnion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LbUnion.SelectedIndexChanged
-        If GUnion.Enabled = False Then Exit Sub
-        If LbUnion.SelectedIndex = -1 Then Exit Sub
-        '
-        If LbUnion.Tag Is Nothing OrElse LbUnion.Tag.ToString = "" OrElse LbUnion.SelectedIndex = -1 OrElse LbUnion.Text = "" Then
-            Datos_2CompruebaDatos()
-            Exit Sub
-        End If
-        '
-        If TypeOf LbUnion.Tag Is ExcelFila Then
-            If CType(LbUnion.Tag, ExcelFila).UNION <> "" AndAlso CType(LbUnion.Tag, ExcelFila).UNITS <> "" Then
-                Dim union As String() = CType(LbUnion.Tag, ExcelFila).UNION.Split(";"c)
-                Dim units As String() = CType(LbUnion.Tag, ExcelFila).UNITS.Split(";"c)
-                For x As Integer = 0 To UBound(union)
-                    If union(x) = LbUnion.Text Then
-                        LblUnits.Text = units(x)
-                        Exit For
-                    End If
-                Next
-            End If
-        End If
-        Datos_2CompruebaDatos()
-    End Sub
-
     Private Sub BtnInsertarUnion_Click(sender As Object, e As EventArgs) Handles BtnInsertarUnion.Click
         clsA.ActivaAppAPI()
         If UltimoBloqueUnion Is Nothing Then
             clsA.Bloque_Inserta(, NombreBloqueUNION)
             If clsA.oBlult IsNot Nothing Then
+                UltimoBloqueUnion = Eventos.COMDoc.HandleToObject(clsA.oBlult.Handle)
                 BtnAceptar_Click(Nothing, Nothing)
             End If
         End If
@@ -310,6 +297,16 @@ Public Class frmUniones
         BorraDatos()
     End Sub
     Public Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+        ' Coger UNION y UNITS del DataGrigView
+        Dim DatosUnion As New List(Of String)
+        Dim DatosUnits As New List(Of String)
+        For Each oRow As DataGridViewRow In DgvUnion.Rows
+            If oRow.Cells.Item("UNION").Value Is Nothing OrElse oRow.Cells.Item("UNION").Value = "" Then Continue For
+            DatosUnion.Add(oRow.Cells.Item("UNION").Value.ToString)
+            DatosUnits.Add(oRow.Cells.Item("UNITS").Value.ToString)
+        Next
+        If DatosUnion.Count = 0 Then Exit Sub
+        '
         If UltimaClsUnion IsNot Nothing Then
             UltimaClsUnion.T1HANDLE = UltimoBloqueT1.Handle
             UltimaClsUnion.T1INCLINATION = LbInclinationT1.Text
@@ -317,9 +314,24 @@ Public Class frmUniones
             UltimaClsUnion.T2HANDLE = UltimoBloqueT2.Handle
             UltimaClsUnion.T2INCLINATION = LbInclinationT2.Text
             UltimaClsUnion.T2OUTFEED = IIf(UltimaFilaExcel IsNot Nothing, UltimaFilaExcel.OUTFEED_CONVEYOR, "")
-            UltimaClsUnion.UNION = LbUnion.Text
-            UltimaClsUnion.UNITS = LblUnits.Text
+            UltimaClsUnion.UNION = String.Join(";", DatosUnion.ToArray)
+            UltimaClsUnion.UNITS = String.Join(";", DatosUnits.ToArray)
             UltimaClsUnion.ROTATION = LbRotation.Text
+            UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
+            UltimaClsUnion.PonAtributos()   ' Escribir finalmente los atributos UNION y UNITS en el bloque.
+        Else
+            UltimaClsUnion = New ClsUnion(
+                UltimoBloqueUnion.Handle,
+                String.Join(";", DatosUnion.ToArray),
+                String.Join(";", DatosUnits.ToArray),
+                UltimoBloqueT1.Handle,
+                UltimaFilaExcel.INFEED_CONVEYOR,
+                LbInclinationT1.Text,
+                UltimoBloqueT2.Handle,
+                UltimaFilaExcel.OUTFEED_CONVEYOR,
+                LbInclinationT2.Text,
+                LbRotation.Text)
+
             UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
             UltimaClsUnion.PonAtributos()   ' Escribir finalmente los atributos UNION y UNITS en el bloque.
         End If
@@ -376,27 +388,28 @@ Public Class frmUniones
 
     Public Sub Datos_1PonUnion()
         If GUnion.Enabled = False Then Exit Sub
-        '
         If UltimoBloqueT1 Is Nothing OrElse UltimoBloqueT2 Is Nothing Then Exit Sub
+        DgvUnion.Rows.Clear()
+        DgvUnion.Tag = Nothing
+        '
         Dim angulo As String = LbRotation.Text
-        UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, angulo)
+        'UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, angulo)
+        UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Substring(0, 6), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Substring(0, 6), LbInclinationT2.Text, angulo)
         If UltimaFilaExcel IsNot Nothing Then
-            LbUnion.Items.Clear()
-            LbUnion.Text = ""
-            LbUnion.Tag = UltimaFilaExcel
-            Dim valores As String = UltimaFilaExcel.UNION
-            'valores = valores.Replace(" o ", ";")
-            'valores = valores.Replace(" ", "")
-            Dim partes() As String = valores.Split(";")
-            LbUnion.Items.AddRange(partes)
-            LbUnion.Height = LbUnion.PreferredHeight
-            'If CbUnion.Items.Contains(CbUnion.Text) = False Then CbUnion.Text = ""
-            If LbUnion.Items.Count >= 1 AndAlso LbUnion.Items.Contains(UltimaClsUnion.UNION) Then
-                ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
-                'Else
-                '    LbUnion.SelectedIndex = -1
-                '    LbUnion.Text = ""
-            End If
+            DgvUnion.Tag = UltimaFilaExcel
+            DgvUnion.Rows.AddRange(UltimaFilaExcel.Rows.ToArray)
+            DgvUnion.Height = DgvUnion.PreferredSize.Height
+            'If LbUnion.Items.Count >= 1 AndAlso UltimaClsUnion IsNot Nothing AndAlso LbUnion.Items.Contains(UltimaClsUnion.UNION) Then
+            '    ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
+            '    'Else
+            '    '    LbUnion.SelectedIndex = -1
+            '    '    LbUnion.Text = ""
+            'End If
+
+
+        Else
+            'LbUnion.Items.Clear() : LbUnion.Text = "" : LbUnion.Height = LbUnion.PreferredHeight
+            'LblUnits.Text = ""
         End If
         Datos_2CompruebaDatos()
     End Sub
@@ -454,8 +467,7 @@ Public Class frmUniones
                 LbInclinationT1.SelectedIndex > -1 AndAlso
                 LbInclinationT2.SelectedIndex > -1 AndAlso
                 LbRotation.SelectedIndex > -1 AndAlso
-                LbUnion.SelectedIndex > -1 AndAlso
-                LblUnits.Text <> "" Then
+                DgvUnion.Rows.Count > 0 Then
             BtnInsertarUnion.Enabled = True
             BtnAceptar.Enabled = True
         Else
@@ -465,37 +477,37 @@ Public Class frmUniones
         Me.ResumeLayout()
     End Sub
 
-    Public Sub ExcelFila_Actualizar()
-        If GUnion.Enabled = False Then Exit Sub
-        ' Si no tenemos estos datos, salir. No se puede buscar nueva fila Excel.
-        If UltimoBloqueT1 Is Nothing OrElse
-                UltimoBloqueT2 Is Nothing OrElse
-                LbInclinationT1.SelectedIndex = -1 OrElse
-                LbInclinationT2.SelectedIndex = -1 OrElse
-                LbRotation.SelectedIndex = -1 Then
-            Exit Sub
-        End If
-
-        UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, LbRotation.Text)
-        If UltimaFilaExcel IsNot Nothing Then
-            If UltimaClsUnion IsNot Nothing Then
-                UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
-            End If
-            LbUnion.Tag = UltimaFilaExcel
-            Dim valores As String = UltimaFilaExcel.UNION
-            valores = valores.Replace(" o ", ";")
-            valores = valores.Replace(" ", "")
-            Dim partes() As String = valores.Split(";")
-            LbUnion.Items.AddRange(partes)
-            'If CbUnion.Items.Contains(CbUnion.Text) = False Then CbUnion.Text = ""
-            If LbUnion.Items.Count >= 1 AndAlso LbUnion.Items.Contains(UltimaClsUnion.UNION) Then
-                ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
-            Else
-                LbUnion.SelectedIndex = -1
-                'CbUnion.Text = ""
-            End If
-        End If
-    End Sub
+    'Public Sub ExcelFila_Actualizar()
+    '    If GUnion.Enabled = False Then Exit Sub
+    '    ' Si no tenemos estos datos, salir. No se puede buscar nueva fila Excel.
+    '    If UltimoBloqueT1 Is Nothing OrElse
+    '            UltimoBloqueT2 Is Nothing OrElse
+    '            LbInclinationT1.SelectedIndex = -1 OrElse
+    '            LbInclinationT2.SelectedIndex = -1 OrElse
+    '            LbRotation.SelectedIndex = -1 Then
+    '        Exit Sub
+    '    End If
+    '    'UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, LbRotation.Text)
+    '    UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Substring(0, 6), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Substring(0, 6), LbInclinationT2.Text, LbRotation.Text)
+    '    If UltimaFilaExcel IsNot Nothing Then
+    '        If UltimaClsUnion IsNot Nothing Then
+    '            UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
+    '        End If
+    '        LbUnion.Tag = UltimaFilaExcel
+    '        Dim valores As String = UltimaFilaExcel.UNION
+    '        valores = valores.Replace(" o ", ";")
+    '        valores = valores.Replace(" ", "")
+    '        Dim partes() As String = valores.Split(";")
+    '        LbUnion.Items.AddRange(partes)
+    '        'If CbUnion.Items.Contains(CbUnion.Text) = False Then CbUnion.Text = ""
+    '        If LbUnion.Items.Count >= 1 AndAlso LbUnion.Items.Contains(UltimaClsUnion.UNION) Then
+    '            ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
+    '        Else
+    '            LbUnion.SelectedIndex = -1
+    '            'CbUnion.Text = ""
+    '        End If
+    '    End If
+    'End Sub
     Public Sub tvUniones_Rellena(Optional tipo As modTavil.EFiltro = EFiltro.TODOS)
         PonEstadoControlesInicial()
         ' Rellenar tvGrupos con los grupos que haya ([nombre grupo]) Sacado de XData elementos (regAPPCliente, XData = "GRUPO")
@@ -583,10 +595,8 @@ Public Class frmUniones
         Me.LbInclinationT1.SelectedIndex = -1 ': Me.LbInclinationT1.Refresh()
         Me.LbInclinationT2.SelectedIndex = -1 ': Me.LbInclinationT2.Refresh()
         Me.LbRotation.SelectedIndex = -1 ': Me.LbRotation.Refresh()
-        Me.LbUnion.Items.Clear()
-        Me.LbUnion.Height = Me.LbUnion.PreferredHeight
-        Me.LbUnion.Text = ""
-        Me.LblUnits.Text = "" ': Me.LblUnits.Refresh()
+        Me.DgvUnion.Rows.Clear()
+        Me.DgvUnion.Height = Me.DgvUnion.PreferredSize.Height
         'GUnion.Enabled = False
     End Sub
 #End Region

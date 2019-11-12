@@ -29,11 +29,8 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
-        Me.LbUnion = New System.Windows.Forms.ListBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LbRotation = New System.Windows.Forms.ListBox()
-        Me.LblUnits = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.LbInclinationT2 = New System.Windows.Forms.ListBox()
         Me.LbInclinationT1 = New System.Windows.Forms.ListBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -51,7 +48,11 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
         Me.cbTipo = New System.Windows.Forms.ComboBox()
         Me.LblUniones = New System.Windows.Forms.Label()
+        Me.DgvUnion = New System.Windows.Forms.DataGridView()
+        Me.UNION = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.UNITS = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GUnion.SuspendLayout()
+        CType(Me.DgvUnion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnCerrar
@@ -112,11 +113,9 @@ Partial Class frmUniones
         'GUnion
         '
         Me.GUnion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GUnion.Controls.Add(Me.LbUnion)
+        Me.GUnion.Controls.Add(Me.DgvUnion)
         Me.GUnion.Controls.Add(Me.Label4)
         Me.GUnion.Controls.Add(Me.LbRotation)
-        Me.GUnion.Controls.Add(Me.LblUnits)
-        Me.GUnion.Controls.Add(Me.Label3)
         Me.GUnion.Controls.Add(Me.LbInclinationT2)
         Me.GUnion.Controls.Add(Me.LbInclinationT1)
         Me.GUnion.Controls.Add(Me.Label2)
@@ -133,15 +132,6 @@ Partial Class frmUniones
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
-        '
-        'LbUnion
-        '
-        Me.LbUnion.FormattingEnabled = True
-        Me.LbUnion.ItemHeight = 16
-        Me.LbUnion.Location = New System.Drawing.Point(77, 263)
-        Me.LbUnion.Name = "LbUnion"
-        Me.LbUnion.Size = New System.Drawing.Size(103, 20)
-        Me.LbUnion.TabIndex = 36
         '
         'Label4
         '
@@ -160,22 +150,6 @@ Partial Class frmUniones
         Me.LbRotation.Name = "LbRotation"
         Me.LbRotation.Size = New System.Drawing.Size(66, 36)
         Me.LbRotation.TabIndex = 34
-        '
-        'LblUnits
-        '
-        Me.LblUnits.Location = New System.Drawing.Point(272, 263)
-        Me.LblUnits.Name = "LblUnits"
-        Me.LblUnits.Size = New System.Drawing.Size(103, 23)
-        Me.LblUnits.TabIndex = 33
-        Me.LblUnits.Text = "LbUnits"
-        '
-        'Label3
-        '
-        Me.Label3.Location = New System.Drawing.Point(206, 263)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(60, 22)
-        Me.Label3.TabIndex = 32
-        Me.Label3.Text = "UNITS :"
         '
         'LbInclinationT2
         '
@@ -199,11 +173,11 @@ Partial Class frmUniones
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(11, 263)
+        Me.Label2.Location = New System.Drawing.Point(10, 201)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(60, 22)
+        Me.Label2.Size = New System.Drawing.Size(114, 22)
         Me.Label2.TabIndex = 28
-        Me.Label2.Text = "UNION :"
+        Me.Label2.Text = "UNION/UNITS :"
         '
         'BtnAceptar
         '
@@ -338,6 +312,39 @@ Partial Class frmUniones
         Me.LblUniones.TabIndex = 28
         Me.LblUniones.Text = "."
         '
+        'DgvUnion
+        '
+        Me.DgvUnion.AllowUserToAddRows = False
+        Me.DgvUnion.AllowUserToDeleteRows = False
+        Me.DgvUnion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DgvUnion.ColumnHeadersVisible = False
+        Me.DgvUnion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.UNION, Me.UNITS})
+        Me.DgvUnion.Location = New System.Drawing.Point(13, 226)
+        Me.DgvUnion.Name = "DgvUnion"
+        Me.DgvUnion.RowHeadersVisible = False
+        Me.DgvUnion.RowHeadersWidth = 51
+        Me.DgvUnion.RowTemplate.Height = 24
+        Me.DgvUnion.ShowEditingIcon = False
+        Me.DgvUnion.Size = New System.Drawing.Size(132, 87)
+        Me.DgvUnion.TabIndex = 37
+        '
+        'UNION
+        '
+        Me.UNION.Frozen = True
+        Me.UNION.HeaderText = "UNION"
+        Me.UNION.MinimumWidth = 6
+        Me.UNION.Name = "UNION"
+        Me.UNION.Width = 70
+        '
+        'UNITS
+        '
+        Me.UNITS.Frozen = True
+        Me.UNITS.HeaderText = "UNITS"
+        Me.UNITS.MinimumWidth = 6
+        Me.UNITS.Name = "UNITS"
+        Me.UNITS.ReadOnly = True
+        Me.UNITS.Width = 50
+        '
         'frmUniones
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -367,6 +374,7 @@ Partial Class frmUniones
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "frmUniones"
         Me.GUnion.ResumeLayout(False)
+        CType(Me.DgvUnion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -392,11 +400,11 @@ Partial Class frmUniones
     Friend WithEvents cbTipo As Windows.Forms.ComboBox
     Friend WithEvents LblUniones As Windows.Forms.Label
     Friend WithEvents Label2 As Windows.Forms.Label
-    Friend WithEvents LblUnits As Windows.Forms.Label
-    Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents LbInclinationT2 As Windows.Forms.ListBox
     Friend WithEvents LbInclinationT1 As Windows.Forms.ListBox
     Friend WithEvents Label4 As Windows.Forms.Label
     Friend WithEvents LbRotation As Windows.Forms.ListBox
-    Friend WithEvents LbUnion As Windows.Forms.ListBox
+    Friend WithEvents DgvUnion As Windows.Forms.DataGridView
+    Friend WithEvents UNION As Windows.Forms.DataGridViewComboBoxColumn
+    Friend WithEvents UNITS As Windows.Forms.DataGridViewTextBoxColumn
 End Class
