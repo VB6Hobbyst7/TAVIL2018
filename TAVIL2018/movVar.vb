@@ -33,8 +33,7 @@ Module movVar
     Public pataD As clsBloquePataDatos     ' Datos de un bloque de pata (Parametros y Atributos)
     ' ***** CLASES con los datos de cada Hoja Excel
     Public cPT As clsPT     ' Hoja PT de LAYOUTDBS4.xlsx
-    Public cU As ExcelFilas ' Hoja UNIONES de LAYOUTDBS4.xlsx
-
+    Public cU As UNIONESExcelFilas
     '
     ' ***** FORMULARIO
     Public frmCo As frmConfigura

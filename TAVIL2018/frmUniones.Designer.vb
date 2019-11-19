@@ -29,6 +29,7 @@ Partial Class frmUniones
         Me.cbZoom = New System.Windows.Forms.CheckBox()
         Me.BtnInsertarUnion = New System.Windows.Forms.Button()
         Me.GUnion = New System.Windows.Forms.GroupBox()
+        Me.DgvUnion = New System.Windows.Forms.DataGridView()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LbRotation = New System.Windows.Forms.ListBox()
         Me.LbInclinationT2 = New System.Windows.Forms.ListBox()
@@ -48,7 +49,6 @@ Partial Class frmUniones
         Me.BtnInsertaMultiplesUniones = New System.Windows.Forms.Button()
         Me.cbTipo = New System.Windows.Forms.ComboBox()
         Me.LblUniones = New System.Windows.Forms.Label()
-        Me.DgvUnion = New System.Windows.Forms.DataGridView()
         Me.UNION = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.UNITS = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GUnion.SuspendLayout()
@@ -132,6 +132,24 @@ Partial Class frmUniones
         Me.GUnion.TabIndex = 20
         Me.GUnion.TabStop = False
         Me.GUnion.Text = "Crear / Editar Unión"
+        '
+        'DgvUnion
+        '
+        Me.DgvUnion.AllowUserToAddRows = False
+        Me.DgvUnion.AllowUserToDeleteRows = False
+        Me.DgvUnion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DgvUnion.ColumnHeadersVisible = False
+        Me.DgvUnion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.UNION, Me.UNITS})
+        Me.DgvUnion.Location = New System.Drawing.Point(13, 226)
+        Me.DgvUnion.MaximumSize = New System.Drawing.Size(175, 104)
+        Me.DgvUnion.MinimumSize = New System.Drawing.Size(175, 104)
+        Me.DgvUnion.Name = "DgvUnion"
+        Me.DgvUnion.RowHeadersVisible = False
+        Me.DgvUnion.RowHeadersWidth = 51
+        Me.DgvUnion.RowTemplate.Height = 24
+        Me.DgvUnion.ShowEditingIcon = False
+        Me.DgvUnion.Size = New System.Drawing.Size(175, 104)
+        Me.DgvUnion.TabIndex = 37
         '
         'Label4
         '
@@ -312,29 +330,12 @@ Partial Class frmUniones
         Me.LblUniones.TabIndex = 28
         Me.LblUniones.Text = "."
         '
-        'DgvUnion
-        '
-        Me.DgvUnion.AllowUserToAddRows = False
-        Me.DgvUnion.AllowUserToDeleteRows = False
-        Me.DgvUnion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvUnion.ColumnHeadersVisible = False
-        Me.DgvUnion.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.UNION, Me.UNITS})
-        Me.DgvUnion.Location = New System.Drawing.Point(13, 226)
-        Me.DgvUnion.Name = "DgvUnion"
-        Me.DgvUnion.RowHeadersVisible = False
-        Me.DgvUnion.RowHeadersWidth = 51
-        Me.DgvUnion.RowTemplate.Height = 24
-        Me.DgvUnion.ShowEditingIcon = False
-        Me.DgvUnion.Size = New System.Drawing.Size(132, 87)
-        Me.DgvUnion.TabIndex = 37
-        '
         'UNION
         '
         Me.UNION.Frozen = True
         Me.UNION.HeaderText = "UNION"
         Me.UNION.MinimumWidth = 6
         Me.UNION.Name = "UNION"
-        Me.UNION.Width = 70
         '
         'UNITS
         '

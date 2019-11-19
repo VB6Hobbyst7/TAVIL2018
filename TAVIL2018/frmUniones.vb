@@ -13,8 +13,8 @@ Public Class frmUniones
     Private UltimoBloqueUnion As AcadBlockReference = Nothing
     Private UltimoBloqueT1 As AcadBlockReference = Nothing
     Private UltimoBloqueT2 As AcadBlockReference = Nothing
-    Private UltimaClsUnion As ClsUnion = Nothing
-    Private UltimaFilaExcel As ExcelFila
+    Private UClsUnion As ClsUnion = Nothing
+    Public ActualFilaExcel As UNIONESExcelFila = Nothing
     Private HighlightedPictureBox As PictureBox = Nothing
     Private oTT As ToolTip = Nothing
     Private capaUnionesVisible As Boolean = True
@@ -71,7 +71,7 @@ Public Class frmUniones
         UltimoBloqueT1 = Nothing
         UltimoBloqueT2 = Nothing
         UltimoBloqueUnion = Nothing
-        UltimaClsUnion = Nothing
+        UClsUnion = Nothing
         If tvUniones.SelectedNode Is Nothing Then
             PonEstadoControlesInicial()
             Exit Sub
@@ -100,54 +100,44 @@ Public Class frmUniones
                                                     Where x.HANDLE = handle
                                                     Select x
         If lUniHANLE.Count > 0 Then
-            UltimaClsUnion = lUniHANLE.First
+            UClsUnion = lUniHANLE.First
         Else
             Exit Sub
         End If
         '
         ' T1
-        If UltimaClsUnion.T1HANDLE <> "" Then
+        If UClsUnion.T1HANDLE <> "" Then
             Try
-                UltimoBloqueT1 = Eventos.COMDoc().HandleToObject(UltimaClsUnion.T1HANDLE)
-                If UltimaClsUnion.T1INCLINATION <> "" Then ListBox_SeleccionaPorTexto(LbInclinationT1, UltimaClsUnion.T1INCLINATION)
-                LblT1.Text = "Datos T1:" & vbCrLf & UltimoBloqueT1.EffectiveName & vbCrLf & UltimaClsUnion.T1INFEED
+                UltimoBloqueT1 = Eventos.COMDoc().HandleToObject(UClsUnion.T1HANDLE)
+                If UClsUnion.T1INCLINATION <> "" Then ListBox_SeleccionaPorTexto(LbInclinationT1, UClsUnion.T1INCLINATION)
+                LblT1.Text = "Datos T1:" & vbCrLf & UltimoBloqueT1.EffectiveName & vbCrLf & UClsUnion.T1INFEED
             Catch ex As Exception
             End Try
         End If
         ' T2
-        If UltimaClsUnion.T2HANDLE <> "" Then
+        If UClsUnion.T2HANDLE <> "" Then
             Try
-                UltimoBloqueT2 = Eventos.COMDoc().HandleToObject(UltimaClsUnion.T2HANDLE)
-                If UltimaClsUnion.T2INCLINATION <> "" Then ListBox_SeleccionaPorTexto(LbInclinationT2, UltimaClsUnion.T2INCLINATION)
-                LblT2.Text = "Datos T2:" & vbCrLf & UltimoBloqueT2.EffectiveName & vbCrLf & UltimaClsUnion.T2OUTFEED
+                UltimoBloqueT2 = Eventos.COMDoc().HandleToObject(UClsUnion.T2HANDLE)
+                If UClsUnion.T2INCLINATION <> "" Then ListBox_SeleccionaPorTexto(LbInclinationT2, UClsUnion.T2INCLINATION)
+                LblT2.Text = "Datos T2:" & vbCrLf & UltimoBloqueT2.EffectiveName & vbCrLf & UClsUnion.T2OUTFEED
             Catch ex As Exception
             End Try
         End If
         '
-        If UltimaClsUnion.ROTATION = "0" Then
+        If UClsUnion.ROTATION = "0" OrElse UClsUnion.ROTATION = "" Then
             LbRotation.SelectedIndex = 0
-        ElseIf UltimaClsUnion.ROTATION = "90" Then
+        ElseIf UClsUnion.ROTATION = "90" Then
             LbRotation.SelectedIndex = 1
         Else
             LbRotation.SelectedIndex = -1
         End If
         '
         DgvUnion.Rows.Clear()
-        If UltimaClsUnion.ExcelFilaUnion IsNot Nothing AndAlso
-            UltimaClsUnion.ExcelFilaUnion.Rows IsNot Nothing _
-            AndAlso UltimaClsUnion.ExcelFilaUnion.Rows.Count > 0 Then
-            DgvUnion.Rows.AddRange(UltimaClsUnion.ExcelFilaUnion.Rows.ToArray)
+        If UClsUnion.ExcelFilaUnion IsNot Nothing AndAlso
+            UClsUnion.ExcelFilaUnion.Rows IsNot Nothing _
+            AndAlso UClsUnion.ExcelFilaUnion.Rows.Count > 0 Then
+            DgvUnion.Rows.AddRange(UClsUnion.ExcelFilaUnion.Rows.ToArray)
         End If
-        'LbUnion.Items.Clear()
-        'If UltimaClsUnion.ExcelFilaUnion IsNot Nothing Then
-        '    LbUnion.Tag = New String() {UltimaClsUnion.ExcelFilaUnion.UNION, UltimaClsUnion.ExcelFilaUnion.UNITS}
-        '    LbUnion.Items.AddRange(UltimaClsUnion.ExcelFilaUnion.UNION.Split(";"c))
-        'Else
-        '    If UltimaClsUnion.UNION <> "" Then LbUnion.Items.Add(UltimaClsUnion.UNION)
-        'End If
-        'LbUnion.Height = LbUnion.PreferredHeight
-        'ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
-        'LblUnits.Text = UltimaClsUnion.UNITS
     End Sub
     Private Sub tvUniones_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles tvUniones.MouseDoubleClick
         Uniones_SeleccionarObjetos(tvUniones.SelectedNode.Tag, conZoom:=True)
@@ -159,7 +149,7 @@ Public Class frmUniones
         UltimoBloqueT1 = Nothing
         UltimoBloqueT2 = Nothing
         UltimoBloqueUnion = Nothing
-        UltimaClsUnion = Nothing
+        UClsUnion = Nothing
         '
         GUnion.Enabled = True
         BtnT1.Enabled = True
@@ -199,7 +189,7 @@ Public Class frmUniones
         '
         tvUniones.SelectedNode = Nothing
         For Each oNode As TreeNode In tvUniones.Nodes
-            If oNode.Tag = oBl.ObjectID Then
+            If oNode.Tag = oBl.Handle Then
                 tvUniones.SelectedNode = oNode
                 tvUniones_MouseDoubleClick(tvUniones, Nothing)  ' Hacer Zoom en el elemento.
                 Exit For
@@ -290,8 +280,7 @@ Public Class frmUniones
         UltimoBloqueT1 = Nothing
         UltimoBloqueT2 = Nothing
         UltimoBloqueUnion = Nothing
-        UltimaClsUnion = Nothing
-        UltimaFilaExcel = Nothing
+        UClsUnion = Nothing
         tvUniones.SelectedNode = Nothing
         tvUniones_AfterSelect(Nothing, Nothing)
         BorraDatos()
@@ -307,40 +296,38 @@ Public Class frmUniones
         Next
         If DatosUnion.Count = 0 Then Exit Sub
         '
-        If UltimaClsUnion IsNot Nothing Then
-            UltimaClsUnion.T1HANDLE = UltimoBloqueT1.Handle
-            UltimaClsUnion.T1INCLINATION = LbInclinationT1.Text
-            UltimaClsUnion.T1INFEED = IIf(UltimaFilaExcel IsNot Nothing, UltimaFilaExcel.INFEED_CONVEYOR, "")
-            UltimaClsUnion.T2HANDLE = UltimoBloqueT2.Handle
-            UltimaClsUnion.T2INCLINATION = LbInclinationT2.Text
-            UltimaClsUnion.T2OUTFEED = IIf(UltimaFilaExcel IsNot Nothing, UltimaFilaExcel.OUTFEED_CONVEYOR, "")
-            UltimaClsUnion.UNION = String.Join(";", DatosUnion.ToArray)
-            UltimaClsUnion.UNITS = String.Join(";", DatosUnits.ToArray)
-            UltimaClsUnion.ROTATION = LbRotation.Text
-            UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
-            UltimaClsUnion.PonAtributos()   ' Escribir finalmente los atributos UNION y UNITS en el bloque.
+        If UClsUnion IsNot Nothing Then
+            UClsUnion.ExcelFilaUnion = ActualFilaExcel
+            UClsUnion.T1HANDLE = UltimoBloqueT1.Handle
+            UClsUnion.T1INCLINATION = LbInclinationT1.Text
+            UClsUnion.T1INFEED = ActualFilaExcel.INFEED_CONVEYOR
+            UClsUnion.T2HANDLE = UltimoBloqueT2.Handle
+            UClsUnion.T2INCLINATION = LbInclinationT2.Text
+            UClsUnion.T2OUTFEED = ActualFilaExcel.OUTFEED_CONVEYOR
+            UClsUnion.UNION = String.Join(";", DatosUnion.ToArray)
+            UClsUnion.UNITS = String.Join(";", DatosUnits.ToArray)
+            UClsUnion.ROTATION = LbRotation.Text
+            UClsUnion.UNIONFin_Pon(Me.DgvUnion)   ' Escribir finalmente los atributos UNION y UNITS en el bloque.
         Else
-            UltimaClsUnion = New ClsUnion(
+            UClsUnion = New ClsUnion(
                 UltimoBloqueUnion.Handle,
                 String.Join(";", DatosUnion.ToArray),
                 String.Join(";", DatosUnits.ToArray),
                 UltimoBloqueT1.Handle,
-                UltimaFilaExcel.INFEED_CONVEYOR,
+                ActualFilaExcel.INFEED_CONVEYOR,
                 LbInclinationT1.Text,
                 UltimoBloqueT2.Handle,
-                UltimaFilaExcel.OUTFEED_CONVEYOR,
+                ActualFilaExcel.OUTFEED_CONVEYOR,
                 LbInclinationT2.Text,
                 LbRotation.Text)
-
-            UltimaClsUnion.ExcelFilaUnion = UltimaFilaExcel
-            UltimaClsUnion.PonAtributos()   ' Escribir finalmente los atributos UNION y UNITS en el bloque.
+            UClsUnion.UNIONFin_Pon(Me.DgvUnion)
         End If
         '
         UltimoBloqueT1 = Nothing
         UltimoBloqueT2 = Nothing
         UltimoBloqueUnion = Nothing
-        UltimaClsUnion = Nothing
-        UltimaFilaExcel = Nothing
+        UClsUnion = Nothing
+        ActualFilaExcel = Nothing
         tvUniones.SelectedNode = Nothing
         tvUniones_AfterSelect(Nothing, Nothing)
         tvUniones_Rellena()
@@ -394,22 +381,14 @@ Public Class frmUniones
         '
         Dim angulo As String = LbRotation.Text
         'UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Split("_"c)(0), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Split("_"c)(0), LbInclinationT2.Text, angulo)
-        UltimaFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Substring(0, 6), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Substring(0, 6), LbInclinationT2.Text, angulo)
-        If UltimaFilaExcel IsNot Nothing Then
-            DgvUnion.Tag = UltimaFilaExcel
-            DgvUnion.Rows.AddRange(UltimaFilaExcel.Rows.ToArray)
-            DgvUnion.Height = DgvUnion.PreferredSize.Height
-            'If LbUnion.Items.Count >= 1 AndAlso UltimaClsUnion IsNot Nothing AndAlso LbUnion.Items.Contains(UltimaClsUnion.UNION) Then
-            '    ListBox_SeleccionaPorTexto(LbUnion, UltimaClsUnion.UNION)
-            '    'Else
-            '    '    LbUnion.SelectedIndex = -1
-            '    '    LbUnion.Text = ""
-            'End If
-
-
-        Else
-            'LbUnion.Items.Clear() : LbUnion.Text = "" : LbUnion.Height = LbUnion.PreferredHeight
-            'LblUnits.Text = ""
+        ActualFilaExcel = cU.Fila_BuscaDame(UltimoBloqueT1.EffectiveName.Substring(0, 8), LbInclinationT1.Text, UltimoBloqueT2.EffectiveName.Substring(0, 8), LbInclinationT2.Text, angulo)
+        If ActualFilaExcel IsNot Nothing Then
+            DgvUnion.Tag = ActualFilaExcel
+            DgvUnion.Rows.AddRange(ActualFilaExcel.Rows.ToArray)
+            'DgvUnion.Height = DgvUnion.PreferredSize.Height
+        End If
+        If UClsUnion IsNot Nothing Then
+            UClsUnion.UNION_PonValue(DgvUnion)
         End If
         Datos_2CompruebaDatos()
     End Sub
@@ -426,10 +405,10 @@ Public Class frmUniones
         BtnT2.Enabled = True
         ' *** BtnT1
         If UltimoBloqueT1 IsNot Nothing Then
-            If UltimaFilaExcel Is Nothing Then
+            If ActualFilaExcel Is Nothing Then
                 LblT1.Text = "Datos T1:" & vbCrLf & UltimoBloqueT1.EffectiveName
             Else
-                LblT1.Text = "Datos T1:" & vbCrLf & UltimoBloqueT1.EffectiveName & vbCrLf & UltimaFilaExcel.INFEED_CONVEYOR
+                LblT1.Text = "Datos T1:" & vbCrLf & UltimoBloqueT1.EffectiveName & vbCrLf & ActualFilaExcel.INFEED_CONVEYOR
             End If
             BtnT1.BackColor = btnOn
         Else
@@ -438,10 +417,10 @@ Public Class frmUniones
         End If
         ' *** BtnT2
         If UltimoBloqueT2 IsNot Nothing Then
-            If UltimaFilaExcel Is Nothing Then
+            If ActualFilaExcel Is Nothing Then
                 LblT2.Text = "Datos T2:" & vbCrLf & UltimoBloqueT2.EffectiveName
             Else
-                LblT2.Text = "Datos T2:" & vbCrLf & UltimoBloqueT2.EffectiveName & vbCrLf & UltimaFilaExcel.OUTFEED_CONVEYOR
+                LblT2.Text = "Datos T2:" & vbCrLf & UltimoBloqueT2.EffectiveName & vbCrLf & ActualFilaExcel.OUTFEED_CONVEYOR
             End If
             BtnT2.BackColor = btnOn
         Else
@@ -596,7 +575,7 @@ Public Class frmUniones
         Me.LbInclinationT2.SelectedIndex = -1 ': Me.LbInclinationT2.Refresh()
         Me.LbRotation.SelectedIndex = -1 ': Me.LbRotation.Refresh()
         Me.DgvUnion.Rows.Clear()
-        Me.DgvUnion.Height = Me.DgvUnion.PreferredSize.Height
+        'Me.DgvUnion.Height = Me.DgvUnion.PreferredSize.Height
         'GUnion.Enabled = False
     End Sub
 #End Region

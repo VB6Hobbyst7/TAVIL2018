@@ -133,7 +133,7 @@ Namespace A2acad
                 ElseIf queNombre = regAPPA Then
                     resultado = xdatos(0)
                 ElseIf todo.Contains(queNombre) Then
-                    Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+                    Dim valoresdatos() As String = todo.Split("|"c)      '' cada elemento nombre=valor
                     For x As Integer = 0 To UBound(valoresdatos)
                         Dim nombre As String = valoresdatos(x).Split("="c)(0)
                         Dim valor As String = valoresdatos(x).Split("="c)(1)
@@ -445,7 +445,7 @@ Namespace A2acad
                 ElseIf queNombre = regAPPA And xdatos(0) <> regAPPA Then
                     xdatos(0) = regAPPA
                 ElseIf todo.Contains(queNombre) Then
-                    Dim valoresdatos() As String = todo.Split(";"c)      '' cada elemento nombre=valor
+                    Dim valoresdatos() As String = todo.Split("|"c)      '' cada elemento nombre=valor
                     For x As Integer = 0 To UBound(valoresdatos)
                         Dim nombrevalor As String = valoresdatos(x)
                         Dim nombre As String = nombrevalor.Split("="c)(0)
@@ -467,7 +467,7 @@ Namespace A2acad
                     If xdatos(1) = "" Then
                         xdatos(1) = queNombre & "=" & queValor
                     Else
-                        xdatos(1) &= ";" & queNombre & "=" & queValor
+                        xdatos(1) &= "|" & queNombre & "=" & queValor
                     End If
                     objA.SetXData(xtipos, xdatos)
                 End If
