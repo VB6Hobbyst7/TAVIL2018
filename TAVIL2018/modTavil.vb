@@ -63,6 +63,64 @@ Public Module modTavil
         Return lUni
     End Function
 
+    Public Function Grupo_SeleccionarObjetos(grupo As String, conzoom As Boolean) As ArrayList
+        Dim resultado As New ArrayList
+        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cGRUPO, grupo)
+        If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
+            Dim arrSeleccion As New ArrayList
+            For Each queId As Long In lGrupos
+                arrSeleccion.Add(Eventos.COMDoc().ObjectIdToObject(queId))
+            Next
+            If arrSeleccion.Count > 0 Then
+                Eventos.COMDoc.ActiveSelectionSet.Clear()
+                clsA.SeleccionCreaResalta(arrSeleccion, 2000, conzoom)
+            End If
+        End If
+        Return resultado
+    End Function
+
+    Public Sub Report_Blocks(lh As List(Of String), sufijo As String)
+        Dim columnas() As String = {"BLOCK", "CODE", "COUNT", "UNION", "UNITS"}
+        Dim fiOut As String = IO.Path.ChangeExtension(Eventos.COMDoc.Path, sufijo & ".csv")
+        If IO.File.Exists(fiOut) Then IO.File.Delete(fiOut)
+        Dim lineas As New Dictionary(Of String, bloque)
+        '
+        Dim texto As String = String.Join(";", columnas) & vbCrLf
+        For Each h As String In lh
+            Dim obj As AcadObject = Eventos.COMDoc.HandleToObject(h)
+            If TypeOf obj Is AcadBlockReference = False Then
+                Continue For
+            End If
+            '
+            Dim oBl As AcadBlockReference = CType(obj, AcadBlockReference)
+            Dim name As String = oBl.EffectiveName
+            If lineas.ContainsKey(name) Then
+                lineas(name).count += 1
+            Else
+                Dim linea As New bloque
+                linea.name = oBl.EffectiveName
+                linea.code = ""
+                'linea.count = 1
+                lineas.Add(name, linea)
+                linea = Nothing
+            End If
+        Next
+        For Each n As String In lineas.Keys
+            texto &= lineas(n).valores & vbCrLf
+        Next
+        texto = texto.Substring(0, texto.Length - 2)
+        IO.File.WriteAllText(fiOut, texto, Text.Encoding.UTF8)
+        If IO.File.Exists(fiOut) Then Process.Start(fiOut)
+    End Sub
+    Public Class bloque
+        Public name As String = ""
+        Public code As String = ""
+        Public count As Integer = 1
+        Public Function valores() As String
+            Return name & ";" & code & ";" & count
+        End Function
+    End Class
+
     Public Enum EFiltro
         TODOS
         XXX

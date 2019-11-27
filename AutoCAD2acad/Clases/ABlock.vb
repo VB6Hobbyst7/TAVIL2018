@@ -375,7 +375,53 @@ RETRY:
             ''
             Return resultado
         End Function
-        ''
+        '
+
+        Public Function Bloque_AtributoDame(arrAtributos As Object, nombreAtri As String, Optional arrAtributosConstantes As Object = Nothing) As String
+            Dim resultado As String = ""
+            '
+            ' Localizar los atributos y añadir valores a la colección (ORDEN y NUMERO). O todos
+            '' Atributos editables.
+            Dim oAtri As Object ' Autodesk.AutoCAD.Interop.Common.AcadAttribute
+            For I = LBound(arrAtributos) To UBound(arrAtributos)
+                oAtri = arrAtributos(I)
+                If oAtri.TagString.ToUpper = nombreAtri.ToUpper Then
+                    resultado = oAtri.TextString
+                    Exit For
+                End If
+            Next
+            If resultado = "" AndAlso arrAtributosConstantes IsNot Nothing Then
+                ' Atributos constantes.
+                For I = LBound(arrAtributosConstantes) To UBound(arrAtributosConstantes)
+                    oAtri = arrAtributosConstantes(I)
+                    If oAtri.TagString.ToUpper = nombreAtri.ToUpper Then
+                        resultado = oAtri.TextString
+                        Exit For
+                    End If
+                Next
+            End If
+            ''
+            VaciaMemoria()
+            oAtri = Nothing
+            ''
+            Return resultado
+        End Function
+        '
+        Public Function Bloque_DameDato_AttPropX(h As String, arrAtt As Object, arrPro As Object, name As String, Optional arrAttCons As Object = Nothing) As String
+            Dim resultado As String = ""
+            ' Buscar en XData
+            resultado = XLeeDato(h, name)
+            ' Buscar en Atributos
+            If resultado = "" AndAlso arrAtt IsNot Nothing Then
+                resultado = Bloque_AtributoDame(arrAtt, name, arrAttCons)
+            End If
+            ' Buscar en Parametros
+            If resultado = "" AndAlso arrPro IsNot Nothing Then
+                resultado = BloqueDinamico_ParametroDame(arrPro, name)
+            End If
+
+            Return resultado
+        End Function
         '' Devuelto todos los atributos (GetAttributes + GetConstantAttributes)
         Public Function Bloque_AtributosDameTodos(queId As Long) As Hashtable
             Dim resultado As New Hashtable
@@ -862,6 +908,21 @@ repetir:
             Return resultado
         End Function
         '
+
+        Public Function BloqueDinamico_ParametroDame(arrParameters As Object, quePar As String) As String
+            Dim resultado As String = ""
+            Dim oDp As AcadDynamicBlockReferenceProperty
+            For x As Integer = 0 To UBound(arrParameters)
+                oDp = arrParameters(x)
+                If oDp.PropertyName.ToUpper = quePar.ToUpper Then
+                    resultado = oDp.Value.ToString
+                    Exit For
+                End If
+            Next
+            oDp = Nothing
+            '
+            Return resultado
+        End Function
         Public Function BloqueDinamico_ParametroEscribe(queid As Long, quePar As String, queVal As Object) As Boolean
             Dim resultado As Boolean = False
             ''

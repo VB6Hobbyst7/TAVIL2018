@@ -49,7 +49,7 @@ Public Class frmAgrupa
         gbAdministrar.Enabled = True
         btnGrupoBorrar.Enabled = True
         txtNombreGrupo.Text = tvGrupos.SelectedNode.Text
-        Me.Grupo_SeleccionarObjetos(tvGrupos.SelectedNode.Text)
+        Me.Grupo_SeleccionarObjetosSub(tvGrupos.SelectedNode.Text, cbZoom.Checked)
     End Sub
 
     Private Sub btnGrupoAdd_Click(sender As Object, e As EventArgs) Handles btnGrupoAdd.Click
@@ -149,7 +149,7 @@ REPITE:
         ' Rellenar tvGrupos con los grupos que haya ([nombre grupo]) Sacado de XData elementos (regAPPCliente, XData = "GRUPO")
         tvGrupos.Nodes.Clear()
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp, cfg._appFullPath, regAPPCliente)
-        Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos(,, True)
+        Dim arrTodos As List(Of Long) = clsA.SeleccionaTodosObjetos_IDs(,, True)
         If arrTodos Is Nothing OrElse arrTodos.Count = 0 Then
             Exit Sub
         End If
@@ -176,29 +176,12 @@ REPITE:
         tvGrupos_AfterSelect(Nothing, Nothing)
     End Sub
 
-    Public Sub Grupo_SeleccionarObjetos(grupo As String)
-        Dim lGrupos As List(Of Long) = clsA.SeleccionaTodosObjetosXData(cGRUPO, grupo)
-        If lGrupos IsNot Nothing AndAlso lGrupos.Count > 0 Then
-            Dim arrSeleccion As New ArrayList
-            For Each queId As Long In lGrupos
-                arrSeleccion.Add(Eventos.COMDoc().ObjectIdToObject(queId))
-            Next
-            If arrSeleccion.Count > 0 Then
-                lblInf.Text = arrSeleccion.Count & " Elementos"
-
-                If cbZoom.Checked Then
-                    clsA.Seleccion_CreaResalta(arrSeleccion, True)
-                Else
-                    clsA.SeleccionCreaResalta(arrSeleccion, 0, False)
-                End If
-            End If
+    Public Sub Grupo_SeleccionarObjetosSub(grupo As String, conzoom As Boolean)
+        Dim arrSeleccion As ArrayList = Grupo_SeleccionarObjetos(grupo, conzoom)
+        If arrSeleccion IsNot Nothing AndAlso arrSeleccion.Count > 0 Then
+            lblInf.Text = arrSeleccion.Count & " Elements"
         Else
-            'If tvGrupos.Nodes.ContainsKey(grupo) Then
-            '    tvGrupos.Nodes.Item(grupo).Remove()
-            'End If
-            lblInf.Text = "0 Elementos"
-            'tvGrupos.SelectedNode = Nothing
-            'tvGrupos_AfterSelect(Nothing, Nothing)
+            lblInf.Text = "0 Elements"
         End If
     End Sub
 #End Region

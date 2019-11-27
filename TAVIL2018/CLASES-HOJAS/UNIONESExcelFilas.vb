@@ -25,25 +25,6 @@ Public Class UNIONESExcelFilas
     End Sub
     ' inC y outC siempre enviarlos con 8 carácteres (Pueden ser TRD300XX o TRD30015)
     ' Debemos buscar el que sea único, con las XX y sin las XX
-    'Public Function Fila_BuscaDame(inC As String, inInc As String, outC As String, outInc As String, angle As String) As UNIONESExcelFila
-    '    Dim resultado As UNIONESExcelFila = Nothing
-    '    If angle = "0" Then angle = ""
-    '    Dim fila = From x In filas
-    '               Where x.INFEED_CONVEYOR.Trim.StartsWith(inC.Trim) AndAlso
-    '                                x.INFEED_INCLINATION.Trim = inInc.Trim AndAlso
-    '                                x.OUTFEED_CONVEYOR.Trim.StartsWith(outC.Trim) AndAlso
-    '                                x.OUTFEED_INCLINATION.Trim = outInc.Trim AndAlso
-    '                                x.ANGLE.Trim = angle.Trim
-    '    '
-    '    If fila.Count > 0 Then
-    '        resultado = fila.FirstOrDefault
-    '    End If
-    '    '
-    '    Return resultado
-    'End Function
-
-    ' inC y outC siempre enviarlos con 8 carácteres (Pueden ser TRD300XX o TRD30015)
-    ' Debemos buscar el que sea único, con las XX y sin las XX
     Public Function Fila_BuscaDame(inC As String, inInc As String, outC As String, outInc As String, angle As String) As UNIONESExcelFila
         Dim resultado As UNIONESExcelFila = Nothing
         Dim inCFin As String = ""
@@ -183,14 +164,3 @@ Public Class UNIONESExcelFila
         Next
     End Sub
 End Class
-
-Public Enum nombreColumnaUNIONES
-    INFEED_CONVEYOR
-    INFEED_INCLINATION
-    UNION
-    UNITS
-    OUTFEED_CONVEYOR
-    OUTFEED_INCLINATION
-    ANGLE
-    INFORMACION
-End Enum

@@ -301,7 +301,7 @@ Namespace A2acad
         ''' <param name="capa">Nombre de la capa o modvariables.precapa + ultZona</param>
         ''' <param name="DatosX">True tendrá en cuenta los XData o False no los tendrá en cuenta</param>
         ''' <remarks></remarks>
-        Public Function SeleccionaTodosObjetos(Optional ByVal tipo As Object = Nothing, Optional ByVal capa As Object = "", Optional ByVal DatosX As Boolean = False) As List(Of Long)
+        Public Function SeleccionaTodosObjetos_IDs(Optional ByVal tipo As Object = Nothing, Optional ByVal capa As Object = "", Optional ByVal DatosX As Boolean = False) As List(Of Long)
             Dim resultado As New List(Of Long)
             'Dim cSeleccion As AcadSelectionSets
             Dim F1(-1) As Short   'Dim F1(0 To 5) As Integer
@@ -346,6 +346,69 @@ Namespace A2acad
             If oSel IsNot Nothing AndAlso oSel.Count > 0 Then
                 For Each oEnt As AcadEntity In oSel
                     If resultado.Contains(oEnt.ObjectID) = False Then resultado.Add(oEnt.ObjectID)
+                Next
+            End If
+            '
+            oSel.Clear()
+            oSel.Delete()
+            oSel = Nothing
+            '
+            Return resultado
+        End Function
+
+        ''' <summary>
+        ''' Seleccionamos objetos indicando su tipo, capa, Xdata y
+        ''' acadselectionset a utilizar "oSel" u "oSelTemp" (true o false)
+        ''' </summary>
+        ''' <param name="tipo">Tipo de opbjeto Autocad: POLYLINE, LWPOLILINE, AEC_WALL, INSERT</param>
+        ''' <param name="capa">Nombre de la capa o modvariables.precapa + ultZona</param>
+        ''' <param name="DatosX">True tendrá en cuenta los XData o False no los tendrá en cuenta</param>
+        ''' <remarks></remarks>
+        Public Function SeleccionaTodosObjetos_Handle(Optional ByVal tipo As Object = Nothing, Optional ByVal capa As Object = "", Optional ByVal DatosX As Boolean = False) As List(Of String)
+            Dim resultado As New List(Of String)
+            'Dim cSeleccion As AcadSelectionSets
+            Dim F1(-1) As Short   'Dim F1(0 To 5) As Integer
+            Dim F2(-1) As Object    'Dim F2(0 To 5) As Object
+            Dim vF1 As Object
+            Dim vF2 As Object
+            ' 0 para tipo / 2 para nombre / 8 para capa
+            ' tipo objeto o TODOS si no ponemos nadaDatosX.
+            ' Siempre tiene que estar despues de entidad. Si no no funciona.
+            ' "AEC_WALL" "LWPOLYLINE" "POLYLINE" "INSERT"
+            If Not (tipo Is Nothing) Then
+                ReDim Preserve F1(F1.Length)
+                ReDim Preserve F2(F2.Length)
+                F1(F1.Length - 1) = 0 : F2(F2.Length - 1) = tipo
+            End If
+            'F1(0) = 0 : F2(0) = tipo
+
+            'DatosX Siempre tiene que estar despues de entidad. Si no no funciona
+            If DatosX = True Then
+                ReDim Preserve F1(F1.Length)
+                ReDim Preserve F2(F2.Length)
+                F1(F1.Length - 1) = 1001 : F2(F2.Length - 1) = regAPPA   ' CType(regAPP, Object)
+            End If
+
+            If capa <> "" Then
+                ReDim Preserve F1(F1.Length)
+                ReDim Preserve F2(F2.Length)
+                F1(F1.Length - 1) = 8 : F2(F2.Length - 1) = capa
+            End If
+            vF1 = F1
+            vF2 = F2
+            '
+            Try
+                oSel = oAppA.ActiveDocument.SelectionSets.Add(nSel)
+            Catch ex As System.Exception
+                oSel = oAppA.ActiveDocument.SelectionSets.Item(nSel)
+            End Try
+            '
+            Me.oSel.Clear()
+            Me.oSel.Select(AcSelect.acSelectionSetAll, , , vF1, vF2)
+            '
+            If oSel IsNot Nothing AndAlso oSel.Count > 0 Then
+                For Each oEnt As AcadEntity In oSel
+                    If resultado.Contains(oEnt.Handle) = False Then resultado.Add(oEnt.Handle)
                 Next
             End If
             '
@@ -1019,7 +1082,7 @@ repetir:
             F1(0) = 100 : F2(0) = "AcDbBlockReference"
             F1(1) = 0 : F2(1) = "INSERT"
             F1(2) = 1001 : F2(2) = nombreApp
-            F1(3) = 2 : F2(3) = IIf(nombrebloque = "*", "*", IIf(nombrebloque.EndsWith("*"), nombrebloque, nombrebloque & "*")) & ",`*U*"      ' ,`*U* Para añadir también los bloques dinámicos.
+            F1(3) = 2 : F2(3) = IIf(nombrebloque = "*", "*", IIf(nombrebloque.EndsWith("*"), nombrebloque & "*", nombrebloque)) '& ",`*U*"      ' ,`*U* Para añadir también los bloques dinámicos.
             F1(4) = 8 : F2(4) = nombrecapa
             ''
             vF1 = F1

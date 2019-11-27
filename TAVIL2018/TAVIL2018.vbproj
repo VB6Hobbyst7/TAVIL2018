@@ -164,7 +164,7 @@
     <Compile Include="clsProxyML.vb" />
     <Compile Include="clsProxyMLCol.vb" />
     <Compile Include="clsTransportador.vb" />
-    <Compile Include="UNIONESExcelFilas.vb" />
+    <Compile Include="CLASES-HOJAS\UNIONESExcelFilas.vb" />
     <Compile Include="ClsUnion.vb" />
     <Compile Include="EVENTOS\AXBlockTR.vb" />
     <Compile Include="EVENTOS\AXEditor.vb" />
@@ -178,6 +178,9 @@
     <Compile Include="EVENTOS\AXDoc.vb" />
     <Compile Include="EVENTOS\COMObj.vb" />
     <Compile Include="EVENTOS\AXObj.vb" />
+    <Compile Include="MODELOS\GRUPOS.vb" />
+    <Compile Include="MODELOS\PATAS.vb" />
+    <Compile Include="MODELOS\UNIONES.vb" />
     <Compile Include="modTavil.vb" />
     <Compile Include="clsPT.vb" />
     <Compile Include="frmAgrupa.Designer.vb">
@@ -253,6 +256,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TRANSPORTADORESExcelFilas.vb" />
     <Compile Include="Utilidades.vb" />
   </ItemGroup>
   <ItemGroup>

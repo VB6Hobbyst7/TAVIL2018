@@ -467,6 +467,7 @@ Public Module modClosedXMLTavil
         LimpiaMemoria()
         Return resultado
     End Function
+
     Public Function Excel_DameValorEnRango(fiExcel As String, queRango As String, Optional nHoja As Object = Nothing) As Dictionary(Of String, Object)
         If IO.File.Exists(fiExcel) = False Then
             Return Nothing
