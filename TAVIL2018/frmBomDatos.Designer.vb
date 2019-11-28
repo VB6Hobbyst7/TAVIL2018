@@ -24,17 +24,18 @@ Partial Class frmBomDatos
     Private Sub InitializeComponent()
         Me.BtnCerrar = New System.Windows.Forms.Button()
         Me.BLOCKS = New System.Windows.Forms.TabControl()
-        Me.UNIONS = New System.Windows.Forms.TabPage()
+        Me.UNIONES = New System.Windows.Forms.TabPage()
+        Me.LblTotalUniones = New System.Windows.Forms.Label()
         Me.BtnReportUnions = New System.Windows.Forms.Button()
         Me.TvUnions = New System.Windows.Forms.TreeView()
-        Me.GROUPS = New System.Windows.Forms.TabPage()
+        Me.GRUPOS = New System.Windows.Forms.TabPage()
         Me.BtnReportSelected = New System.Windows.Forms.Button()
         Me.LblCountGroups = New System.Windows.Forms.Label()
         Me.TvGroups = New System.Windows.Forms.TreeView()
-        Me.LblTotalUniones = New System.Windows.Forms.Label()
+        Me.cbPLANTA = New System.Windows.Forms.CheckBox()
         Me.BLOCKS.SuspendLayout()
-        Me.UNIONS.SuspendLayout()
-        Me.GROUPS.SuspendLayout()
+        Me.UNIONES.SuspendLayout()
+        Me.GRUPOS.SuspendLayout()
         Me.SuspendLayout()
         '
         'BtnCerrar
@@ -53,31 +54,40 @@ Partial Class frmBomDatos
         Me.BLOCKS.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BLOCKS.Controls.Add(Me.UNIONS)
-        Me.BLOCKS.Controls.Add(Me.GROUPS)
+        Me.BLOCKS.Controls.Add(Me.UNIONES)
+        Me.BLOCKS.Controls.Add(Me.GRUPOS)
         Me.BLOCKS.Location = New System.Drawing.Point(12, 12)
         Me.BLOCKS.Name = "BLOCKS"
         Me.BLOCKS.SelectedIndex = 0
         Me.BLOCKS.Size = New System.Drawing.Size(381, 337)
         Me.BLOCKS.TabIndex = 1
         '
-        'UNIONS
+        'UNIONES
         '
-        Me.UNIONS.Controls.Add(Me.LblTotalUniones)
-        Me.UNIONS.Controls.Add(Me.BtnReportUnions)
-        Me.UNIONS.Controls.Add(Me.TvUnions)
-        Me.UNIONS.Location = New System.Drawing.Point(4, 25)
-        Me.UNIONS.Name = "UNIONS"
-        Me.UNIONS.Padding = New System.Windows.Forms.Padding(3)
-        Me.UNIONS.Size = New System.Drawing.Size(373, 308)
-        Me.UNIONS.TabIndex = 1
-        Me.UNIONS.Text = "UNIONS"
-        Me.UNIONS.UseVisualStyleBackColor = True
+        Me.UNIONES.Controls.Add(Me.LblTotalUniones)
+        Me.UNIONES.Controls.Add(Me.BtnReportUnions)
+        Me.UNIONES.Controls.Add(Me.TvUnions)
+        Me.UNIONES.Location = New System.Drawing.Point(4, 25)
+        Me.UNIONES.Name = "UNIONES"
+        Me.UNIONES.Padding = New System.Windows.Forms.Padding(3)
+        Me.UNIONES.Size = New System.Drawing.Size(373, 308)
+        Me.UNIONES.TabIndex = 1
+        Me.UNIONES.Text = "UNIONES"
+        Me.UNIONES.UseVisualStyleBackColor = True
+        '
+        'LblTotalUniones
+        '
+        Me.LblTotalUniones.AutoSize = True
+        Me.LblTotalUniones.Location = New System.Drawing.Point(149, 16)
+        Me.LblTotalUniones.Name = "LblTotalUniones"
+        Me.LblTotalUniones.Size = New System.Drawing.Size(113, 17)
+        Me.LblTotalUniones.TabIndex = 4
+        Me.LblTotalUniones.Text = "Total Unions = X"
         '
         'BtnReportUnions
         '
         Me.BtnReportUnions.Enabled = False
-        Me.BtnReportUnions.Location = New System.Drawing.Point(152, 56)
+        Me.BtnReportUnions.Location = New System.Drawing.Point(152, 258)
         Me.BtnReportUnions.Name = "BtnReportUnions"
         Me.BtnReportUnions.Size = New System.Drawing.Size(193, 32)
         Me.BtnReportUnions.TabIndex = 3
@@ -94,23 +104,24 @@ Partial Class frmBomDatos
         Me.TvUnions.Size = New System.Drawing.Size(121, 296)
         Me.TvUnions.TabIndex = 1
         '
-        'GROUPS
+        'GRUPOS
         '
-        Me.GROUPS.Controls.Add(Me.BtnReportSelected)
-        Me.GROUPS.Controls.Add(Me.LblCountGroups)
-        Me.GROUPS.Controls.Add(Me.TvGroups)
-        Me.GROUPS.Location = New System.Drawing.Point(4, 25)
-        Me.GROUPS.Name = "GROUPS"
-        Me.GROUPS.Padding = New System.Windows.Forms.Padding(3)
-        Me.GROUPS.Size = New System.Drawing.Size(373, 308)
-        Me.GROUPS.TabIndex = 0
-        Me.GROUPS.Text = "GROUPS"
-        Me.GROUPS.UseVisualStyleBackColor = True
+        Me.GRUPOS.Controls.Add(Me.cbPLANTA)
+        Me.GRUPOS.Controls.Add(Me.BtnReportSelected)
+        Me.GRUPOS.Controls.Add(Me.LblCountGroups)
+        Me.GRUPOS.Controls.Add(Me.TvGroups)
+        Me.GRUPOS.Location = New System.Drawing.Point(4, 25)
+        Me.GRUPOS.Name = "GRUPOS"
+        Me.GRUPOS.Padding = New System.Windows.Forms.Padding(3)
+        Me.GRUPOS.Size = New System.Drawing.Size(373, 308)
+        Me.GRUPOS.TabIndex = 0
+        Me.GRUPOS.Text = "GRUPOS"
+        Me.GRUPOS.UseVisualStyleBackColor = True
         '
         'BtnReportSelected
         '
         Me.BtnReportSelected.Enabled = False
-        Me.BtnReportSelected.Location = New System.Drawing.Point(152, 122)
+        Me.BtnReportSelected.Location = New System.Drawing.Point(152, 258)
         Me.BtnReportSelected.Name = "BtnReportSelected"
         Me.BtnReportSelected.Size = New System.Drawing.Size(193, 32)
         Me.BtnReportSelected.TabIndex = 2
@@ -136,14 +147,17 @@ Partial Class frmBomDatos
         Me.TvGroups.Size = New System.Drawing.Size(121, 296)
         Me.TvGroups.TabIndex = 0
         '
-        'LblTotalUniones
+        'cbPLANTA
         '
-        Me.LblTotalUniones.AutoSize = True
-        Me.LblTotalUniones.Location = New System.Drawing.Point(149, 16)
-        Me.LblTotalUniones.Name = "LblTotalUniones"
-        Me.LblTotalUniones.Size = New System.Drawing.Size(113, 17)
-        Me.LblTotalUniones.TabIndex = 4
-        Me.LblTotalUniones.Text = "Total Unions = X"
+        Me.cbPLANTA.AutoSize = True
+        Me.cbPLANTA.Checked = True
+        Me.cbPLANTA.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbPLANTA.Location = New System.Drawing.Point(152, 51)
+        Me.cbPLANTA.Name = "cbPLANTA"
+        Me.cbPLANTA.Size = New System.Drawing.Size(116, 21)
+        Me.cbPLANTA.TabIndex = 40
+        Me.cbPLANTA.Text = "Sólo PLANTA"
+        Me.cbPLANTA.UseVisualStyleBackColor = True
         '
         'frmBomDatos
         '
@@ -162,21 +176,22 @@ Partial Class frmBomDatos
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Reports TAVIL"
         Me.BLOCKS.ResumeLayout(False)
-        Me.UNIONS.ResumeLayout(False)
-        Me.UNIONS.PerformLayout()
-        Me.GROUPS.ResumeLayout(False)
-        Me.GROUPS.PerformLayout()
+        Me.UNIONES.ResumeLayout(False)
+        Me.UNIONES.PerformLayout()
+        Me.GRUPOS.ResumeLayout(False)
+        Me.GRUPOS.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents BtnCerrar As System.Windows.Forms.Button
     Friend WithEvents BLOCKS As Windows.Forms.TabControl
-    Friend WithEvents GROUPS As Windows.Forms.TabPage
+    Friend WithEvents GRUPOS As Windows.Forms.TabPage
     Friend WithEvents TvGroups As Windows.Forms.TreeView
-    Friend WithEvents UNIONS As Windows.Forms.TabPage
+    Friend WithEvents UNIONES As Windows.Forms.TabPage
     Friend WithEvents LblCountGroups As Windows.Forms.Label
     Friend WithEvents BtnReportSelected As Windows.Forms.Button
     Friend WithEvents BtnReportUnions As Windows.Forms.Button
     Friend WithEvents TvUnions As Windows.Forms.TreeView
     Friend WithEvents LblTotalUniones As Windows.Forms.Label
+    Friend WithEvents cbPLANTA As Windows.Forms.CheckBox
 End Class

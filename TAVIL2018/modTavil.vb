@@ -4,6 +4,7 @@ Imports Autodesk.AutoCAD.EditorInput
 Imports Autodesk.AutoCAD.ApplicationServices
 Imports TAVIL2018.TAVIL2018
 Imports System.Windows.Forms
+Imports System.Linq
 Imports uau = UtilesAlberto.Utiles
 Imports a2 = AutoCAD2acad.A2acad
 Imports Ev = TAVIL2018.Eventos
@@ -79,9 +80,9 @@ Public Module modTavil
         Return resultado
     End Function
 
-    Public Sub Report_Blocks(lh As List(Of String), sufijo As String)
+    Public Sub Report_Blocks(lh As List(Of String), sufijo As String, soloplanta As Boolean)
         Dim columnas() As String = {"BLOCK", "CODE", "COUNT", "UNION", "UNITS"}
-        Dim fiOut As String = IO.Path.ChangeExtension(Eventos.COMDoc.Path, sufijo & ".csv")
+        Dim fiOut As String = IO.Path.ChangeExtension(Eventos.COMDoc.FullName, sufijo & ".csv")
         If IO.File.Exists(fiOut) Then IO.File.Delete(fiOut)
         Dim lineas As New Dictionary(Of String, bloque)
         '
@@ -93,15 +94,22 @@ Public Module modTavil
             End If
             '
             Dim oBl As AcadBlockReference = CType(obj, AcadBlockReference)
-            Dim name As String = oBl.EffectiveName
-            If lineas.ContainsKey(name) Then
-                lineas(name).count += 1
+            Dim oBlDatos As New AutoCAD2acad.A2acad.Bloque_Datos(oBl)
+            If Bloque_EsPlanta(oBlDatos.eName) = False And soloplanta Then
+                Continue For
+            End If
+            If lineas.ContainsKey(oBlDatos.eName) Then
+                lineas(oBlDatos.eName).count += 1
             Else
                 Dim linea As New bloque
-                linea.name = oBl.EffectiveName
-                linea.code = ""
-                'linea.count = 1
-                lineas.Add(name, linea)
+                linea.name = oBlDatos.eName
+                linea.code = clsA.Bloque_DameDato_AttPropX(oBlDatos, "CODE")
+                linea.units = 1
+                If oBlDatos.eName.ToUpper = "UNION" Then
+                    linea.union = clsA.Bloque_DameDato_AttPropX(oBlDatos, "UNION")
+                    linea.units = clsA.Bloque_DameDato_AttPropX(oBlDatos, "UNITS")
+                End If
+                lineas.Add(oBlDatos.eName, linea)
                 linea = Nothing
             End If
         Next
@@ -112,12 +120,29 @@ Public Module modTavil
         IO.File.WriteAllText(fiOut, texto, Text.Encoding.UTF8)
         If IO.File.Exists(fiOut) Then Process.Start(fiOut)
     End Sub
+
+    Public Function Bloque_EsPlanta(nBloque As String) As Boolean
+        Dim resultado As Boolean = False
+        If nBloque.Contains("_") = False Then
+            resultado = True
+        Else
+            Dim partes() As String = nBloque.Split("_")
+            If patasSIPlanta.Contains(partes(1)) Then
+                resultado = True
+            Else
+                resultado = False
+            End If
+        End If
+        Return resultado
+    End Function
     Public Class bloque
         Public name As String = ""
         Public code As String = ""
         Public count As Integer = 1
+        Public union As String = ""
+        Public units As String = ""
         Public Function valores() As String
-            Return name & ";" & code & ";" & count
+            Return name & ";" & code & ";" & count & ";" & union.Replace(";", "|") & ";" & units.Replace(";", "|")
         End Function
     End Class
 

@@ -74,18 +74,14 @@ Public Class UNION
         Dim acadObj As AcadObject = Eventos.COMDoc.HandleToObject(h)
         If acadObj IsNot Nothing AndAlso TypeOf acadObj Is AcadBlockReference Then
             Dim oBl As AcadBlockReference = acadObj
-            Dim atributos = oBl.GetAttributes()
-            Dim parametros As Object = Nothing
-            If oBl.IsDynamicBlock Then
-                parametros = oBl.GetDynamicBlockProperties
-            End If
+            Dim oBlDatos As New AutoCAD2acad.A2acad.Bloque_Datos(oBl)
             Me.HANDLE = h
             Me.NAME = oBl.EffectiveName
-            Me.UNION = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "UNION")
-            Me.UNITS = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "UNITS")
-            Me.T1INFEED = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "T1INFEED")
-            Me.T2OUTFEED = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "T2OUTFEED")
-            Me.ROTATION = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "ROTATION")
+            Me.UNION = clsA.Bloque_DameDato_AttPropX(oBlDatos, "UNION")
+            Me.UNITS = clsA.Bloque_DameDato_AttPropX(oBlDatos, "UNITS")
+            Me.T1INFEED = clsA.Bloque_DameDato_AttPropX(oBlDatos, "T1INFEED")
+            Me.T2OUTFEED = clsA.Bloque_DameDato_AttPropX(oBlDatos, "T2OUTFEED")
+            Me.ROTATION = clsA.Bloque_DameDato_AttPropX(oBlDatos, "ROTATION")
             KEY = UNION & UNITS & T1INFEED & T2OUTFEED & ROTATION
         End If
     End Sub

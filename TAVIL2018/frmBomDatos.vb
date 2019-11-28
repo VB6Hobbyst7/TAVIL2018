@@ -14,8 +14,8 @@ Public Class frmBomDatos
         Me.Text = "BILL OF MATERIAL - v" & cfg._appversion
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp(), cfg._appFullPath, regAPPCliente)
         app_procesointerno = True
-        GRUPOS.LGrupos = New List(Of GRUPO)
-        GRUPOS.DGrupos = New Dictionary(Of String, GRUPO)
+        Global.TAVIL2018.GRUPOS.LGrupos = New List(Of GRUPO)
+        Global.TAVIL2018.GRUPOS.DGrupos = New Dictionary(Of String, GRUPO)
         'Dim t As New System.Threading.Tasks.Task(AddressOf tvUnions_LlenaXDATA) : t.Start()
         'Dim t1 As New System.Threading.Tasks.Task(AddressOf tvGroups_LlenaXDATA) : t.Start()
         tvUnions_LlenaXDATA()
@@ -39,9 +39,9 @@ Public Class frmBomDatos
         If sender Is Nothing OrElse e Is Nothing Then Exit Sub
         If TvGroups.SelectedNode Is Nothing Then Exit Sub
         '
-        If GRUPOS.DGrupos Is Nothing Then GRUPOS.DGrupos = New Dictionary(Of String, GRUPO)
-        If GRUPOS.DGrupos.ContainsKey(e.Node.Text) Then
-            LblCountGroups.Text = "Blocks in Group = " & GRUPOS.DGrupos(e.Node.Text).lMembers.Count
+        If Global.TAVIL2018.GRUPOS.DGrupos Is Nothing Then Global.TAVIL2018.GRUPOS.DGrupos = New Dictionary(Of String, GRUPO)
+        If Global.TAVIL2018.GRUPOS.DGrupos.ContainsKey(e.Node.Text) Then
+            LblCountGroups.Text = "Blocks in Group = " & Global.TAVIL2018.GRUPOS.DGrupos(e.Node.Text).lMembers.Count
             BtnReportSelected.Enabled = True
         Else
             LblCountGroups.Text = "Blocks in Group = X"
@@ -57,8 +57,8 @@ Public Class frmBomDatos
     End Sub
 
     Private Sub BtnReportSelected_Click(sender As Object, e As EventArgs) Handles BtnReportSelected.Click
-        Dim g As GRUPO = GRUPOS.DGrupos(TvGroups.SelectedNode.Text)
-        Report_Blocks(g.lMembers, "GROUP_" & g.name)
+        Dim g As GRUPO = Global.TAVIL2018.GRUPOS.DGrupos(TvGroups.SelectedNode.Text)
+        Report_Blocks(g.lMembers, "GRUPO_" & g.name, cbPLANTA.Checked)
     End Sub
 
     Public Sub tvGroups_LlenaXDATA()
@@ -76,13 +76,13 @@ Public Class frmBomDatos
             If nGrupo = "" Then Continue For
             '
             If TvGroups.Nodes.ContainsKey(nGrupo) Then
-                GRUPOS.DGrupos(nGrupo).lMembers.Add(acadObj.Handle)
+                Call Global.TAVIL2018.GRUPOS.DGrupos(nGrupo).lMembers.Add(acadObj.Handle)
                 Continue For
             Else
                 oG = New GRUPO
                 oG.name = nGrupo
                 oG.lMembers.Add(queHandle)
-                GRUPOS.DGrupos.Add(nGrupo, oG)
+                Call Global.TAVIL2018.GRUPOS.DGrupos.Add(nGrupo, oG)
             End If
             '
             Dim oNode As New TreeNode
@@ -109,7 +109,7 @@ Public Class frmBomDatos
     End Sub
 
     Private Sub BtnReportUnions_Click(sender As Object, e As EventArgs) Handles BtnReportUnions.Click
-        UNIONES.Report_UNIONES()
+        Call Global.TAVIL2018.UNIONES.Report_UNIONES()
     End Sub
 
     Public Sub tvUnions_LlenaXDATA()
@@ -122,8 +122,8 @@ Public Class frmBomDatos
         End If
         ' Filtrar lista de grupo. Sacar nombres únicos.
         For Each acadObj As AcadObject In arrTodos
-            UNIONES.UNION_Crea(acadObj.Handle)
-            Dim oUnion As UNION = UNIONES.LUniones.Last
+            Call Global.TAVIL2018.UNIONES.UNION_Crea(acadObj.Handle)
+            Dim oUnion As UNION = Global.TAVIL2018.UNIONES.LUniones.Last
             '
             Dim oNode As New TreeNode
             oNode.Text = oUnion.HANDLE

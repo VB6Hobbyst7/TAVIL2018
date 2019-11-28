@@ -407,17 +407,32 @@ RETRY:
             Return resultado
         End Function
         '
-        Public Function Bloque_DameDato_AttPropX(h As String, arrAtt As Object, arrPro As Object, name As String, Optional arrAttCons As Object = Nothing) As String
+        'Public Function Bloque_DameDato_AttPropX(h As String, arrAtt As Object, arrPro As Object, nameprobusco As String, Optional arrAttCons As Object = Nothing) As String
+        '    Dim resultado As String = ""
+        '    ' Buscar en XData
+        '    resultado = XLeeDato(h, nameprobusco)
+        '    ' Buscar en Atributos
+        '    If resultado = "" AndAlso arrAtt IsNot Nothing Then
+        '        resultado = Bloque_AtributoDame(arrAtt, nameprobusco, arrAttCons)
+        '    End If
+        '    ' Buscar en Parametros
+        '    If resultado = "" AndAlso arrPro IsNot Nothing Then
+        '        resultado = BloqueDinamico_ParametroDame(arrPro, nameprobusco)
+        '    End If
+
+        '    Return resultado
+        'End Function
+        Public Function Bloque_DameDato_AttPropX(oBlD As Bloque_Datos, nameprobusco As String) As String
             Dim resultado As String = ""
             ' Buscar en XData
-            resultado = XLeeDato(h, name)
+            resultado = XLeeDato(oBlD.handle, nameprobusco)
             ' Buscar en Atributos
-            If resultado = "" AndAlso arrAtt IsNot Nothing Then
-                resultado = Bloque_AtributoDame(arrAtt, name, arrAttCons)
+            If resultado = "" AndAlso oBlD.atributos IsNot Nothing Then
+                resultado = Bloque_AtributoDame(oBlD.atributos, nameprobusco, oBlD.atributosConst)
             End If
             ' Buscar en Parametros
-            If resultado = "" AndAlso arrPro IsNot Nothing Then
-                resultado = BloqueDinamico_ParametroDame(arrPro, name)
+            If resultado = "" AndAlso oBlD.propiedades IsNot Nothing Then
+                resultado = BloqueDinamico_ParametroDame(oBlD.propiedades, nameprobusco)
             End If
 
             Return resultado
@@ -1147,5 +1162,27 @@ repetir:
             AtributosConstant_DameTodos = resultado
         End Function
 #End Region
+    End Class
+
+    Public Class Bloque_Datos
+        Public handle As String = ""
+        Public id As Long = 0
+        Public name As String = ""
+        Public eName As String = ""
+        Public atributos As Object = Nothing
+        Public atributosConst As Object = Nothing
+        Public propiedades As Object = Nothing
+
+        Public Sub New(oBl As AcadBlockReference)
+            handle = oBl.Handle
+            id = oBl.ObjectID
+            name = oBl.Name
+            eName = oBl.EffectiveName
+            atributos = oBl.GetAttributes
+            atributosConst = oBl.GetConstantAttributes
+            If oBl.IsDynamicBlock Then
+                propiedades = oBl.GetDynamicBlockProperties
+            End If
+        End Sub
     End Class
 End Namespace

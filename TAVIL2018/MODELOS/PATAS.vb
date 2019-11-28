@@ -23,20 +23,16 @@ Public Class PATA
         If clsA Is Nothing Then clsA = New a2.A2acad(Eventos.COMApp(), cfg._appFullPath, regAPPCliente)
         Dim acadObj As AcadObject = Eventos.COMDoc.HandleToObject(h)
         If acadObj IsNot Nothing AndAlso TypeOf acadObj Is AcadBlockReference Then
-            Dim atributos = CType(acadObj, AcadBlockReference).GetAttributes()
-            Dim parametros As Object = Nothing
-            If CType(acadObj, AcadBlockReference).IsDynamicBlock Then
-                parametros = CType(acadObj, AcadBlockReference).GetDynamicBlockProperties
-            End If
-            Me.HANDLE = h
-            Me.CODE = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "CODE")
-            Me.BLOCK = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "BLOCK")
-            Me.HEIGHT = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "HEIGHT")
-            Me.WIDTH = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "WIDTH")
-            Me.RADIUS = clsA.Bloque_DameDato_AttPropX(h, atributos, parametros, "RADIUS")
+            Dim oBl As AcadBlockReference = CType(acadObj, AcadBlockReference)
+            Dim oBlDatos As New AutoCAD2acad.A2acad.Bloque_Datos(oBl)
+            Me.HANDLE = oBl.Handle
+            Me.CODE = clsA.Bloque_DameDato_AttPropX(oBlDatos, "CODE")
+            Me.BLOCK = oBlDatos.eName   ' clsA.Bloque_DameDato_AttPropX(oBlDatos, "BLOCK")
+            Me.HEIGHT = clsA.Bloque_DameDato_AttPropX(oBlDatos, "HEIGHT")
+            Me.WIDTH = clsA.Bloque_DameDato_AttPropX(oBlDatos, "WIDTH")
+            Me.RADIUS = clsA.Bloque_DameDato_AttPropX(oBlDatos, "RADIUS")
             KEY = CODE & BLOCK & HEIGHT & WIDTH & RADIUS
-            atributos = Nothing
-            parametros = Nothing
+            oBl = Nothing
             acadObj = Nothing
         End If
     End Sub
